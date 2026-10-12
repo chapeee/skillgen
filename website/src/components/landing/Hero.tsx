@@ -4,7 +4,7 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import ParticleField from './particles/ParticleField';
 import { ArrowBarIcon, GitHubIcon, MenuIcon } from './icons';
 import { REPOSITORY_URL } from './constants';
-import { BrandLogo } from './ui';
+import { BrandLogo, CommandLine } from './ui';
 
 const NAV_LINKS = [
   { label: 'How it works', href: '#how-it-works' },
@@ -181,6 +181,10 @@ export default function Hero(): JSX.Element {
                   memory of how your app works, ready whenever an AI needs it, so every task takes
                   fewer tokens.
                 </p>
+                <CommandLine
+                  command="pip install skillgendev"
+                  className="mt-6 max-w-[22rem] animate-fade-up [animation-delay:380ms]"
+                />
               </div>
 
               <div className="flex w-full animate-fade-up [animation-delay:450ms] sm:w-auto">

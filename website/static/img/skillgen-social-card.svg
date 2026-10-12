@@ -22,7 +22,7 @@
   <rect width="1200" height="630" fill="url(#glow)"/>
   <rect width="1200" height="630" fill="url(#dots)" mask="url(#wave)"/>
   <rect x="24" y="24" width="1152" height="582" rx="22" fill="none" stroke="#ffffff" stroke-opacity=".14" stroke-width="2"/>
-  <text x="84" y="118" fill="#ffffff" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="30" font-weight="500" letter-spacing="5">.SKILLGEN</text>
+  <text x="84" y="118" fill="#ffffff" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="30" font-weight="500" letter-spacing="5">.SKILLGENDEV</text>
   <text x="84" y="392" fill="#ffffff" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="68" font-weight="400" letter-spacing="-2">Where App Code and</text>
   <text x="84" y="470" fill="#ffffff" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="68" font-weight="400" letter-spacing="-2">Agent Skills Align</text>
   <text x="84" y="540" fill="#98a3c7" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="26">One Agent Skill per page, compiled from your app’s code.</text>

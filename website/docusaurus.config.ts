@@ -6,33 +6,18 @@ import tailwindcss from 'tailwindcss';
 const organizationName = 'chapeee';
 const projectName = 'skillprinter';
 const repositoryUrl = `https://github.com/${organizationName}/${projectName}`;
-const pagesUrl = `https://${organizationName}.github.io`;
-
-// GitHub Pages uses the repository project URL by default. Set DOCS_URL to a
-// full origin or DOCS_DOMAIN to a hostname when the site is hosted elsewhere;
-// no custom domain is assumed by this configuration.
-const configuredDomain = process.env.DOCS_DOMAIN?.replace(/^https?:\/\//, '').replace(/\/+$/, '');
-// Vercel, Netlify, Cloudflare Pages and Cloudflare Workers serve a site at the
-// root of their own domain, so their build variables mean "not GitHub Pages".
-const isRootHost = Boolean(process.env.WORKERS_CI || process.env.CF_PAGES);
-const vercelDomain = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
-const hostUrl =
-  (vercelDomain ? `https://${vercelDomain}` : '') ||
-  (process.env.NETLIFY ? process.env.URL : '') ||
-  process.env.CF_PAGES_URL ||
-  '';
-const url =
-  process.env.DOCS_URL?.replace(/\/+$/, '') ||
-  (configuredDomain ? `https://${configuredDomain}` : '') ||
-  hostUrl.replace(/\/+$/, '') ||
-  pagesUrl;
-// A custom origin serves at its root unless a subpath is explicitly configured.
-const baseUrl = process.env.DOCS_BASE_URL || (url === pagesUrl && !isRootHost ? `/${projectName}/` : '/');
+// The live site. DOCS_URL and DOCS_BASE_URL override it for previews or another host;
+// canonical links, the sitemap and social cards all use this origin.
+const SITE_URL = 'https://skillgen.dev';
+const url = process.env.DOCS_URL?.replace(/\/+$/, '') || SITE_URL;
+const baseUrl = process.env.DOCS_BASE_URL || '/';
+const description =
+  'skillgendev reads a web app’s code route by route and writes one Agent Skill per page, so Claude, Cowork or any AI with a browser can fill its forms in one call.';
 
 const config: Config = {
   title: 'skillgendev',
   tagline: 'Compile an app’s code into one Agent Skill per page.',
-  favicon: 'img/favicon.png',
+  favicon: 'favicon.ico',
   url,
   baseUrl,
   organizationName,
@@ -57,6 +42,42 @@ const config: Config = {
   },
 
   clientModules: ['./src/client/fonts.ts'],
+
+  headTags: [
+    { tagName: 'link', attributes: { rel: 'icon', type: 'image/png', sizes: '32x32', href: `${baseUrl}img/favicon-32.png` } },
+    { tagName: 'link', attributes: { rel: 'apple-touch-icon', sizes: '180x180', href: `${baseUrl}img/apple-touch-icon.png` } },
+    { tagName: 'link', attributes: { rel: 'manifest', href: `${baseUrl}site.webmanifest` } },
+    // Structured data so search engines can show skillgendev as a software result.
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'SoftwareApplication',
+            name: 'skillgendev',
+            description,
+            url: `${url}${baseUrl}`,
+            applicationCategory: 'DeveloperApplication',
+            operatingSystem: 'Windows, macOS, Linux',
+            softwareRequirements: 'Python 3.10+',
+            license: 'https://www.apache.org/licenses/LICENSE-2.0',
+            downloadUrl: 'https://pypi.org/project/skillgendev/',
+            installUrl: `${url}${baseUrl}docs/getting-started/installation/`,
+            codeRepository: repositoryUrl,
+            image: `${url}${baseUrl}img/social-card.png`,
+            offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+          },
+          {
+            '@type': 'WebSite',
+            name: 'skillgendev',
+            url: `${url}${baseUrl}`,
+          },
+        ],
+      }),
+    },
+  ],
 
   plugins: [
     // Tailwind runs as a PostCSS plugin inside Docusaurus's own CSS pipeline,
@@ -102,6 +123,13 @@ const config: Config = {
         },
         blog: false,
         debug: false,
+        sitemap: {
+          lastmod: 'date',
+          changefreq: 'weekly',
+          priority: 0.5,
+          ignorePatterns: ['/search/**', '/tags/**'],
+          filename: 'sitemap.xml',
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -110,13 +138,21 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/skillgen-social-card.svg',
+    // Social platforms ignore SVG, so the card is a 1200×630 PNG.
+    image: 'img/social-card.png',
     metadata: [
+      { name: 'description', content: description },
       {
-        name: 'description',
+        name: 'keywords',
         content:
-          'skillgendev reads a web app’s code route by route and writes one Agent Skill per page, so Claude, Cowork or any AI with a browser can fill its forms in one call.',
+          'skillgendev, Agent Skills, Claude skills, AI form filling, browser agent, SKILL.md, Claude Code, Cowork, code to skill compiler, Playwright, web automation',
       },
+      { name: 'author', content: 'skillgendev contributors' },
+      { name: 'robots', content: 'index, follow, max-image-preview:large' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'skillgendev' },
+      { property: 'og:locale', content: 'en_US' },
       { name: 'theme-color', content: '#05070d' },
     ],
     colorMode: {

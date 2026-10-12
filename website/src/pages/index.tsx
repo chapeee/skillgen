@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from '@docusaurus/Head';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Hero from '../components/landing/Hero';
 import StickyNav from '../components/landing/StickyNav';
 import ProofStrip from '../components/landing/ProofStrip';
@@ -20,7 +21,10 @@ const DESCRIPTION =
 // The landing page renders outside the docs layout so its hero can own the
 // full viewport, as in the design reference.
 export default function Home(): JSX.Element {
-  const socialCard = useBaseUrl('/img/skillgen-social-card.svg');
+  const { siteConfig } = useDocusaurusContext();
+  // Social cards and canonical links need absolute URLs.
+  const pageUrl = `${siteConfig.url}${useBaseUrl('/')}`;
+  const socialCard = `${siteConfig.url}${useBaseUrl('/img/social-card.png')}`;
   return (
     <div className="landing">
       <Head>
@@ -28,7 +32,15 @@ export default function Home(): JSX.Element {
         <meta name="description" content={DESCRIPTION} />
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:url" content={pageUrl} />
         <meta property="og:image" content={socialCard} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="skillgendev: where app code and Agent Skills align" />
+        <meta name="twitter:title" content={TITLE} />
+        <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={socialCard} />
       </Head>
       <a
         href="#main"

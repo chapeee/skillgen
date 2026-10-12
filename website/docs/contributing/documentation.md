@@ -79,7 +79,7 @@ You need Node.js 20 or newer.
 ```bash
 cd website
 npm ci
-npm start              # http://localhost:3000/skillprinter/ with live reload
+npm start              # http://localhost:3000/ with live reload
 ```
 
 Before you push, run what CI runs:
@@ -128,11 +128,11 @@ A deployment is never cancelled halfway; a newer pull-request build cancels an o
 
 | Variable | Use |
 | --- | --- |
-| `DOCS_URL` | Full origin, such as `https://docs.example.com` |
-| `DOCS_DOMAIN` | Just a hostname, when using a custom domain |
-| `DOCS_BASE_URL` | Path the site is served under; defaults to `/skillprinter/` on the GitHub Pages project URL and `/` on a custom origin |
+| `DOCS_URL` | Full origin for a preview or another host, such as `https://docs.example.com` |
+| `DOCS_BASE_URL` | Path the site is served under; defaults to `/` |
 
-With no variables, the site is published at `https://chapeee.github.io/skillprinter/`.
+With no variables, the site is built for `https://skillgen.dev/`: canonical links, the sitemap
+(`/sitemap.xml`, listed in `/robots.txt`) and the social card all use that origin.
 
 ## The landing page
 
