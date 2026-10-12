@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers: serve the Docusaurus build as static files.
+  // "name" must match the Worker's name in the Cloudflare dashboard.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "skillprinter",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./build",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

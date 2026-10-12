@@ -1,0 +1,13 @@
+id: nextjs-app
+kind: folder
+about: "Next.js app router (app/**/page.tsx)"
+roots: [app, src/app]
+# Where a Next.js project starts, so an app inside a monorepo is found too.
+requires_any: ["next.config.js", "next.config.mjs", "next.config.ts", "package.json"]
+page_files: ["page.tsx", "page.jsx", "page.ts", "page.js", "page.mdx"]
+route_from: folder
+skip_segments: ["^\\(.*\\)$", "^@"]
+skip_files: ["^_", "^api$"]
+params:
+  - "^\\[\\[?\\.\\.\\.(?P<name>\\w+)\\]?\\]$"
+  - "^\\[(?P<name>\\w+)\\]$"

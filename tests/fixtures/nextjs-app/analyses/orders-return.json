@@ -1,0 +1,32 @@
+{
+  "has_form": true,
+  "title": "Return items",
+  "purpose": "Requests a return for items of an existing order.",
+  "params": [{ "name": "orderId", "means": "the order's id" }],
+  "groups": [{ "id": "items", "label": "Item", "row_selector": ".item-row", "add_selector": "button[type=button]", "min_rows": 1 }],
+  "fields": [
+    {
+      "key": "reason", "label": "Reason", "type": "enum", "options": ["Damaged", "Wrong item", "No longer needed"],
+      "required": true, "strategy": "choice", "selector": "input[name=reason]",
+      "evidence": [{ "file": "lib/schemas.ts", "line": 19 }]
+    },
+    {
+      "key": "items[].sku", "label": "SKU", "type": "text", "group": "items",
+      "strategy": "native-input", "selector": "input[data-field=sku]",
+      "evidence": [{ "file": "app/orders/[orderId]/return/page.tsx", "line": 18 }]
+    },
+    {
+      "key": "items[].quantity", "label": "Quantity", "type": "number", "group": "items",
+      "limits": { "minimum": "1" }, "strategy": "native-input", "selector": "input[data-field=quantity]",
+      "evidence": [{ "file": "app/orders/[orderId]/return/page.tsx", "line": 19 }]
+    },
+    {
+      "key": "refund_method", "label": "Refund to", "type": "enum", "options": ["Original payment", "Store credit"],
+      "required": true, "strategy": "native-select", "selector": "select[name=refund_method]",
+      "evidence": [{ "file": "lib/schemas.ts", "line": 21 }]
+    }
+  ],
+  "submit": { "selector": "button[type=submit]", "label": "Request return", "success": {} },
+  "rules": [{ "text": "At least one item, each with a quantity of 1 or more.", "field": "items" }],
+  "gotchas": []
+}

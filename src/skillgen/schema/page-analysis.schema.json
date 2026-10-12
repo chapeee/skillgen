@@ -1,0 +1,523 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Page analysis returned by Claude Code for one route",
+  "type": "object",
+  "required": [
+    "has_form",
+    "title",
+    "fields"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "quote": {
+            "type": "string",
+            "maxLength": 300
+          }
+        }
+      }
+    },
+    "condition": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "field",
+        "op"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "op": {
+          "enum": [
+            "in",
+            "not_in",
+            "checked",
+            "filled"
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "check": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pattern": {
+          "type": "string"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "min_length": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_length": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "not_future": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "properties": {
+    "has_form": {
+      "type": "boolean",
+      "description": "True when the page has editable controls."
+    },
+    "title": {
+      "type": "string",
+      "description": "The page title in the app's own words."
+    },
+    "purpose": {
+      "type": "string",
+      "description": "One or two sentences: what saving this page does."
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "groups": {
+      "type": "array",
+      "description": "Repeatable rows, such as several contacts.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "row_selector",
+          "add_selector"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "row_selector": {
+            "type": "string"
+          },
+          "add_selector": {
+            "type": "string"
+          },
+          "min_rows": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "params": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "means": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "description": "Every editable control, in the order a person fills them.",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "type",
+          "strategy",
+          "selector"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*(\\[\\]\\.[a-z][a-z0-9_]*)?$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "means": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "text",
+              "long-text",
+              "number",
+              "date",
+              "email",
+              "url",
+              "phone",
+              "enum",
+              "multi-enum",
+              "boolean",
+              "file",
+              "path",
+              "rich-text"
+            ]
+          },
+          "format": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "required_if": {
+            "$ref": "#/$defs/condition"
+          },
+          "visible_if": {
+            "$ref": "#/$defs/condition"
+          },
+          "options_from": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "depends_on": {
+                "type": "string"
+              },
+              "load": {
+                "enum": [
+                  "static",
+                  "async"
+                ]
+              },
+              "pick_by": {
+                "enum": [
+                  "text",
+                  "value"
+                ]
+              }
+            }
+          },
+          "limits": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "min_length": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "max_length": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minimum": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "maximum": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "accept": {
+                "type": "string"
+              },
+              "max_size": {
+                "type": "string"
+              }
+            }
+          },
+          "selector": {
+            "type": "string"
+          },
+          "strategy": {
+            "enum": [
+              "native-input",
+              "native-select",
+              "choice",
+              "aria-combobox",
+              "aria-tree",
+              "aria-listbox",
+              "rich-text",
+              "file",
+              "steps"
+            ]
+          },
+          "section": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "server_checked": {
+            "type": "boolean"
+          },
+          "inferred": {
+            "type": "array",
+            "description": "Attributes read between the lines rather than stated literally in code.",
+            "items": {
+              "enum": [
+                "label",
+                "means",
+                "type",
+                "format",
+                "options",
+                "required",
+                "required_if",
+                "visible_if",
+                "options_from",
+                "limits",
+                "selector",
+                "strategy",
+                "notes"
+              ]
+            }
+          },
+          "evidence": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "submit": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "selector"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "success": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "url_matches": {
+              "type": "string",
+              "description": "Plain text the URL contains after success; not a regular expression."
+            },
+            "text_appears": {
+              "type": "string"
+            }
+          }
+        },
+        "inferred": {
+          "type": "boolean",
+          "description": "True when the success signal is deduced rather than read in the code."
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "check": {
+            "$ref": "#/$defs/check"
+          },
+          "inferred": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "open": {
+      "description": "When the form is not on screen as the page opens: what to click, in order, to show it.",
+      "type": "object",
+      "required": [
+        "steps"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "inferred": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
+      }
+    },
+    "views": {
+      "description": "Parts of the form that show only after a click: wizard steps, tabs, accordion panels, dialogs. In the order a person fills them; each says what to click from the view before.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "enter",
+          "fields"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enter": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "fields": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "leave": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "inferred": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "gotchas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "inferred": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "description": "Things the code does not settle; the developer answers them.",
+      "items": {
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

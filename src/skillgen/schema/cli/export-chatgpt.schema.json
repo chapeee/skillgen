@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "export-chatgpt --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "export-chatgpt"
+    },
+    "error": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "files": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "plugin": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "path",
+      "skills",
+      "plugin"
+    ]
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "about": "Where each field sat when this skill was made, measured in a browser. x and y are page coordinates; dx and dy are relative to the anchor field, so they hold when the page scrolls or is centred differently. Use them only to check the live page. A field with a view was measured after reaching that view (a step, tab or dialog) with its clicks. Measure a field again on screen before clicking it, and trust nothing here once the page or the window size looks different.",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "open": [],
+  "anchor": "full_name",
+  "fields": [
+    {
+      "key": "full_name",
+      "label": "Full name",
+      "selector": "#full_name",
+      "x": 313,
+      "y": 180,
+      "width": 654,
+      "height": 42,
+      "dx": 0,
+      "dy": 0,
+      "landmark": true
+    },
+    {
+      "key": "email",
+      "label": "Email",
+      "selector": "#email",
+      "x": 313,
+      "y": 260,
+      "width": 654,
+      "height": 42,
+      "dx": 0,
+      "dy": 80,
+      "landmark": false
+    },
+    {
+      "key": "username",
+      "label": "Username",
+      "selector": "#username",
+      "x": 313,
+      "y": 340,
+      "width": 654,
+      "height": 42,
+      "dx": 0,
+      "dy": 160,
+      "landmark": true
+    },
+    {
+      "key": "birth_date",
+      "label": "Date of birth",
+      "selector": "#birth_date",
+      "x": 313,
+      "y": 445,
+      "width": 654,
+      "height": 44,
+      "dx": 0,
+      "dy": 265,
+      "landmark": false
+    },
+    {
+      "key": "bio",
+      "label": "Short bio",
+      "selector": "#bio",
+      "x": 313,
+      "y": 527,
+      "width": 654,
+      "height": 90,
+      "dx": 0,
+      "dy": 347,
+      "landmark": true
+    },
+    {
+      "key": "account_type",
+      "label": "Account type",
+      "selector": "input[name=\"account_type\"]",
+      "x": 318,
+      "y": 741,
+      "width": 13,
+      "height": 13,
+      "dx": 5,
+      "dy": 561,
+      "landmark": false
+    },
+    {
+      "key": "country",
+      "label": "Country",
+      "selector": "#country",
+      "x": 313,
+      "y": 901,
+      "width": 654,
+      "height": 41,
+      "dx": 0,
+      "dy": 721,
+      "landmark": true
+    },
+    {
+      "key": "region",
+      "label": "Region",
+      "selector": "#region",
+      "x": 313,
+      "y": 980,
+      "width": 654,
+      "height": 41,
+      "dx": 0,
+      "dy": 800,
+      "landmark": false
+    },
+    {
+      "key": "city",
+      "label": "City",
+      "selector": "#city",
+      "x": 313,
+      "y": 1059,
+      "width": 654,
+      "height": 42,
+      "dx": 0,
+      "dy": 879,
+      "landmark": true
+    },
+    {
+      "key": "interests",
+      "label": "Interests",
+      "selector": "input[name=\"interests\"]",
+      "x": 333,
+      "y": 1209,
+      "width": 13,
+      "height": 13,
+      "dx": 20,
+      "dy": 1029,
+      "landmark": false
+    },
+    {
+      "key": "department",
+      "label": "Department",
+      "selector": "#department",
+      "x": 313,
+      "y": 1378,
+      "width": 654,
+      "height": 84,
+      "dx": 0,
+      "dy": 1198,
+      "landmark": true
+    },
+    {
+      "key": "skills",
+      "label": "Skills",
+      "selector": "#skills",
+      "x": 313,
+      "y": 1500,
+      "width": 654,
+      "height": 32,
+      "dx": 0,
+      "dy": 1320,
+      "landmark": false
+    },
+    {
+      "key": "newsletter",
+      "label": "Send me the newsletter",
+      "selector": "#newsletter",
+      "x": 317,
+      "y": 1547,
+      "width": 13,
+      "height": 13,
+      "dx": 4,
+      "dy": 1367,
+      "landmark": true
+    },
+    {
+      "key": "statement",
+      "label": "Why are you applying?",
+      "selector": "#statement",
+      "x": 313,
+      "y": 1679,
+      "width": 654,
+      "height": 80,
+      "dx": 0,
+      "dy": 1499,
+      "landmark": false
+    },
+    {
+      "key": "id_document",
+      "label": "Identity document (PDF or JPG, up to 2 MB)",
+      "selector": "#id_document",
+      "x": 313,
+      "y": 2076,
+      "width": 253,
+      "height": 21,
+      "dx": 0,
+      "dy": 1896,
+      "landmark": false
+    },
+    {
+      "key": "agree_terms",
+      "label": "I confirm the details above are correct",
+      "selector": "#agree_terms",
+      "x": 300,
+      "y": 2141,
+      "width": 13,
+      "height": 13,
+      "dx": -13,
+      "dy": 1961,
+      "landmark": true
+    }
+  ]
+}

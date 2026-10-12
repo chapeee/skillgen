@@ -1,0 +1,604 @@
+{
+  "url": "http://localhost:8765/apply",
+  "title": "Bench application",
+  "fields": [
+    {
+      "key": "full_name",
+      "label": "Full name",
+      "selector": "#full_name",
+      "strategy": "native-input",
+      "type": "text",
+      "required": true,
+      "options": [],
+      "limits": {
+        "min_length": 3,
+        "max_length": 80
+      },
+      "section": "Applicant",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "full_name",
+      "id": "full_name",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        180,
+        654,
+        42
+      ]
+    },
+    {
+      "key": "email",
+      "label": "Email",
+      "selector": "#email",
+      "strategy": "native-input",
+      "type": "email",
+      "required": true,
+      "options": [],
+      "limits": {},
+      "section": "Applicant",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "email",
+      "id": "email",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        260,
+        654,
+        42
+      ]
+    },
+    {
+      "key": "username",
+      "label": "Username",
+      "selector": "#username",
+      "strategy": "native-input",
+      "type": "text",
+      "required": true,
+      "options": [],
+      "limits": {
+        "pattern": "[a-z0-9_]{3,20}"
+      },
+      "section": "Applicant",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "username",
+      "id": "username",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        340,
+        654,
+        42
+      ]
+    },
+    {
+      "key": "birth_date",
+      "label": "Date of birth",
+      "selector": "#birth_date",
+      "strategy": "native-input",
+      "type": "date",
+      "required": true,
+      "options": [],
+      "limits": {},
+      "section": "Applicant",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "birth_date",
+      "id": "birth_date",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        445,
+        654,
+        44
+      ]
+    },
+    {
+      "key": "bio",
+      "label": "Short bio",
+      "selector": "#bio",
+      "strategy": "native-input",
+      "type": "long-text",
+      "required": false,
+      "options": [],
+      "limits": {
+        "max_length": 500
+      },
+      "section": "Applicant",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "bio",
+      "id": "bio",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        527,
+        654,
+        90
+      ]
+    },
+    {
+      "key": "account_type",
+      "label": "Account type",
+      "selector": "input[name=\"account_type\"]",
+      "strategy": "choice",
+      "type": "enum",
+      "required": false,
+      "options": [
+        "Individual",
+        "Company"
+      ],
+      "limits": {},
+      "section": "Organisation",
+      "visible": true,
+      "proven": true,
+      "selector_count": 2,
+      "name": "account_type",
+      "id": "",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        318,
+        741,
+        13,
+        13
+      ]
+    },
+    {
+      "key": "company_name",
+      "label": "Company name",
+      "selector": "#company_name",
+      "strategy": "native-input",
+      "type": "text",
+      "required": false,
+      "options": [],
+      "limits": {},
+      "section": "Organisation",
+      "visible": false,
+      "proven": true,
+      "selector_count": 1,
+      "name": "company_name",
+      "id": "company_name",
+      "error_message": "",
+      "repeated": false,
+      "box": null
+    },
+    {
+      "key": "registration_no",
+      "label": "Registration number",
+      "selector": "#registration_no",
+      "strategy": "native-input",
+      "type": "text",
+      "required": false,
+      "options": [],
+      "limits": {
+        "pattern": "[A-Z]{2}[0-9]{6}"
+      },
+      "section": "Organisation",
+      "visible": false,
+      "proven": true,
+      "selector_count": 1,
+      "name": "registration_no",
+      "id": "registration_no",
+      "error_message": "",
+      "repeated": false,
+      "box": null
+    },
+    {
+      "key": "team_size",
+      "label": "Team size",
+      "selector": "#team_size",
+      "strategy": "native-select",
+      "type": "enum",
+      "required": false,
+      "options": [
+        "1–10",
+        "11–50",
+        "51–200",
+        "201 or more"
+      ],
+      "limits": {},
+      "section": "Organisation",
+      "visible": false,
+      "proven": true,
+      "selector_count": 1,
+      "name": "team_size",
+      "id": "team_size",
+      "error_message": "",
+      "repeated": false,
+      "box": null
+    },
+    {
+      "key": "country",
+      "label": "Country",
+      "selector": "#country",
+      "strategy": "native-select",
+      "type": "enum",
+      "required": true,
+      "options": [
+        "Atlantis",
+        "Borduria",
+        "Freedonia",
+        "Genovia"
+      ],
+      "limits": {},
+      "section": "Location",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "country",
+      "id": "country",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        901,
+        654,
+        41
+      ]
+    },
+    {
+      "key": "region",
+      "label": "Region",
+      "selector": "#region",
+      "strategy": "native-select",
+      "type": "enum",
+      "required": true,
+      "options": [],
+      "limits": {},
+      "section": "Location",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "region",
+      "id": "region",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        980,
+        654,
+        41
+      ]
+    },
+    {
+      "key": "city_search",
+      "label": "City",
+      "selector": "#city",
+      "strategy": "aria-combobox",
+      "type": "enum",
+      "required": false,
+      "options": [],
+      "limits": {},
+      "section": "Location",
+      "visible": true,
+      "proven": false,
+      "selector_count": 1,
+      "name": "city_search",
+      "id": "city",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        1059,
+        654,
+        42
+      ]
+    },
+    {
+      "key": "interests",
+      "label": "Interests",
+      "selector": "input[name=\"interests\"]",
+      "strategy": "choice",
+      "type": "multi-enum",
+      "required": false,
+      "options": [
+        "Design",
+        "Engineering",
+        "Research",
+        "Sales",
+        "Support"
+      ],
+      "limits": {},
+      "section": "Interests",
+      "visible": true,
+      "proven": true,
+      "selector_count": 5,
+      "name": "interests",
+      "id": "",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        333,
+        1209,
+        13,
+        13
+      ]
+    },
+    {
+      "key": "department",
+      "label": "Department",
+      "selector": "#department",
+      "strategy": "aria-tree",
+      "type": "path",
+      "required": false,
+      "options": [
+        "Engineering",
+        "Operations",
+        "Research"
+      ],
+      "limits": {},
+      "section": "",
+      "visible": true,
+      "proven": false,
+      "selector_count": 1,
+      "name": "",
+      "id": "department",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        1378,
+        654,
+        84
+      ]
+    },
+    {
+      "key": "skills",
+      "label": "Skills",
+      "selector": "#skills",
+      "strategy": "aria-listbox",
+      "type": "multi-enum",
+      "required": false,
+      "options": [
+        "Python",
+        "JavaScript",
+        "SQL",
+        "Go",
+        "Rust"
+      ],
+      "limits": {},
+      "section": "",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "",
+      "id": "skills",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        1500,
+        654,
+        32
+      ]
+    },
+    {
+      "key": "newsletter",
+      "label": "Send me the newsletter",
+      "selector": "#newsletter",
+      "strategy": "native-input",
+      "type": "boolean",
+      "required": false,
+      "options": [],
+      "limits": {},
+      "section": "",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "newsletter",
+      "id": "newsletter",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        317,
+        1547,
+        13,
+        13
+      ]
+    },
+    {
+      "key": "statement",
+      "label": "Why are you applying?",
+      "selector": "#statement",
+      "strategy": "rich-text",
+      "type": "rich-text",
+      "required": false,
+      "options": [],
+      "limits": {},
+      "section": "",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "",
+      "id": "statement",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        1679,
+        654,
+        80
+      ]
+    },
+    {
+      "key": "references_name",
+      "label": "Reference name",
+      "selector": "input[name=\"references[0][name]\"]",
+      "strategy": "native-input",
+      "type": "text",
+      "required": false,
+      "options": [],
+      "limits": {},
+      "section": "References",
+      "visible": true,
+      "proven": false,
+      "selector_count": 1,
+      "name": "references[0][name]",
+      "id": "",
+      "error_message": "",
+      "repeated": true,
+      "box": [
+        313,
+        1868,
+        323,
+        42
+      ]
+    },
+    {
+      "key": "references_email",
+      "label": "Reference email",
+      "selector": "input[name=\"references[0][email]\"]",
+      "strategy": "native-input",
+      "type": "email",
+      "required": false,
+      "options": [],
+      "limits": {},
+      "section": "References",
+      "visible": true,
+      "proven": false,
+      "selector_count": 1,
+      "name": "references[0][email]",
+      "id": "",
+      "error_message": "",
+      "repeated": true,
+      "box": [
+        644,
+        1868,
+        323,
+        42
+      ]
+    },
+    {
+      "key": "id_document",
+      "label": "Identity document (PDF or JPG, up to 2 MB)",
+      "selector": "#id_document",
+      "strategy": "file",
+      "type": "file",
+      "required": false,
+      "options": [],
+      "limits": {
+        "accept": ".pdf,.jpg,.jpeg"
+      },
+      "section": "Documents",
+      "visible": true,
+      "proven": false,
+      "selector_count": 1,
+      "name": "id_document",
+      "id": "id_document",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        313,
+        2076,
+        253,
+        21
+      ]
+    },
+    {
+      "key": "agree_terms",
+      "label": "I confirm the details above are correct",
+      "selector": "#agree_terms",
+      "strategy": "native-input",
+      "type": "boolean",
+      "required": false,
+      "options": [],
+      "limits": {},
+      "section": "",
+      "visible": true,
+      "proven": true,
+      "selector_count": 1,
+      "name": "agree_terms",
+      "id": "agree_terms",
+      "error_message": "",
+      "repeated": false,
+      "box": [
+        300,
+        2141,
+        13,
+        13
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "controller": "account_type",
+      "value": "Company",
+      "appeared": [
+        "company_name",
+        "registration_no",
+        "team_size"
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "controller": "country",
+      "target": "region",
+      "async": true
+    }
+  ],
+  "submit": {
+    "selector": "#submit",
+    "label": "Submit application"
+  },
+  "body_shape": {},
+  "empty_submit": false,
+  "viewport": [
+    1280,
+    900
+  ],
+  "clickables": [
+    {
+      "label": "Add reference",
+      "role": "button",
+      "step": "#add-reference",
+      "selector_count": 1,
+      "visible": true,
+      "disabled": false,
+      "collapsed": false,
+      "opens": "",
+      "chrome": false,
+      "leaves": false,
+      "risky": false
+    },
+    {
+      "label": "Submit application",
+      "role": "button",
+      "step": "#submit",
+      "selector_count": 1,
+      "visible": true,
+      "disabled": true,
+      "collapsed": false,
+      "opens": "",
+      "chrome": false,
+      "leaves": false,
+      "risky": true
+    },
+    {
+      "label": "Start a new application",
+      "role": "a",
+      "step": "#again",
+      "selector_count": 1,
+      "visible": false,
+      "disabled": false,
+      "collapsed": false,
+      "opens": "",
+      "chrome": false,
+      "leaves": false,
+      "risky": false
+    }
+  ]
+}

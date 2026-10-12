@@ -1,0 +1,14 @@
+<!doctype html>
+<title>Renew permit</title>
+<h1>Renew parking permit</h1>
+<form method="post">
+  <label for="vehicle_plate">Vehicle plate</label>
+  <input id="vehicle_plate" name="vehicle_plate" pattern="[A-Z]{2}-[0-9]{4}" required>
+  <label for="duration">Duration</label>
+  <select id="duration" name="duration" required>
+    <option>3 months</option><option>6 months</option><option>12 months</option>
+  </select>
+  <label for="start_date">Start date</label>
+  <input id="start_date" name="start_date" type="date" required>
+  <button type="submit">Renew permit</button>
+</form>

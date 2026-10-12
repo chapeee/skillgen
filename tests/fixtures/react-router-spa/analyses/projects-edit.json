@@ -1,0 +1,26 @@
+{
+  "has_form": true,
+  "title": "Edit project",
+  "purpose": "Changes an existing project's name, status and due date.",
+  "params": [{ "name": "projectId", "means": "the project's id" }],
+  "fields": [
+    {
+      "key": "project_name", "label": "Project name", "type": "text", "required": true,
+      "limits": { "max_length": 100 }, "strategy": "native-input", "selector": "[data-testid=field-project_name]",
+      "evidence": [{ "file": "src/pages/ProjectEdit.tsx", "line": 14 }]
+    },
+    {
+      "key": "status", "label": "Status", "type": "enum", "options": ["Planned", "Active", "Paused", "Done"],
+      "required": true, "strategy": "native-select", "selector": "#status",
+      "evidence": [{ "file": "src/pages/ProjectEdit.tsx", "line": 6 }]
+    },
+    {
+      "key": "due_date", "label": "Due date", "type": "date", "format": "YYYY-MM-DD",
+      "strategy": "native-input", "selector": "[data-testid=field-due_date]",
+      "evidence": [{ "file": "src/pages/ProjectEdit.tsx", "line": 16 }]
+    }
+  ],
+  "submit": { "selector": "button[type=submit]", "label": "Save changes", "success": {} },
+  "rules": [],
+  "gotchas": []
+}

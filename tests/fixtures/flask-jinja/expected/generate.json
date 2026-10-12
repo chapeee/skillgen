@@ -1,0 +1,17 @@
+{
+  "/": {
+    "open_questions": 0,
+    "skill": "fixture-council-home",
+    "status": "no-form"
+  },
+  "/feedback": {
+    "open_questions": 0,
+    "skill": "fixture-council-feedback",
+    "status": "written"
+  },
+  "/permits/:permit_id/renew": {
+    "open_questions": 1,
+    "skill": "fixture-council-permits-renew",
+    "status": "written"
+  }
+}

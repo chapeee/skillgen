@@ -1,0 +1,101 @@
+---
+id: intro
+slug: /
+title: Overview
+sidebar_label: Overview
+description: skillgendev compiles a web app's code, route by route, into one Agent Skill per page.
+---
+
+import DocCards from '@site/src/components/DocCards';
+
+# skillgendev
+
+skillgendev is a framework- and domain-agnostic compiler. It reads an app's code route by
+route and writes one build-ready [Agent Skills](https://agentskills.io/specification)
+folder per page, so Claude, Cowork or any AI that accepts Agent Skills can fill that
+page's form with few tokens.
+
+:::caution Status: pre-alpha
+`skillgendev` is pre-alpha. [Install it from PyPI](./getting-started/installation.md)
+with `uv tool install "skillgendev[probe]"`. Interfaces may change between
+commits; the [decision log](./architecture/decisions.md) records why.
+:::
+
+## Why it exists
+
+Without a skill, an AI rediscovers a form on every task. It takes screenshots, clicks
+field by field, and guesses which options exist and which fields depend on which. A
+generated skill tells the AI once what every field means, what it accepts, the order to
+fill it in and how to check the result. The AI then fills the whole page in one browser
+call.
+
+The work splits into two phases with different people:
+
+| Phase | Who | What happens |
+| --- | --- | --- |
+| **Generate** | The developer, once per code change | skillgendev finds the routes, picks out the code that builds each page, has Claude Code read it, and writes one skill folder per page. A running dev copy is optional. |
+| **Use** | Anyone the skills are shared with | They add a skill to Claude, Cowork, ChatGPT or another AI. With its built-in browser the AI opens the page and fills it. Nothing is installed and no MCP server is involved. |
+
+```text
+skills/acme-campaign-new/
+  SKILL.md                    # fields, rules, dependencies, and how to fill them
+  scripts/fill.js             # the fallback engine, read only for fields the skill cannot do
+  references/fill.md          # the one JavaScript call that fills the page
+  references/locators.md      # each field's role, label, selector and action
+  references/manual-steps.md  # the form as plain steps by visible labels
+  evals/evals.json            # four synthetic test requests
+```
+
+## Where to go next
+
+<DocCards
+  cards={[
+    {
+      title: 'Install',
+      to: '/docs/getting-started/installation/',
+      body: 'Python 3.10+, uv and git. One command puts skillgendev on your PATH.',
+    },
+    {
+      title: 'Quick start',
+      to: '/docs/getting-started/quick-start/',
+      body: 'From an app repository to your first skill folder in a few commands.',
+    },
+    {
+      title: 'Use a skill',
+      to: '/docs/getting-started/using-skills/',
+      body: 'How an AI picks a skill and fills a page, and the four fill methods.',
+    },
+    {
+      title: 'How it works',
+      to: '/docs/concepts/how-it-works/',
+      body: 'Routes, slices, analysis, merge, generate, validate, and the optional probe.',
+    },
+    {
+      title: 'Command reference',
+      to: '/docs/reference/cli/',
+      body: 'Every command and flag, with its --json output and exit codes.',
+    },
+    {
+      title: 'Contribute',
+      to: '/docs/contributing/',
+      body: 'Ground rules, setup, tests, and how to improve these docs.',
+    },
+  ]}
+/>
+
+## Principles
+
+These rules come from the project's design and are enforced by its tests:
+
+- **Framework-agnostic.** Frameworks matter only for finding routes. Router knowledge
+  lives in YAML [hint packs](./reference/hint-packs.md); deleting them leaves a working tool.
+- **Domain-agnostic.** No business vocabulary is built in. Field meaning comes from the
+  app's own code, labels and validation.
+- **One route, one skill.** Each skill is self-contained and can be shared alone.
+- **Code first.** A skill is always built from the code. The Playwright probe is an
+  optional extra that only adds field positions (`--xy`).
+- **Facts carry evidence.** Every fact records its source and confidence. Uncertain facts
+  become [questions](./guides/questions-and-rules.md), and evidence never reaches a skill.
+- **Agents run the commands.** No command prompts or waits for input. A run that needs
+  you says what it needs, and the agent [asks you in chat](./concepts/agent-handoff.md).
+- **No MCP anywhere.** Skills work with the AI's built-in browser and nothing installed.

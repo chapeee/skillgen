@@ -1,0 +1,12 @@
+id: laravel
+kind: router
+about: "Laravel Route::get('/x', [Controller::class, 'action']) and Route::get('/x', ...) declarations"
+language: php
+globs: ["routes/**/*.php"]
+rule:
+  any:
+    - pattern: "Route::get($PATH, [$COMPONENT::class, $ACTION])"
+    - pattern: "Route::get($PATH, $$$REST)"
+captures:
+  path: PATH
+  component: COMPONENT

@@ -1,0 +1,13 @@
+id: phoenix
+kind: router
+about: "Phoenix router: get \"/signup\", SignupController, :new and live \"/contact\", ContactLive"
+language: elixir
+globs: ["**/router.ex", "**/*_router.ex"]
+rule:
+  any:
+    - pattern: "get $PATH, $COMPONENT, $ACTION"
+    - pattern: "live $PATH, $COMPONENT"
+    - pattern: "live $PATH, $COMPONENT, $ACTION"
+captures:
+  path: PATH
+  component: COMPONENT

@@ -1,0 +1,16 @@
+id: aspnet-attributes
+kind: router
+about: "ASP.NET Core [Route(\"…\")] and [HttpGet(\"…\")] attributes (conventional routes are left to Claude; Razor @page routes come from Graphify)"
+language: csharp
+globs: ["**/*.cs"]
+rule:
+  kind: attribute
+  all:
+    - has: { field: name, regex: "^(HttpGet|Route)$" }
+    - has:
+        kind: attribute_argument_list
+        has:
+          kind: attribute_argument
+          has: { kind: string_literal, pattern: $PATH }
+captures:
+  path: PATH

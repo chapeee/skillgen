@@ -1,0 +1,21 @@
+id: route-objects-js
+kind: router
+about: "Route objects in JavaScript files, such as { path: '/x', component: Page } (Vue Router, React Router data routers)"
+language: javascript
+globs: ["**/*.js", "**/*.mjs", "**/*.cjs"]
+rule:
+  kind: object
+  all:
+    - has:
+        kind: pair
+        all:
+          - has: { field: key, regex: "^path$" }
+          - has: { field: value, pattern: $PATH }
+    - has:
+        kind: pair
+        all:
+          - has: { field: key, regex: "^(component|element)$" }
+          - has: { field: value, pattern: $COMPONENT }
+captures:
+  path: PATH
+  component: COMPONENT

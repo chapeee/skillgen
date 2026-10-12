@@ -1,0 +1,501 @@
+{
+  "has_form": true,
+  "title": "Bench application",
+  "purpose": "Applies for a Bench account. Submitting sends the application to the server, which checks the username is free.",
+  "sections": [
+    {
+      "id": "applicant",
+      "label": "Applicant"
+    },
+    {
+      "id": "organisation",
+      "label": "Organisation"
+    },
+    {
+      "id": "location",
+      "label": "Location"
+    },
+    {
+      "id": "preferences",
+      "label": "Preferences"
+    },
+    {
+      "id": "statement",
+      "label": "Statement"
+    },
+    {
+      "id": "references",
+      "label": "References"
+    },
+    {
+      "id": "documents",
+      "label": "Documents"
+    },
+    {
+      "id": "declaration",
+      "label": "Declaration"
+    }
+  ],
+  "groups": [
+    {
+      "id": "references",
+      "label": "Reference",
+      "row_selector": ".reference-row",
+      "add_selector": "#add-reference",
+      "min_rows": 1
+    }
+  ],
+  "fields": [
+    {
+      "key": "full_name",
+      "label": "Full name",
+      "means": "The applicant's full name",
+      "type": "text",
+      "required": true,
+      "limits": {
+        "min_length": 3,
+        "max_length": 80
+      },
+      "strategy": "native-input",
+      "selector": "#full_name",
+      "section": "applicant",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "email",
+      "label": "Email",
+      "means": "Where the applicant receives updates",
+      "type": "email",
+      "required": true,
+      "strategy": "native-input",
+      "selector": "#email",
+      "section": "applicant",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "username",
+      "label": "Username",
+      "type": "text",
+      "format": "3–20 lowercase letters, digits or underscores",
+      "required": true,
+      "limits": {
+        "pattern": "[a-z0-9_]{3,20}"
+      },
+      "strategy": "native-input",
+      "selector": "#username",
+      "section": "applicant",
+      "notes": "must be unique; the server rejects names already taken",
+      "server_checked": true,
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "birth_date",
+      "label": "Date of birth",
+      "type": "date",
+      "format": "YYYY-MM-DD",
+      "required": true,
+      "strategy": "native-input",
+      "selector": "#birth_date",
+      "section": "applicant",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "bio",
+      "label": "Short bio",
+      "type": "long-text",
+      "limits": {
+        "max_length": 500
+      },
+      "strategy": "native-input",
+      "selector": "#bio",
+      "section": "applicant",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "account_type",
+      "label": "Account type",
+      "type": "enum",
+      "options": [
+        "Individual",
+        "Company"
+      ],
+      "required": true,
+      "strategy": "choice",
+      "selector": "input[name=account_type]",
+      "section": "organisation",
+      "notes": "Company shows the company fields",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "company_name",
+      "label": "Company name",
+      "type": "text",
+      "required_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "visible_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "strategy": "native-input",
+      "selector": "#company_name",
+      "section": "organisation",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "registration_no",
+      "label": "Registration number",
+      "type": "text",
+      "format": "two capital letters then six digits, like AB123456",
+      "required_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "visible_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "limits": {
+        "pattern": "[A-Z]{2}[0-9]{6}"
+      },
+      "strategy": "native-input",
+      "selector": "#registration_no",
+      "section": "organisation",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "team_size",
+      "label": "Team size",
+      "type": "enum",
+      "options": [
+        "1–10",
+        "11–50",
+        "51–200",
+        "201 or more"
+      ],
+      "visible_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "strategy": "native-select",
+      "selector": "#team_size",
+      "section": "organisation",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "country",
+      "label": "Country",
+      "type": "enum",
+      "options": [
+        "Atlantis",
+        "Borduria",
+        "Freedonia",
+        "Genovia"
+      ],
+      "required": true,
+      "strategy": "native-select",
+      "selector": "#country",
+      "section": "location",
+      "notes": "controls the Region list",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "region",
+      "label": "Region",
+      "type": "enum",
+      "required": true,
+      "options_from": {
+        "depends_on": "country",
+        "load": "async",
+        "pick_by": "text"
+      },
+      "strategy": "native-select",
+      "selector": "#region",
+      "section": "location",
+      "notes": "list loads from the server after Country is chosen",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "city",
+      "label": "City",
+      "type": "enum",
+      "required": true,
+      "options_from": {
+        "load": "async",
+        "pick_by": "text"
+      },
+      "strategy": "aria-combobox",
+      "selector": "#city",
+      "section": "location",
+      "notes": "searchable; type the name and pick from the list",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "interests",
+      "label": "Interests",
+      "type": "multi-enum",
+      "options": [
+        "Design",
+        "Engineering",
+        "Research",
+        "Sales",
+        "Support"
+      ],
+      "strategy": "choice",
+      "selector": "input[name=interests]",
+      "section": "preferences",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "department",
+      "label": "Department",
+      "type": "path",
+      "format": "path through the tree, like Engineering / Platform / Reliability",
+      "options": [
+        "Engineering / Platform / Reliability",
+        "Engineering / Platform / Tooling",
+        "Engineering / Product / Web",
+        "Engineering / Product / Mobile",
+        "Operations / Finance",
+        "Operations / People",
+        "Research"
+      ],
+      "required": true,
+      "strategy": "aria-tree",
+      "selector": "#department",
+      "section": "preferences",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "skills",
+      "label": "Skills",
+      "type": "multi-enum",
+      "options": [
+        "Python",
+        "JavaScript",
+        "SQL",
+        "Go",
+        "Rust"
+      ],
+      "strategy": "aria-listbox",
+      "selector": "#skills",
+      "section": "preferences",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "newsletter",
+      "label": "Send me the newsletter",
+      "type": "boolean",
+      "strategy": "native-input",
+      "selector": "#newsletter",
+      "section": "preferences",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "statement",
+      "label": "Why are you applying?",
+      "type": "rich-text",
+      "required": true,
+      "strategy": "rich-text",
+      "selector": "#statement",
+      "section": "statement",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "references[].name",
+      "label": "Reference name",
+      "type": "text",
+      "strategy": "native-input",
+      "selector": "input[data-field=name]",
+      "section": "references",
+      "group": "references",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "references[].email",
+      "label": "Reference email",
+      "type": "email",
+      "strategy": "native-input",
+      "selector": "input[data-field=email]",
+      "section": "references",
+      "group": "references",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "id_document",
+      "label": "Identity document",
+      "type": "file",
+      "limits": {
+        "accept": ".pdf,.jpg,.jpeg",
+        "max_size": "2 MB"
+      },
+      "strategy": "file",
+      "selector": "#id_document",
+      "section": "documents",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    },
+    {
+      "key": "agree_terms",
+      "label": "I confirm the details above are correct",
+      "type": "boolean",
+      "required": true,
+      "strategy": "native-input",
+      "selector": "#agree_terms",
+      "section": "declaration",
+      "notes": "Submit stays disabled until this is ticked",
+      "evidence": [
+        {
+          "file": "tests/bench/site/index.html"
+        }
+      ]
+    }
+  ],
+  "submit": {
+    "selector": "#submit",
+    "label": "Submit application",
+    "success": {
+      "url_matches": "/apply/done",
+      "text_appears": "Application received"
+    }
+  },
+  "rules": [
+    {
+      "text": "Date of birth cannot be in the future.",
+      "field": "birth_date",
+      "check": {
+        "not_future": true
+      },
+      "evidence": [
+        {
+          "file": "tests/bench/site/bench.js"
+        }
+      ]
+    },
+    {
+      "text": "At least one reference with a name and an email.",
+      "field": "references",
+      "evidence": [
+        {
+          "file": "tests/bench/site/bench.js"
+        }
+      ]
+    },
+    {
+      "text": "The username must not be taken; only the server can check this.",
+      "field": "username",
+      "evidence": [
+        {
+          "file": "tests/bench/site/bench.js"
+        }
+      ]
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Region stays empty until Country is chosen; its list loads from the server."
+    },
+    {
+      "text": "City is a search box: type the city and pick it from the list, or it is not saved."
+    },
+    {
+      "text": "Submit stays disabled until the declaration checkbox is ticked."
+    }
+  ],
+  "questions": []
+}

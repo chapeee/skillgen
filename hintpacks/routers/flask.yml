@@ -1,0 +1,21 @@
+id: flask
+kind: router
+about: "Flask-style @app.route('/x') and @blueprint.route('/x') decorators"
+language: python
+globs: ["**/*.py"]
+rule:
+  kind: decorated_definition
+  has:
+    kind: decorator
+    has:
+      any:
+        - pattern: $APP.route($PATH)
+        - pattern: $APP.route($PATH, $$$ARGS)
+        - pattern: $APP.get($PATH)
+  all:
+    - has:
+        field: definition
+        has: { field: name, pattern: $COMPONENT }
+captures:
+  path: PATH
+  component: COMPONENT

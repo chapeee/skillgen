@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "install --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "install"
+    },
+    "error": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "installed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "chromium": {
+      "description": "Whether Chromium for --xy was installed, skipped or failed, in words.",
+      "type": "string"
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "target",
+      "installed"
+    ]
+  }
+}

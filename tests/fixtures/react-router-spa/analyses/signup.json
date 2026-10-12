@@ -1,0 +1,47 @@
+{
+  "has_form": true,
+  "title": "Create your account",
+  "purpose": "Creates a new account on the chosen plan.",
+  "sections": [],
+  "fields": [
+    {
+      "key": "full_name", "label": "Full name", "type": "text", "required": true,
+      "limits": { "max_length": 80 }, "strategy": "native-input", "selector": "[data-testid=field-full_name]",
+      "evidence": [{ "file": "src/pages/Signup.tsx", "line": 22, "quote": "<TextField name=\"full_name\" label=\"Full name\" required maxLength={80} />" }]
+    },
+    {
+      "key": "work_email", "label": "Work email", "type": "email", "required": true,
+      "strategy": "native-input", "selector": "[data-testid=field-work_email]",
+      "evidence": [{ "file": "src/pages/Signup.tsx", "line": 23 }]
+    },
+    {
+      "key": "password", "label": "Password", "type": "text", "required": true, "format": "at least 12 characters",
+      "notes": "the user types it themselves; never ask for it in chat",
+      "limits": { "min_length": 12 }, "strategy": "steps", "selector": "[data-testid=field-password]",
+      "evidence": [{ "file": "src/pages/Signup.tsx", "line": 24 }]
+    },
+    {
+      "key": "plan", "label": "Plan", "type": "enum", "options": ["Starter", "Team", "Enterprise"], "required": true,
+      "strategy": "native-select", "selector": "#plan",
+      "evidence": [{ "file": "src/pages/Signup.tsx", "line": 7, "quote": "const PLANS = ['Starter', 'Team', 'Enterprise'];" }]
+    },
+    {
+      "key": "seats", "label": "Number of seats", "type": "number",
+      "required_if": { "field": "plan", "op": "in", "values": ["Enterprise"] },
+      "visible_if": { "field": "plan", "op": "in", "values": ["Enterprise"] },
+      "strategy": "native-input", "selector": "[data-testid=field-seats]",
+      "evidence": [{ "file": "src/pages/Signup.tsx", "line": 26 }]
+    },
+    {
+      "key": "accept_terms", "label": "I accept the terms", "type": "boolean", "required": true,
+      "strategy": "native-input", "selector": "[name=accept_terms]",
+      "evidence": [{ "file": "src/pages/Signup.tsx", "line": 27 }]
+    }
+  ],
+  "submit": { "selector": "button[type=submit]", "label": "Create account", "success": { "url_matches": "/welcome" } },
+  "rules": [],
+  "gotchas": [
+    { "text": "Number of seats appears only after choosing the Enterprise plan.", "inferred": false }
+  ],
+  "questions": []
+}

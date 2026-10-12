@@ -1,0 +1,37 @@
+{
+  "has_form": true,
+  "title": "Profile",
+  "purpose": "Updates how your profile appears to others.",
+  "fields": [
+    {
+      "key": "display_name", "label": "Display name", "type": "text", "required": true,
+      "limits": { "max_length": 40 }, "strategy": "native-input", "selector": "[data-testid=field-display_name]",
+      "evidence": [{ "file": "src/pages/ProfileSettings.tsx", "line": 9 }]
+    },
+    {
+      "key": "job_title", "label": "Job title", "type": "text", "limits": { "max_length": 60 },
+      "strategy": "native-input", "selector": "[data-testid=field-job_title]",
+      "means": "The role shown under the display name", "inferred": ["means"],
+      "evidence": [{ "file": "src/pages/ProfileSettings.tsx", "line": 10 }]
+    },
+    {
+      "key": "bio", "label": "About you", "type": "long-text", "limits": { "max_length": 280 },
+      "strategy": "native-input", "selector": "#bio",
+      "evidence": [{ "file": "src/pages/ProfileSettings.tsx", "line": 12 }]
+    },
+    {
+      "key": "theme", "label": "Theme", "type": "enum", "options": ["Light", "Dark", "System"],
+      "strategy": "choice", "selector": "input[name=theme]",
+      "evidence": [{ "file": "src/pages/ProfileSettings.tsx", "line": 15 }]
+    }
+  ],
+  "submit": {
+    "selector": "button[type=submit]", "label": "Save profile",
+    "success": { "text_appears": "Profile saved" }, "inferred": false
+  },
+  "rules": [
+    { "text": "Display name is shown publicly; it must not contain an email address.", "field": "display_name", "inferred": true }
+  ],
+  "gotchas": [],
+  "questions": [{ "text": "Is the theme saved per device or per account?", "field": "theme" }]
+}

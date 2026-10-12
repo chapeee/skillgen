@@ -1,0 +1,126 @@
+{
+  "has_form": true,
+  "title": "Bench wizard",
+  "purpose": "A synthetic three-step form for testing steps, tabs, a dialog and a conditional field.",
+  "fields": [
+    {
+      "key": "first_name",
+      "label": "First name",
+      "type": "text",
+      "strategy": "native-input",
+      "selector": "#first_name",
+      "required": true
+    },
+    {
+      "key": "last_name",
+      "label": "Last name",
+      "type": "text",
+      "strategy": "native-input",
+      "selector": "#last_name"
+    },
+    {
+      "key": "city",
+      "label": "City",
+      "type": "text",
+      "strategy": "native-input",
+      "selector": "#city"
+    },
+    {
+      "key": "department",
+      "label": "Department",
+      "type": "enum",
+      "strategy": "native-select",
+      "selector": "#department",
+      "options": [
+        "Engineering",
+        "Sales"
+      ]
+    },
+    {
+      "key": "work_location",
+      "label": "Work location",
+      "type": "enum",
+      "strategy": "native-select",
+      "selector": "#work_location",
+      "options": [
+        "Office",
+        "Remote"
+      ]
+    },
+    {
+      "key": "laptop",
+      "label": "Laptop",
+      "type": "text",
+      "strategy": "native-input",
+      "selector": "#laptop",
+      "visible_if": {
+        "field": "work_location",
+        "op": "in",
+        "values": [
+          "Remote"
+        ]
+      }
+    },
+    {
+      "key": "contact_name",
+      "label": "Contact name",
+      "type": "text",
+      "strategy": "native-input",
+      "selector": "#contact_name"
+    },
+    {
+      "key": "agree",
+      "label": "I agree",
+      "type": "boolean",
+      "strategy": "native-input",
+      "selector": "#agree"
+    }
+  ],
+  "submit": {
+    "selector": "#submit",
+    "label": "Send"
+  },
+  "views": [
+    {
+      "name": "Address tab",
+      "enter": [
+        "text:Address"
+      ],
+      "fields": [
+        "city"
+      ]
+    },
+    {
+      "name": "Step 2",
+      "enter": [
+        "text:Next"
+      ],
+      "fields": [
+        "department",
+        "work_location",
+        "laptop"
+      ]
+    },
+    {
+      "name": "Contact dialog",
+      "enter": [
+        "text:Add contact"
+      ],
+      "leave": [
+        "text:Done"
+      ],
+      "fields": [
+        "contact_name"
+      ]
+    },
+    {
+      "name": "Step 3",
+      "enter": [
+        "text:Next"
+      ],
+      "fields": [
+        "agree"
+      ]
+    }
+  ]
+}

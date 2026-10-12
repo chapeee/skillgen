@@ -1,0 +1,6 @@
+{
+  "name": "fixture-nextjs-app",
+  "private": true,
+  "description": "Synthetic test app: Next.js app router. Never built; skillgen only reads it.",
+  "dependencies": { "next": "14.2.5", "react": "18.3.1", "react-hook-form": "7.53.0", "zod": "3.23.8" }
+}

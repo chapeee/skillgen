@@ -1,0 +1,22 @@
+{
+  "/": {
+    "open_questions": 0,
+    "skill": "fixture-store-home",
+    "status": "no-form"
+  },
+  "/contact": {
+    "open_questions": 0,
+    "skill": "fixture-store-contact",
+    "status": "written"
+  },
+  "/orders/:orderId/return": {
+    "open_questions": 0,
+    "skill": "fixture-store-orders-return",
+    "status": "written"
+  },
+  "/register": {
+    "open_questions": 1,
+    "skill": "fixture-store-register",
+    "status": "written"
+  }
+}

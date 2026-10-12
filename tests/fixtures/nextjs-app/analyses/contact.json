@@ -1,0 +1,40 @@
+{
+  "has_form": true,
+  "title": "Contact us",
+  "purpose": "Sends a message to the team; billing questions need an order number.",
+  "fields": [
+    {
+      "key": "name", "label": "Your name", "type": "text", "required": true,
+      "limits": { "min_length": 2, "max_length": 60 }, "strategy": "native-input", "selector": "input[name=name]",
+      "evidence": [{ "file": "lib/schemas.ts", "line": 4, "quote": "name: z.string().min(2).max(60)" }]
+    },
+    {
+      "key": "email", "label": "Email", "type": "email", "required": true,
+      "strategy": "native-input", "selector": "input[name=email]",
+      "evidence": [{ "file": "lib/schemas.ts", "line": 5 }]
+    },
+    {
+      "key": "topic", "label": "Topic", "type": "enum", "options": ["Sales", "Support", "Billing", "Other"],
+      "required": true, "strategy": "native-select", "selector": "select[name=topic]",
+      "notes": "Billing asks for an order number",
+      "evidence": [{ "file": "lib/schemas.ts", "line": 6 }]
+    },
+    {
+      "key": "order_number", "label": "Order number", "type": "text", "format": "ORD- then six digits",
+      "limits": { "pattern": "ORD-[0-9]{6}" },
+      "visible_if": { "field": "topic", "op": "in", "values": ["Billing"] },
+      "strategy": "native-input", "selector": "input[name=order_number]",
+      "evidence": [{ "file": "app/contact/page.tsx", "line": 25 }]
+    },
+    {
+      "key": "message", "label": "Message", "type": "long-text", "required": true,
+      "limits": { "min_length": 20, "max_length": 2000 }, "strategy": "native-input", "selector": "textarea[name=message]",
+      "evidence": [{ "file": "lib/schemas.ts", "line": 8 }]
+    }
+  ],
+  "submit": { "selector": "button[type=submit]", "label": "Send message", "success": { "url_matches": "/contact/thanks" } },
+  "rules": [
+    { "text": "Messages need at least 20 characters.", "field": "message", "check": { "min_length": 20 } }
+  ],
+  "gotchas": [{ "text": "Order number appears only when the topic is Billing." }]
+}

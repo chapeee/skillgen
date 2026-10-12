@@ -1,0 +1,13 @@
+id: spring
+kind: router
+about: "Spring MVC @GetMapping(\"/signup\") and @RequestMapping(\"/signup\") on controller methods"
+language: java
+globs: ["**/*.java", "**/*.kt"]
+rule:
+  any:
+    - pattern: "@GetMapping($PATH)"
+    - pattern: "@GetMapping(value = $PATH)"
+    - pattern: "@GetMapping(path = $PATH)"
+    - pattern: "@RequestMapping($PATH)"
+captures:
+  path: PATH

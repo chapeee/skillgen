@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "answer --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "answer"
+    },
+    "error": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "skill": {
+      "type": "string"
+    },
+    "answer": {
+      "type": "string"
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "id",
+      "answer"
+    ]
+  }
+}

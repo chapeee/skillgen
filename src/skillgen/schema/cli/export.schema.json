@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "export --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "export"
+    },
+    "error": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "files": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "plugin": {
+      "type": "string"
+    },
+    "skill": {
+      "type": "string"
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "path",
+      "skills"
+    ]
+  }
+}

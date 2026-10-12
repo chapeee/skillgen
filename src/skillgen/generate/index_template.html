@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1c1c1a;--muted:#66645e;--line:#dcd9d0;--card:#fff;--app:#1c1c1a;--skill:#2f5bd3;
+--section:#8a6d1f;--field:#7a7870;--dep:#c2337a;--ok:#2e7d4f;--warn:#a15c00}
+@media (prefers-color-scheme:dark){:root{--bg:#141413;--fg:#ecebe6;--muted:#a5a39b;--line:#34332f;--card:#1d1d1b;
+--app:#ecebe6;--skill:#8aa7ff;--section:#e0c06a;--field:#8f8d85;--dep:#ff7ab8;--ok:#7fd3a1;--warn:#f0b35a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 64px}h1{margin:0;font-size:1.6rem}
+.meta{color:var(--muted);margin:4px 0 16px}.numbers{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.number{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:110px}
+.number b{display:block;font-size:1.4rem}canvas{width:100%;aspect-ratio:1;max-height:720px;background:var(--card);
+border:1px solid var(--line);border-radius:12px;display:block}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h3{margin:0 0 4px;font-size:1rem}.card code{font-size:.85rem}.badges span{display:inline-block;font-size:.75rem;
+padding:1px 8px;border-radius:99px;border:1px solid var(--line);margin:4px 4px 0 0}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.muted{color:var(--muted)}button{font:inherit;cursor:pointer;
+border:1px solid var(--line);background:transparent;color:inherit;border-radius:6px;padding:2px 8px}
+input{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:inherit;
+width:100%;max-width:320px;margin:8px 0}
+</style></head><body><main>
+<h1 id="title"></h1><p class="meta" id="meta"></p><div class="numbers" id="numbers"></div>
+<canvas id="graph" width="1000" height="1000" aria-label="Graph of routes, skills, sections and fields"></canvas>
+<p class="muted">Blue: skills · gold: sections · grey: fields · pink: dependencies and conditions. Click a skill to focus it.</p>
+<input id="search" type="search" placeholder="Search skills" aria-label="Search skills">
+<div class="cards" id="cards"></div>
+<h2>Routes without a form</h2><p id="noform" class="muted"></p>
+<h2>Using a skill</h2><ol><li>Copy a skill folder into Claude or Cowork (or upload it as a zip in Skills settings).</li>
+<li>Ask Claude to fill the page; it reads SKILL.md and fills the form in one browser call.</li>
+<li>Nothing else to install: the built-in browser is enough.</li></ol>
+</main><script>
+(function () {
+  var data = __DATA__, focus = null, D = document;
+  function el(tag, text, cls) { var node = D.createElement(tag); if (text != null) { node.textContent = text; } if (cls) { node.className = cls; } return node; }
+  D.getElementById('title').textContent = (data.app || 'App') + ' — page skills';
+  D.getElementById('meta').textContent = [data.generator, data.commit && 'commit ' + data.commit, data.generated_on, data.detected.length ? 'detected: ' + data.detected.join(', ') : ''].filter(Boolean).join(' · ');
+  var numbers = D.getElementById('numbers');
+  [['routes', 'routes scanned'], ['skills', 'skills'], ['fields', 'fields mapped'], ['dependencies', 'dependencies'], ['verified', 'verified on a running app']].forEach(function (pair) {
+    var box = el('div', null, 'number'); box.appendChild(el('b', String(data.numbers[pair[0]]))); box.appendChild(el('span', pair[1])); numbers.appendChild(box);
+  });
+  var canvas = D.getElementById('graph'), ctx = canvas.getContext('2d'), byId = {};
+  data.graph.nodes.forEach(function (node) { byId[node.id] = node; });
+  function color(name) { return getComputedStyle(D.documentElement).getPropertyValue('--' + name).trim(); }
+  function draw() {
+    ctx.clearRect(0, 0, 1000, 1000);
+    data.graph.links.forEach(function (link) {
+      var a = byId[link.source], b = byId[link.target], dim = focus && a.skill !== focus && b.skill !== focus;
+      ctx.strokeStyle = link.kind === 'has' ? color('line') : color('dep'); ctx.globalAlpha = dim ? 0.15 : 0.9;
+      ctx.setLineDash(link.kind === 'condition' ? [5, 4] : []); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    });
+    ctx.setLineDash([]);
+    data.graph.nodes.forEach(function (node) {
+      var size = { app: 12, skill: 9, section: 6, field: 3.5 }[node.kind], dim = focus && node.skill !== focus && node.kind !== 'app';
+      ctx.globalAlpha = dim ? 0.2 : 1; ctx.fillStyle = color(node.kind); ctx.beginPath(); ctx.arc(node.x, node.y, size, 0, 6.3); ctx.fill();
+      if (node.kind === 'app' || node.kind === 'skill' || (focus && node.skill === focus)) { ctx.fillStyle = color('fg'); ctx.font = (node.kind === 'field' ? '11px' : '13px') + ' system-ui'; ctx.fillText(node.label, node.x + size + 3, node.y + 4); }
+    });
+    ctx.globalAlpha = 1;
+  }
+  canvas.addEventListener('click', function (event) {
+    var box = canvas.getBoundingClientRect(), x = (event.clientX - box.left) * 1000 / box.width, y = (event.clientY - box.top) * 1000 / box.height, hit = null;
+    data.graph.nodes.forEach(function (node) { if (node.skill && Math.abs(node.x - x) < 10 && Math.abs(node.y - y) < 10) { hit = node.skill; } });
+    focus = hit === focus ? null : hit; draw();
+  });
+  function cards(filter) {
+    var box = D.getElementById('cards'); box.innerHTML = '';
+    data.skills.filter(function (card) { return !filter || (card.skill + ' ' + card.title + ' ' + card.route).toLowerCase().indexOf(filter) >= 0; }).forEach(function (card) {
+      var node = el('div', null, 'card'), head = el('h3', card.title), copy = el('button', 'copy');
+      copy.addEventListener('click', function () { if (navigator.clipboard) { navigator.clipboard.writeText(card.skill); } });
+      node.appendChild(head); var name = el('div'); name.appendChild(el('code', card.skill)); name.appendChild(D.createTextNode(' ')); name.appendChild(copy); node.appendChild(name);
+      node.appendChild(el('div', card.route, 'muted')); if (card.purpose) { node.appendChild(el('p', card.purpose)); }
+      node.appendChild(el('div', card.fields + ' fields (' + card.required + ' required) · ' + card.rules + ' rules · ' + card.dependencies + ' dependencies'));
+      node.appendChild(el('div', '~' + card.skill_tokens + ' tokens in SKILL.md · ~' + card.calls_per_fill + ' calls per fill', 'muted'));
+      var badges = el('div', null, 'badges'); badges.appendChild(el('span', card.verified ? 'verified' : 'code-only', card.verified ? 'ok' : 'warn'));
+      if (card.has_rows) { badges.appendChild(el('span', 'rows')); } if (card.needs_record) { badges.appendChild(el('span', 'needs a record id')); } if (card.changed) { badges.appendChild(el('span', 'changed')); }
+      node.appendChild(badges); var show = el('button', 'Show in graph'); show.addEventListener('click', function () { focus = card.skill; draw(); canvas.scrollIntoView({ behavior: 'smooth' }); }); node.appendChild(show);
+      box.appendChild(node);
+    });
+  }
+  D.getElementById('search').addEventListener('input', function (event) { cards(event.target.value.toLowerCase()); });
+  D.getElementById('noform').textContent = data.no_form.join(' · ') || 'none';
+  cards(''); draw();
+  if (window.matchMedia) { window.matchMedia('(prefers-color-scheme: dark)').addListener(draw); }
+}());
+</script></body></html>

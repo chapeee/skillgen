@@ -1,0 +1,14 @@
+id: rails
+kind: router
+about: "Rails routes.rb: get \"/signup\", to: \"registrations#new\" (resources blocks are left to Claude)"
+language: ruby
+globs: ["config/routes.rb", "config/routes/**/*.rb"]
+rule:
+  any:
+    - pattern: "get $PATH, to: $COMPONENT"
+    - pattern: "get $PATH, to: $COMPONENT, $$$REST"
+captures:
+  path: PATH
+  component: COMPONENT
+component_match: "^[\"']?(?P<name>[\\w/]+)#"
+component_format: "{pascal}Controller"

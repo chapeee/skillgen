@@ -1,0 +1,13 @@
+id: astro-pages
+kind: folder
+about: "Astro src/pages/**/*.astro"
+roots: [src/pages]
+page_files: ["*.astro"]
+route_from: file
+index_names: [index]
+skip_segments: []
+skip_files: ["^_"]
+params:
+  - "^\\[\\.\\.\\.(?P<name>\\w+)\\]$"
+  - "^\\[(?P<name>\\w+)\\]$"
+requires_any: ["astro.config.mjs", "astro.config.ts", "astro.config.js"]

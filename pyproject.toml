@@ -1,0 +1,160 @@
+[project]
+name = "skillgendev"
+version = "0.1.0"
+description = "Compile an app's code into one Agent Skills folder per page, so Claude or Cowork can fill its forms with few tokens."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "skillgen contributors" }]
+keywords = ["agent-skills", "claude", "cowork", "forms", "code-analysis", "compiler"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Code Generators",
+  "Typing :: Typed",
+]
+dependencies = [
+  "graphifyy>=0.9.80",
+  "jsonschema>=4.21",
+  "PyYAML>=6.0",
+  # Finds routes and rules declared in code (Laravel, Rails, Spring...); without it those
+  # stacks silently lose their routes, so it is not optional.
+  "ast-grep-cli>=0.30",
+]
+
+[project.optional-dependencies]
+# The runtime probe: off unless a dev URL is given.
+probe = ["playwright>=1.45"]
+# Kept so older install commands (`.[astgrep,probe]`) still work; ast-grep is now core.
+astgrep = []
+
+[project.scripts]
+skillgendev = "skillgen.cli:main"
+
+[project.urls]
+Repository = "https://github.com/chapeee/skillprinter"
+
+[dependency-groups]
+dev = [
+  "mypy>=1.11",
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "types-PyYAML>=6.0",
+  "types-jsonschema>=4.21",
+]
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+# An allow-list, so website/ (with node_modules) and local caches never reach PyPI.
+include = [
+  "/src/skillgen",
+  "/hintpacks",
+  "/claude",
+  "/tests",
+  "/docs",
+  "/scripts",
+  "/README.md",
+  "/CONTRIBUTING.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
+exclude = ["**/__pycache__", "**/*.py[cod]", "**/.skillgen/secrets", "**/.skillgen/cache"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/skillgen"]
+
+[tool.hatch.build.targets.wheel.force-include]
+# Shipped inside the package so `skillgen install` and hint packs work from a wheel.
+"hintpacks" = "skillgen/_data/hintpacks"
+"claude" = "skillgen/_data/claude"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+extend-exclude = ["tests/fixtures", "tests/bench/site"]
+
+[tool.ruff.lint]
+select = [
+  "E", "W",   # pycodestyle
+  "F",        # pyflakes
+  "I",        # isort
+  "N",        # pep8-naming
+  "UP",       # pyupgrade
+  "B",        # bugbear
+  "A",        # builtins shadowing
+  "C4",       # comprehensions
+  "SIM",      # simplify
+  "PTH",      # pathlib over os.path
+  "RET",      # return hygiene
+  "ARG",      # unused arguments
+  "T20",      # no print (cli.py is exempt below)
+  "BLE",      # no blind except
+  "E722",     # no bare except
+  "D",        # docstrings
+  "ANN",      # annotations
+  "PL",       # pylint subset
+  "RUF",
+]
+ignore = [
+  "D105",     # magic methods document themselves
+  "D107",     # __init__ is documented on the class
+  "PLR0913",  # dataclass-like constructors take many arguments
+  "PLR2004",  # small literal numbers read fine in context
+  "ANN401",   # Any is allowed for JSON-shaped facts; CLAUDE.md asks for a comment instead
+  "RUF001", "RUF002", "RUF003",  # en dashes and arrows are intended in user-facing text
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pylint]
+max-statements = 40
+max-branches = 14
+max-returns = 10
+
+[tool.ruff.lint.per-file-ignores]
+"src/skillgen/cli.py" = ["T20"]
+"tests/**" = ["D", "ANN", "PLR", "ARG", "T20"]
+"tests/bench/**" = ["D", "ANN", "PLR", "T20", "PTH"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src", "tests"]
+exclude = ["tests/fixtures/", "tests/bench/site/"]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = ["graphify.*", "playwright.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+disallow_untyped_calls = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers -m 'not browser and not claude'"
+# Graphify notes when one process scans several roots; tests do that on purpose.
+filterwarnings = ["ignore:stat index switched:RuntimeWarning"]
+markers = [
+  "browser: runs a real browser through Playwright against a local server (pytest -m browser)",
+  "claude: calls the real Claude Code CLI; never runs in CI (pytest -m claude)",
+]

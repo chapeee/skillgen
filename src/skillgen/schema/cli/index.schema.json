@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "index --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "index"
+    },
+    "error": {
+      "type": "string"
+    },
+    "html": {
+      "type": "string"
+    },
+    "json": {
+      "type": "string"
+    },
+    "skills": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "fields": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "html",
+      "json"
+    ]
+  }
+}

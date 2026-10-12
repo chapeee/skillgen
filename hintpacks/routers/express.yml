@@ -1,0 +1,9 @@
+id: express
+kind: router
+about: "Express-style app.get('/x', handler) and router.get('/x', handler)"
+language: javascript
+globs: ["**/*.js", "**/*.mjs", "**/*.cjs"]
+rule:
+  pattern: $APP.get($PATH, $$$HANDLERS)
+captures:
+  path: PATH

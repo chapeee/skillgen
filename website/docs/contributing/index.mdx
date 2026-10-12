@@ -1,0 +1,94 @@
+---
+id: index
+title: Contributing
+slug: /contributing/
+description: Ground rules, the checks every pull request passes, and where to start contributing to skillgendev.
+---
+
+import DocCards from '@site/src/components/DocCards';
+
+# Contributing
+
+Thanks for helping. This section explains how to set up, what a change must meet, how to
+test it, and how to improve these docs. The repository's own
+[`CONTRIBUTING.md`](https://github.com/chapeee/skillprinter/blob/main/CONTRIBUTING.md) is the
+maintainers' reference; these pages follow it.
+
+## Ground rules in one minute
+
+1. **No framework or domain knowledge in the core.** Router conventions go in `hintpacks/` as
+   YAML. Deleting `hintpacks/` must leave a working tool.
+2. **No MCP servers, no client installs.** Generated skills run with the AI's built-in browser
+   and nothing else.
+3. **Code-only generation is the default.** The Playwright probe is optional and only runs
+   with `--xy` or `--url`.
+4. **Every fact has a source and a confidence. Evidence never reaches a skill.**
+5. **No secrets or real personal data**, anywhere: fixtures, tests, logs, examples. Use
+   `example.com`, `555-0100` style numbers and obviously fake names.
+6. **No command may prompt or wait for input.** An agent runs every command.
+
+## Before you open a pull request
+
+Run all four; CI runs the same.
+
+```bash
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy
+uv run pytest
+uv run pytest -m browser      # if you touched fill.js, probe/ or tests/bench/
+```
+
+If your change affects generated output, also run the [test bench](./testing.md#3-the-test-bench-in-claude-and-cowork)
+in Claude or Cowork, and paste its results table into the pull request.
+
+<DocCards
+  cards={[
+    {
+      title: 'Development setup',
+      to: '/docs/contributing/development-setup/',
+      body: 'Clone, sync with uv, and install your working copy globally.',
+    },
+    {
+      title: 'Coding standards',
+      to: '/docs/contributing/coding-standards/',
+      body: 'Naming, functions, docstrings, errors, logging, and the pure core.',
+    },
+    {
+      title: 'Testing',
+      to: '/docs/contributing/testing/',
+      body: 'Unit, golden, browser and bench tests: what each covers.',
+    },
+    {
+      title: 'Adding a command',
+      to: '/docs/contributing/adding-commands/',
+      body: 'Parser, schema, tests and two documents, in the same pull request.',
+    },
+    {
+      title: 'Framework support',
+      to: '/docs/contributing/framework-support/',
+      body: 'Teach skillgendev a router with a YAML hint pack and a tiny fixture.',
+    },
+    {
+      title: 'Improving these docs',
+      to: '/docs/contributing/documentation/',
+      body: 'Edit Markdown, preview locally, and how merged changes deploy.',
+    },
+    {
+      title: 'Commits with Gitsmith',
+      to: '/docs/contributing/gitsmith/',
+      body: 'Conventional Commits made easy with a .commitconfig.json.',
+    },
+  ]}
+/>
+
+## Commits and pull requests
+
+- [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`,
+  `test:`, `refactor:`, `chore:`. [Gitsmith](./gitsmith.md) can prompt you through them.
+- Small commits, one change each.
+- Never commit `.skillgendev/secrets/`, `.env` files or Playwright storage states.
+- Record design decisions in `docs/decisions.md`.
+- If something in the spec is unclear, open an issue and ask before building.
+
+By contributing you agree that your contribution is licensed under the Apache License 2.0.

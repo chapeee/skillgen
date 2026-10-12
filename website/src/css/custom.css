@@ -1,0 +1,1475 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ tokens */
+
+:root {
+  --sg-bg: #f7f8fc;
+  --sg-surface: #ffffff;
+  --sg-surface-2: #f0f2fa;
+  --sg-border: rgba(24, 33, 68, 0.1);
+  --sg-border-strong: rgba(24, 33, 68, 0.18);
+  --sg-ink: #0b1024;
+  --sg-muted: #4d5674;
+  --sg-glow: rgba(68, 98, 255, 0.18);
+
+  --ifm-color-primary: #2f46f2;
+  --ifm-color-primary-dark: #2238e6;
+  --ifm-color-primary-darker: #2035d9;
+  --ifm-color-primary-darkest: #1a2cb3;
+  --ifm-color-primary-light: #4a5ef4;
+  --ifm-color-primary-lighter: #5768f5;
+  --ifm-color-primary-lightest: #7d8bf7;
+
+  --ifm-background-color: var(--sg-bg);
+  --ifm-background-surface-color: var(--sg-surface);
+  --ifm-font-color-base: #1d2440;
+  --ifm-heading-color: var(--sg-ink);
+  --ifm-font-family-base: 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --ifm-heading-font-family: var(--ifm-font-family-base);
+  --ifm-font-family-monospace: 'Geist Mono Variable', 'Geist Mono', ui-monospace,
+    SFMono-Regular, Menlo, Consolas, monospace;
+  --ifm-heading-font-weight: 600;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.7;
+  --ifm-code-font-size: 86%;
+  --ifm-code-border-radius: 6px;
+  --ifm-code-background: rgba(47, 70, 242, 0.07);
+  --ifm-global-radius: 10px;
+  --ifm-navbar-height: 3.75rem;
+  --ifm-navbar-background-color: rgba(247, 248, 252, 0.82);
+  --ifm-navbar-shadow: none;
+  --ifm-toc-border-color: var(--sg-border);
+  --ifm-hr-border-color: var(--sg-border);
+  --ifm-table-border-color: var(--sg-border);
+  --ifm-table-stripe-background: transparent;
+  --ifm-menu-color: #3b4466;
+  --ifm-menu-color-background-active: rgba(47, 70, 242, 0.08);
+  --ifm-menu-color-background-hover: rgba(47, 70, 242, 0.05);
+  --ifm-footer-background-color: #05070d;
+  --ifm-footer-link-color: #9aa6c8;
+  --ifm-footer-title-color: #e7ecff;
+  --ifm-footer-link-hover-color: #ffffff;
+  --docusaurus-highlighted-code-line-bg: rgba(47, 70, 242, 0.1);
+  --docusaurus-announcement-bar-height: auto;
+}
+
+html[data-theme='dark'] {
+  --sg-bg: #05070d;
+  --sg-surface: #0a0e19;
+  --sg-surface-2: #0e1322;
+  --sg-border: rgba(140, 166, 255, 0.11);
+  --sg-border-strong: rgba(140, 166, 255, 0.2);
+  --sg-ink: #f2f5ff;
+  --sg-muted: #98a3c7;
+  --sg-glow: rgba(68, 98, 255, 0.28);
+
+  --ifm-color-primary: #8ca6ff;
+  --ifm-color-primary-dark: #6f8eff;
+  --ifm-color-primary-darker: #6482ff;
+  --ifm-color-primary-darkest: #4462ff;
+  --ifm-color-primary-light: #a9bdff;
+  --ifm-color-primary-lighter: #b8c9ff;
+  --ifm-color-primary-lightest: #dce6ff;
+
+  --ifm-background-color: var(--sg-bg);
+  --ifm-background-surface-color: var(--sg-surface);
+  --ifm-font-color-base: #c9d1ee;
+  --ifm-heading-color: var(--sg-ink);
+  --ifm-code-background: rgba(100, 130, 255, 0.1);
+  --ifm-navbar-background-color: rgba(5, 7, 13, 0.72);
+  --ifm-menu-color: #a6b0d4;
+  --ifm-menu-color-active: #dce6ff;
+  --ifm-menu-color-background-active: rgba(100, 130, 255, 0.12);
+  --ifm-menu-color-background-hover: rgba(100, 130, 255, 0.07);
+  --ifm-toc-link-color: #98a3c7;
+  --ifm-color-emphasis-300: #232c47;
+  --docusaurus-highlighted-code-line-bg: rgba(100, 130, 255, 0.14);
+}
+
+/* ---------------------------------------------------------------- docs chrome */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(68, 98, 255, 0.35);
+}
+
+.navbar {
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--sg-border);
+}
+
+.navbar__title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.navbar__link {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.navbar__logo {
+  height: 1.75rem;
+}
+
+.header-github-link {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+}
+
+.header-github-link::before {
+  content: '';
+  width: 22px;
+  height: 22px;
+  display: block;
+  background-color: var(--ifm-navbar-link-color);
+  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E")
+    no-repeat center / contain;
+  transition: background-color 0.2s ease;
+}
+
+.header-github-link:hover::before {
+  background-color: var(--ifm-navbar-link-hover-color);
+}
+
+div[class^='announcementBar_'] {
+  background: linear-gradient(90deg, #0e1541, #1f2d98 50%, #0e1541);
+  color: #dce6ff;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(140, 166, 255, 0.2);
+}
+
+div[class^='announcementBar_'] a {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.theme-doc-sidebar-container {
+  border-right-color: var(--sg-border) !important;
+}
+
+.menu {
+  font-size: 0.9rem;
+  padding: 1rem 0.75rem !important;
+}
+
+.menu__link {
+  border-radius: 8px;
+  line-height: 1.35;
+  padding: 0.4rem 0.75rem;
+}
+
+.menu__list-item-collapsible {
+  border-radius: 8px;
+}
+
+.menu__link--sublist-caret::after {
+  opacity: 0.55;
+}
+
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link {
+  font-weight: 600;
+  color: var(--sg-ink);
+}
+
+.markdown {
+  --ifm-h1-font-size: 2.6rem;
+  --ifm-h2-font-size: 1.6rem;
+  --ifm-h3-font-size: 1.2rem;
+}
+
+.markdown h1:first-child {
+  letter-spacing: -0.03em;
+  font-weight: 650;
+}
+
+.markdown h2 {
+  letter-spacing: -0.02em;
+  margin-top: 2.75rem;
+  padding-top: 0.25rem;
+}
+
+.markdown h3 {
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+}
+
+.markdown > p:first-of-type {
+  font-size: 1.08rem;
+  color: var(--sg-muted);
+}
+
+.markdown a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.markdown a:hover {
+  text-decoration-color: var(--ifm-color-primary);
+}
+
+.markdown table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--sg-border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.92rem;
+}
+
+.markdown table thead tr {
+  background: var(--sg-surface-2);
+}
+
+.markdown table th {
+  font-weight: 600;
+  text-align: left;
+  color: var(--sg-ink);
+}
+
+.markdown table th,
+.markdown table td {
+  border: 0;
+  border-bottom: 1px solid var(--sg-border);
+  padding: 0.65rem 0.9rem;
+  vertical-align: top;
+}
+
+.markdown table tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 996px) {
+  .markdown table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+code {
+  border: 1px solid var(--sg-border);
+  padding: 0.1rem 0.35rem;
+}
+
+.prism-code,
+div[class*='codeBlockContainer'] {
+  border-radius: 12px;
+}
+
+div[class*='codeBlockContainer'] {
+  border: 1px solid var(--sg-border);
+  box-shadow: none;
+}
+
+html[data-theme='dark'] div[class*='codeBlockContainer'] {
+  --prism-background-color: #070b16 !important;
+  background: #070b16;
+}
+
+html[data-theme='dark'] .prism-code {
+  background-color: #070b16 !important;
+}
+
+div[class*='codeBlockTitle'] {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  border-bottom: 1px solid var(--sg-border) !important;
+}
+
+.theme-admonition {
+  border-radius: 12px;
+  border: 1px solid var(--sg-border);
+  border-left-width: 3px;
+}
+
+.table-of-contents {
+  font-size: 0.82rem;
+}
+
+.table-of-contents__link--active {
+  color: var(--ifm-color-primary);
+  font-weight: 500;
+}
+
+.pagination-nav__link {
+  border-radius: 12px;
+  border-color: var(--sg-border);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-menu-color-background-hover);
+}
+
+.theme-edit-this-page {
+  font-size: 0.88rem;
+}
+
+.docusaurus-mermaid-container {
+  display: flex;
+  justify-content: center;
+  padding: 1.25rem;
+  margin-bottom: var(--ifm-leading);
+  border: 1px solid var(--sg-border);
+  border-radius: 12px;
+  background: var(--sg-surface);
+  overflow-x: auto;
+}
+
+.footer {
+  border-top: 1px solid rgba(140, 166, 255, 0.12);
+}
+
+.footer__title {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer__link-item {
+  font-size: 0.9rem;
+}
+
+.footer__copyright {
+  color: #6f7aa0;
+  font-size: 0.85rem;
+}
+
+/* Cards used inside Markdown pages (see src/components/DocCards.tsx). */
+.doc-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.9rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.doc-card {
+  display: block;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--sg-border);
+  border-radius: 14px;
+  background: var(--sg-surface);
+  text-decoration: none !important;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.doc-card:hover {
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -18px var(--sg-glow);
+}
+
+.doc-card__title {
+  display: block;
+  font-weight: 600;
+  color: var(--sg-ink);
+  margin-bottom: 0.3rem;
+}
+
+.doc-card__body {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--sg-muted);
+}
+
+/* ------------------------------------------------------------ landing page */
+
+/*
+ * The landing page renders outside the docs layout. Infima still styles bare
+ * elements globally, so its variables are neutralised here and Tailwind
+ * utilities take over without specificity fights.
+ */
+.landing {
+  --sg-landing-bg: #030304;
+  --sg-landing-heading: #f1f3f6;
+  --sg-landing-text: #d8dce3;
+  --sg-landing-muted: #a7aeba;
+  --sg-landing-subtle: #7d8694;
+  --sg-landing-font: 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --sg-landing-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace,
+    SFMono-Regular, Menlo, Consolas, monospace;
+  --sg-space-gutter: clamp(1.25rem, calc(0.8rem + 2vw), 2.5rem);
+  --sg-space-section: clamp(7rem, calc(6rem + 4vw), 9rem);
+  --sg-copy-measure: 42rem;
+  --sg-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --sg-aura: 105, 126, 255;
+  --sg-aura-secondary: 73, 159, 202;
+  --ifm-link-color: inherit;
+  --ifm-link-hover-color: inherit;
+  --ifm-link-decoration: none;
+  --ifm-link-hover-decoration: none;
+  --ifm-heading-color: inherit;
+  --ifm-heading-margin-top: 0;
+  --ifm-heading-margin-bottom: 0;
+  --ifm-heading-font-weight: inherit;
+  --ifm-heading-line-height: inherit;
+  --ifm-paragraph-margin-bottom: 0;
+  --ifm-list-margin: 0;
+  --ifm-list-left-padding: 0;
+  --ifm-list-item-margin: 0;
+  --ifm-code-background: transparent;
+  --ifm-code-padding-horizontal: 0;
+  --ifm-code-padding-vertical: 0;
+  --ifm-pre-background: transparent;
+  --ifm-font-color-base: var(--sg-landing-text);
+  background: #05070d;
+  color: var(--sg-landing-text);
+  min-height: 100vh;
+  overflow-x: clip;
+  font-family: var(--sg-landing-font);
+  font-size: 1rem;
+  font-weight: 450;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  font-optical-sizing: auto;
+}
+
+.landing ul,
+.landing ol {
+  list-style: none;
+}
+
+/*
+ * Tailwind's preflight is off so it cannot touch the docs; these resets give
+ * the landing page the same clean slate. `:where` keeps their specificity at
+ * zero, so any utility class still wins.
+ */
+:where(.landing) button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:where(.landing) pre {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: inherit;
+}
+
+:where(.landing) p,
+:where(.landing) dl,
+:where(.landing) dd {
+  margin: 0;
+}
+
+:where(.landing) *,
+:where(.landing) *::before,
+:where(.landing) *::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
+.landing ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.landing ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.landing ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+}
+
+.landing * {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+
+.landing :is(button, a, input, [tabindex]):focus-visible {
+  outline: 2px solid #b8c9ff;
+  outline-offset: 4px;
+}
+
+:where(.landing) code {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: inherit;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+:where(.landing) h1,
+:where(.landing) h2,
+:where(.landing) h3,
+:where(.landing) h4 {
+  font-family: inherit;
+}
+
+.landing :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--sg-landing-heading);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.landing :where(p, li, dd) {
+  color: var(--sg-landing-muted);
+}
+
+.landing :where(small, figcaption) {
+  color: var(--sg-landing-subtle);
+}
+
+.landing :where(code, kbd, pre, samp, .font-mono) {
+  font-family: var(--sg-landing-mono);
+  letter-spacing: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing *,
+  .landing *::before,
+  .landing *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  .sg-shell {
+    @apply mx-auto w-full max-w-[76rem] px-5 sm:px-8 lg:px-10;
+  }
+}
+
+.landing .sg-shell {
+  padding-inline: var(--sg-space-gutter);
+}
+
+/* Anchor links glide on the landing page, unless motion is reduced. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.landing) {
+    scroll-behavior: smooth;
+  }
+}
+
+.sg-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.75s var(--sg-ease), transform 0.75s var(--sg-ease);
+  transition-delay: var(--sg-delay, 0ms);
+}
+
+.sg-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sg-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sg-grid-bg {
+  background-image: linear-gradient(rgba(140, 166, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 166, 255, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+}
+
+/* Soft, local pools of colour keep the original dark canvas and its geometry.
+ * Section backgrounds never overflow or create a scrolling container: the
+ * pipeline and fill demos depend on their children remaining sticky. */
+.sg-main {
+  background: var(--sg-landing-bg);
+}
+
+.sg-section {
+  isolation: isolate;
+  scroll-margin-top: 4rem;
+}
+
+.landing .sg-section {
+  padding-block: var(--sg-space-section);
+}
+
+.landing #fill.sg-section {
+  padding-block-end: 0;
+}
+
+@media (min-width: 1024px) {
+  .landing #fill.sg-section {
+    padding-block-end: 2rem;
+  }
+}
+
+.sg-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    /* Colour lives only at the sides; the centre stays near black. */
+    radial-gradient(ellipse 34% 75% at 0% 50%, rgba(var(--sg-aura), 0.03), transparent 75%),
+    radial-gradient(ellipse 34% 75% at 100% 50%, rgba(var(--sg-aura-secondary), 0.03), transparent 75%),
+    linear-gradient(90deg, rgba(var(--sg-aura), 0.012), transparent 28%, transparent 72%, rgba(var(--sg-aura-secondary), 0.01)),
+    linear-gradient(180deg, var(--sg-landing-bg), #020203 16%, #020203 84%, var(--sg-landing-bg));
+}
+
+/* Every other section is plain black: no side colour at all. */
+.sg-section.sg-plain::before {
+  background: linear-gradient(180deg, var(--sg-landing-bg), #000000 16%, #000000 84%, var(--sg-landing-bg));
+}
+
+.sg-tone-blue {
+  --sg-aura: 78, 108, 235;
+  --sg-aura-secondary: 60, 140, 190;
+  --sg-base: #07090f;
+  --sg-light-x: 86%;
+}
+
+.sg-tone-violet {
+  --sg-aura: 132, 96, 220;
+  --sg-aura-secondary: 82, 104, 222;
+  --sg-base: #09080f;
+  --sg-light-x: 14%;
+}
+
+.sg-tone-teal {
+  --sg-aura: 52, 150, 168;
+  --sg-aura-secondary: 80, 110, 214;
+  --sg-base: #060a0c;
+  --sg-light-x: 84%;
+}
+
+.sg-tone-rose {
+  --sg-aura: 150, 92, 158;
+  --sg-aura-secondary: 104, 96, 210;
+  --sg-base: #0a080d;
+  --sg-light-x: 16%;
+}
+
+.sg-hero-light {
+  background:
+    radial-gradient(ellipse 65% 75% at 85% 30%, rgba(125, 125, 125, 0.085), transparent 75%),
+    radial-gradient(ellipse 70% 70% at 18% 50%, rgba(117, 117, 117, 0.07), transparent 75%),
+    linear-gradient(160deg, rgba(67, 67, 67, 0.05), transparent 65%);
+  animation: sg-atmosphere 18s ease-in-out infinite alternate;
+}
+
+.sg-closing-light {
+  background:
+    radial-gradient(ellipse 70% 80% at 55% 35%, rgba(134, 134, 134, 0.1), transparent 75%),
+    radial-gradient(ellipse 50% 60% at 10% 80%, rgba(134, 134, 134, 0.06), transparent 80%);
+}
+
+@keyframes sg-atmosphere {
+  from { opacity: 0.7; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.06); }
+}
+
+.sg-hero-title {
+  text-shadow: 0 2px 30px rgba(176, 176, 176, 0.12);
+}
+
+.landing .sg-hero-title {
+  color: var(--sg-landing-heading);
+  font-size: clamp(2.35rem, calc(1.6rem + 3.2vw), 4.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.landing .sg-section-heading {
+  color: var(--sg-landing-heading);
+  font-size: clamp(2.15rem, calc(1.65rem + 2.4vw), 3.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+
+.sg-section-heading {
+  font-size: clamp(2.3rem, 1.3rem + 2.9vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.sg-lede {
+  color: #cdcdcd;
+  line-height: 1.7;
+}
+
+.landing .sg-lede {
+  color: var(--sg-landing-muted);
+  font-size: clamp(1.05rem, calc(1rem + 0.35vw), 1.2rem);
+  max-width: var(--sg-copy-measure);
+}
+
+/* The pinned fill demo must fit one screen; on short ones it scales down. */
+@media (min-width: 1024px) and (max-height: 880px) {
+  .sg-fill-stage { zoom: 0.88; }
+}
+
+@media (min-width: 1024px) and (max-height: 760px) {
+  .sg-fill-stage { zoom: 0.78; }
+}
+
+.landing {
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+.sg-section-tag {
+  border-color: rgba(var(--sg-aura), 0.23);
+  background: linear-gradient(110deg, rgba(var(--sg-aura), 0.09), rgba(var(--sg-aura), 0.025));
+  color: #c7c7c7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.sg-proof-strip {
+  background: linear-gradient(100deg, #0c101d, #0e101b 50%, #0a1119);
+}
+
+.sg-proof-strip li > p {
+  color: #b1b1b1;
+  line-height: 1.6;
+}
+
+.landing .sg-proof-strip li > p {
+  color: var(--sg-landing-subtle);
+}
+
+.sg-divider {
+  z-index: 1;
+}
+
+.sg-divider-line {
+  background: linear-gradient(90deg, transparent, rgba(140, 166, 255, 0.2) 30%, rgba(183, 183, 183, 0.16) 70%, transparent);
+}
+
+.sg-divider-label {
+  background: var(--sg-landing-bg);
+}
+
+.sg-frame {
+  box-shadow: 0 24px 70px -35px rgba(0, 0, 0, 0.75), 0 0 60px -35px rgba(var(--sg-aura), 0.22);
+}
+
+.sg-frame > span[aria-hidden] {
+  z-index: 1;
+  transition: border-color 0.35s ease;
+}
+
+/* Solid cards: lighter charcoal at the top-left easing into deep black, with a
+ * lit top edge, a soft border and depth below. */
+.sg-window,
+.sg-card {
+  background: #000000;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.015),
+    0 30px 70px -40px rgba(0, 0, 0, 0.95);
+}
+
+.sg-window-bar {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
+}
+
+.sg-command {
+  background: #000000;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.sg-command:focus-within {
+  border-color: rgba(140, 166, 255, 0.5);
+}
+
+.sg-copy {
+  border-radius: 4px;
+}
+
+.sg-button {
+  position: relative;
+  font-weight: 500;
+  transition: background-color 0.25s ease, box-shadow 0.35s ease, border-color 0.25s ease, transform 0.35s var(--sg-ease), color 0.25s ease;
+}
+
+.sg-button--primary {
+  box-shadow: inset 0 1px 0 #fff, 0 4px 20px -12px rgba(205, 205, 205, 0.5);
+}
+
+.sg-button--secondary {
+  box-shadow: inset 0 0 0 1px rgba(224, 224, 224, 0.12);
+}
+
+.sg-button:active {
+  transform: translateY(1px);
+}
+
+.sg-sticky-nav {
+  transition: opacity 0.4s ease, transform 0.5s var(--sg-ease), visibility 0.4s;
+}
+
+.sg-nav-surface {
+  background: linear-gradient(110deg, rgba(46, 46, 46, 0.88), rgba(11, 13, 23, 0.9));
+  box-shadow: inset 0 1px 0 rgba(237, 237, 237, 0.06), 0 16px 45px -16px rgba(0, 0, 0, 0.7);
+}
+
+.sg-nav-link {
+  position: relative;
+  transition: color 0.25s ease, background-color 0.25s ease;
+}
+
+.sg-nav-link[aria-current='location'] {
+  background: rgba(140, 166, 255, 0.08);
+}
+
+.sg-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 30%;
+  right: 30%;
+  height: 1px;
+  background: #c9c9c9;
+  box-shadow: 0 0 8px rgba(140, 166, 255, 0.5);
+  opacity: 0;
+  transform: scaleX(0.5);
+  transition: opacity 0.3s ease, transform 0.35s var(--sg-ease);
+}
+
+.sg-nav-link[aria-current='location']::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.sg-mobile-menu {
+  transform-origin: top right;
+  animation: sg-menu-enter 0.25s var(--sg-ease) both;
+}
+
+@keyframes sg-menu-enter {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sg-story-stage {
+  background: linear-gradient(180deg, #0c0e19 88%, rgba(12, 14, 25, 0));
+}
+
+@media (min-width: 1024px) {
+  .sg-story-stage { background: transparent; }
+}
+
+.sg-bento {
+  box-shadow: 0 28px 80px -40px rgba(0, 0, 0, 0.7);
+}
+
+.sg-feature-card {
+  position: relative;
+  isolation: isolate;
+  background: #000000;
+}
+
+.sg-feature-card:nth-child(3n + 2) {
+  background: #000000;
+}
+
+.sg-feature-card:nth-child(3n) {
+  background: #000000;
+}
+
+.sg-feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.35;
+  background: radial-gradient(ellipse at 80% 0%, rgba(var(--sg-aura), 0.15), transparent 65%);
+  box-shadow: inset 0 1px 0 rgba(213, 213, 213, 0.12);
+  transition: opacity 0.5s ease;
+}
+
+.sg-feature-card h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.35; letter-spacing: -0.015em; }
+.sg-card-copy p { color: #bcbcbc; }
+.landing .sg-card-copy p { color: var(--sg-landing-muted); }
+.sg-feature-card:focus-within::before { opacity: 1; }
+
+.landing [role='tab'] {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sg-faq-item {
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.sg-faq-item[data-open='true'] {
+  background: rgba(var(--sg-aura), 0.055);
+  box-shadow: inset 2px 0 0 rgba(var(--sg-aura), 0.6);
+}
+
+.sg-faq-panel {
+  transition: grid-template-rows 0.4s var(--sg-ease), opacity 0.3s ease;
+}
+
+.sg-landing-footer {
+  background: radial-gradient(ellipse 65% 100% at 0% 100%, rgba(127, 127, 127, 0.1), transparent 70%), #0b0e17;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sg-button:hover { transform: translateY(-2px); }
+  .sg-button--primary:hover { box-shadow: 0 6px 28px -8px rgba(205, 205, 205, 0.35); }
+  .sg-button--secondary:hover { box-shadow: inset 0 0 0 1px rgba(224, 224, 224, 0.25), 0 5px 22px -10px rgba(140, 166, 255, 0.2); }
+  .sg-button:active { transform: translateY(0); }
+  .sg-feature-card:hover::before { opacity: 1; }
+  .sg-command:hover { border-color: rgba(140, 166, 255, 0.25); }
+  .sg-copy:hover { background: rgba(140, 166, 255, 0.1); }
+  .sg-faq-item:hover { background-color: rgba(var(--sg-aura), 0.04); }
+  .sg-frame:hover > span[aria-hidden] { border-color: rgba(212, 212, 212, 0.65); }
+}
+
+@media (max-width: 639px) {
+  .sg-section::before { opacity: 0.8; }
+  .sg-hero-light { animation: none; }
+}
+
+@media (max-width: 379px) {
+  .sg-button { padding-inline: 0.75rem; font-size: 0.78rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sg-hero-light { animation: none; }
+  .sg-button:hover,
+  .sg-button:active { transform: none; }
+  .sg-reveal { transition-delay: 0ms; }
+}
+
+/* ------------------------------------------------- landing: bento motion */
+
+.sg-marquee {
+  animation: sg-marquee 40s linear infinite;
+}
+
+@keyframes sg-marquee {
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+.sg-drift-hit {
+  animation: sg-drift-hit 4.8s ease-in-out infinite;
+}
+
+@keyframes sg-drift-hit {
+  0%,
+  22% {
+    color: rgba(255, 255, 255, 0.35);
+    text-shadow: none;
+  }
+  32%,
+  88% {
+    color: #b8c9ff;
+    text-shadow: 0 0 12px rgba(100, 130, 255, 0.7);
+  }
+  100% {
+    color: rgba(255, 255, 255, 0.35);
+  }
+}
+
+.sg-drift-badge {
+  animation: sg-drift-badge 4.8s ease-in-out infinite;
+}
+
+@keyframes sg-drift-badge {
+  0%,
+  38% {
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.3);
+  }
+  46%,
+  88% {
+    border-color: rgba(140, 166, 255, 0.6);
+    color: #dce6ff;
+    background: rgba(68, 98, 255, 0.15);
+  }
+  100% {
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.sg-scanline {
+  background: linear-gradient(180deg, transparent, rgba(100, 130, 255, 0.15), transparent) no-repeat;
+  background-size: 100% 2.5rem;
+  animation: sg-scanline 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes sg-scanline {
+  from {
+    transform: translateY(-2.5rem);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.sg-request {
+  animation: sg-request 4.2s ease-out infinite both;
+}
+
+@keyframes sg-request {
+  0% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  8%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.sg-regen {
+  animation: sg-regen 3.2s ease-in-out infinite;
+}
+
+@keyframes sg-regen {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+  78% {
+    opacity: 0.15;
+    filter: blur(2px);
+  }
+  86% {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* Keep decorative loops quiet when the feature grid is out of view. */
+.sg-bento:not(.is-in-view) :is(.sg-marquee, .sg-drift-hit, .sg-drift-badge, .sg-scanline, .sg-request, .sg-regen) {
+  animation-play-state: paused;
+}
+
+.sg-feature-card:hover .sg-marquee,
+.sg-feature-card:focus-within .sg-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sg-marquee,
+  .sg-drift-hit,
+  .sg-drift-badge,
+  .sg-scanline,
+  .sg-request,
+  .sg-regen {
+    animation: none !important;
+  }
+}
+
+
+/* ===================================================== landing: type system
+ * Monochrome and soft: no pure white anywhere. Headings are prominent,
+ * descriptions softer, metadata muted. Sizes follow a calm SaaS scale, with
+ * Inter's display cut at large sizes and medium (500) weights for headings.
+ */
+.landing {
+  --sg-landing-bg: #030304;
+  --sg-landing-heading: #ececee;
+  --sg-landing-text: #c2c3c8;
+  --sg-landing-muted: #8e8f96;
+  --sg-landing-subtle: #62636a;
+  background: var(--sg-landing-bg);
+  color: var(--sg-landing-text);
+  font-family: 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  letter-spacing: -0.006em;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  text-rendering: optimizeLegibility;
+}
+
+.landing .sg-hero-title {
+  color: var(--sg-landing-heading);
+  font-size: clamp(2.25rem, calc(1.55rem + 2.6vw), 3.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-shadow: none;
+}
+
+.landing .sg-section-heading {
+  color: var(--sg-landing-heading);
+  font-size: clamp(1.9rem, calc(1.3rem + 1.9vw), 2.9rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.landing .sg-lede {
+  color: var(--sg-landing-muted);
+  font-size: clamp(1rem, calc(0.96rem + 0.2vw), 1.125rem);
+  line-height: 1.65;
+  letter-spacing: -0.008em;
+  max-width: 40rem;
+}
+
+.landing h3 {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.landing .sg-feature-card h3 {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--sg-landing-heading);
+}
+
+.landing .sg-card-copy p {
+  color: var(--sg-landing-muted);
+}
+
+.landing .sg-section-tag {
+  color: var(--sg-landing-muted);
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.landing .font-mono {
+  letter-spacing: 0;
+}
+
+
+/* ===================================================== landing: white theme
+ * A white page with dark showcases. Tailwind's "white" and the galaxy palette
+ * are surface-aware variables: dark ink and deep blues on the white page, and
+ * the original light-on-dark values inside the hero, the closing panel, the
+ * nav and every code, terminal or browser window.
+ */
+:root {
+  --sg-ink: 255 255 255;
+  --sg-galaxy-50: 238 243 255;
+  --sg-galaxy-100: 220 230 255;
+  --sg-galaxy-200: 184 201 255;
+  --sg-galaxy-300: 140 166 255;
+  --sg-galaxy-400: 100 130 255;
+  --sg-galaxy-500: 68 98 255;
+  --sg-galaxy-600: 47 70 242;
+  --sg-galaxy-700: 37 54 198;
+  --sg-galaxy-800: 31 45 152;
+  --sg-galaxy-900: 27 42 114;
+  --sg-galaxy-950: 14 21 65;
+  --sg-nebula-300: 159 216 255;
+  --sg-nebula-400: 108 196 255;
+  --sg-nebula-500: 58 168 255;
+}
+
+.landing {
+  --sg-ink: 14 16 26;
+  --sg-ink-contrast: 255 255 255;
+  --sg-galaxy-50: 14 21 65;
+  --sg-galaxy-100: 27 42 114;
+  --sg-galaxy-200: 31 45 152;
+  --sg-galaxy-300: 37 54 198;
+  --sg-galaxy-400: 47 70 242;
+  --sg-galaxy-500: 68 98 255;
+  --sg-galaxy-600: 100 130 255;
+  --sg-galaxy-700: 140 166 255;
+  --sg-galaxy-800: 184 201 255;
+  --sg-galaxy-900: 220 230 255;
+  --sg-galaxy-950: 238 243 255;
+  --sg-nebula-300: 7 102 184;
+  --sg-nebula-400: 10 120 205;
+  --sg-nebula-500: 30 150 235;
+  --sg-landing-bg: #f7f8fb;
+  --sg-landing-heading: #0d0f1a;
+  --sg-landing-text: #3c4256;
+  --sg-landing-muted: #5d6478;
+  --sg-landing-subtle: #8a90a2;
+  background: var(--sg-landing-bg);
+  color: var(--sg-landing-text);
+}
+
+.landing .sg-dark,
+.landing .sg-window,
+.landing .sg-command {
+  --sg-ink: 236 236 238;
+  --sg-ink-contrast: 10 10 12;
+  --sg-galaxy-50: 238 243 255;
+    --sg-galaxy-100: 220 230 255;
+    --sg-galaxy-200: 184 201 255;
+    --sg-galaxy-300: 140 166 255;
+    --sg-galaxy-400: 100 130 255;
+    --sg-galaxy-500: 68 98 255;
+    --sg-galaxy-600: 47 70 242;
+    --sg-galaxy-700: 37 54 198;
+    --sg-galaxy-800: 31 45 152;
+    --sg-galaxy-900: 27 42 114;
+    --sg-galaxy-950: 14 21 65;
+  --sg-nebula-300: 159 216 255;
+  --sg-nebula-400: 108 196 255;
+  --sg-nebula-500: 58 168 255;
+  --sg-landing-heading: #ececee;
+  --sg-landing-text: #c2c3c8;
+  --sg-landing-muted: #8e8f96;
+  color: var(--sg-landing-text);
+}
+
+/* A filled "white" button is ink-coloured, so its label takes the contrast tone. */
+.landing .bg-white {
+  color: rgb(var(--sg-ink-contrast));
+}
+
+.landing .sg-main,
+.landing main {
+  background: var(--sg-landing-bg);
+}
+
+/* Sections: white with soft colour at the sides; every other one plain. */
+.landing .sg-section::before {
+  background:
+    radial-gradient(ellipse 34% 75% at 0% 50%, rgba(var(--sg-aura), 0.075), transparent 75%),
+    radial-gradient(ellipse 34% 75% at 100% 50%, rgba(var(--sg-aura-secondary), 0.065), transparent 75%),
+    linear-gradient(180deg, var(--sg-landing-bg), #ffffff 16%, #ffffff 84%, var(--sg-landing-bg));
+}
+
+.landing .sg-section.sg-plain::before {
+  background: linear-gradient(180deg, var(--sg-landing-bg), #fbfbfd 16%, #fbfbfd 84%, var(--sg-landing-bg));
+}
+
+.landing .sg-divider-label,
+.landing [class*='sg-divider'] span {
+  background: var(--sg-landing-bg);
+}
+
+.landing .sg-proof-strip {
+  background: linear-gradient(100deg, #ffffff, #f5f6fa 50%, #ffffff);
+}
+
+.landing .sg-proof-strip li > p {
+  color: var(--sg-landing-muted);
+}
+
+/* Light cards: clean white easing into a cool off-white, with a soft border. */
+.landing .sg-card,
+.landing .sg-feature-card,
+.landing .sg-feature-card:nth-child(3n + 2),
+.landing .sg-feature-card:nth-child(3n) {
+  background: linear-gradient(165deg, #ffffff 0%, #fbfbfd 40%, #f4f5f9 100%);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 1px 2px rgba(16, 20, 40, 0.04),
+    0 18px 40px -28px rgba(16, 20, 40, 0.22);
+}
+
+/* Code, terminal and browser windows stay dark, like devices on the page. */
+.landing .sg-window {
+  background: #0b0b0e;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 24px 60px -30px rgba(10, 14, 40, 0.45);
+}
+
+.landing .sg-command {
+  background: #0b0b0e;
+}
+
+.landing .sg-section-tag {
+  color: var(--sg-landing-muted);
+  border-color: rgb(var(--sg-ink) / 0.12);
+  background: rgb(var(--sg-ink) / 0.03);
+}
+
+.landing .sg-lede,
+.landing .sg-card-copy p {
+  color: var(--sg-landing-muted);
+}
+
+.landing footer {
+  background: #f1f2f6;
+  border-top: 1px solid rgb(var(--sg-ink) / 0.08);
+}
+
+.landing .sg-faq-item[data-open='true'] {
+  background: rgba(var(--sg-aura), 0.05);
+}
+
+
+/* ===================================================== landing: colour bands
+ * Coloured sections are rounded panels set into the white page, like the
+ * hero: crisp edges and no fades, so each change of colour is deliberate.
+ */
+.landing .sg-section.sg-band::before {
+  inset: 10px 12px;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse 40% 60% at 0% 40%, rgba(var(--sg-aura), var(--sg-band-glow, 0.08)), transparent 75%),
+    radial-gradient(ellipse 40% 60% at 100% 70%, rgba(var(--sg-aura-secondary), var(--sg-band-glow, 0.07)), transparent 75%),
+    var(--sg-band);
+  box-shadow: inset 0 0 0 1px var(--sg-band-edge, rgba(14, 16, 26, 0.06));
+}
+
+@media (min-width: 640px) {
+  .landing .sg-section.sg-band::before {
+    inset: 12px 16px;
+    border-radius: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing .sg-section.sg-band::before {
+    inset: 14px 20px;
+    border-radius: 28px;
+  }
+}
+
+.landing .sg-band-dark {
+  --sg-band: #08080b;
+  --sg-band-glow: 0.14;
+  --sg-band-edge: rgba(255, 255, 255, 0.07);
+}
+
+.landing .sg-band-blue {
+  --sg-band: #eef2fe;
+}
+
+.landing .sg-band-lavender {
+  --sg-band: #f3f0fc;
+}
+
+/* Cards inside a black band are dark surfaces, not white ones. */
+.landing .sg-band-dark .sg-card,
+.landing .sg-band-dark .sg-feature-card,
+.landing .sg-band-dark .sg-feature-card:nth-child(3n + 2),
+.landing .sg-band-dark .sg-feature-card:nth-child(3n) {
+  background: linear-gradient(165deg, #141519 0%, #0b0b0f 45%, #060608 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 60px -36px rgba(0, 0, 0, 0.9);
+}
+
+/* The race: computer use is dull and flat, the skill lane glows. */
+.landing .sg-race > :first-child {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 4px),
+    linear-gradient(180deg, #121215, #0b0b0d);
+}
+
+.landing .sg-race > :last-child {
+  background:
+    radial-gradient(ellipse 90% 70% at 85% 0%, rgba(68, 98, 255, 0.28), transparent 70%),
+    radial-gradient(ellipse 70% 60% at 10% 100%, rgba(58, 168, 255, 0.12), transparent 70%),
+    linear-gradient(180deg, #0b1030, #070a1c);
+}
+
+
+/* ===================================================== landing: white cards
+ * Every card and window is white with a thin black border and no shadow.
+ * They carry the white page's ink, so their contents read even when the card
+ * sits inside a black panel. Only the hero and closing panels stay dark.
+ */
+.landing .sg-window,
+.landing .sg-command,
+.landing .sg-card,
+.landing .sg-light-card,
+.landing .sg-band-dark .sg-card {
+  --sg-ink: 14 16 26;
+  --sg-ink-contrast: 255 255 255;
+  --sg-galaxy-50: 14 21 65;
+  --sg-galaxy-100: 27 42 114;
+  --sg-galaxy-200: 31 45 152;
+  --sg-galaxy-300: 37 54 198;
+  --sg-galaxy-400: 47 70 242;
+  --sg-galaxy-500: 68 98 255;
+  --sg-galaxy-600: 100 130 255;
+  --sg-galaxy-700: 140 166 255;
+  --sg-galaxy-800: 184 201 255;
+  --sg-galaxy-900: 220 230 255;
+  --sg-galaxy-950: 238 243 255;
+  --sg-landing-heading: #0d0f1a;
+  --sg-landing-text: #3c4256;
+  --sg-landing-muted: #5d6478;
+  color: var(--sg-landing-text);
+  background: #ffffff;
+  border: 1px solid #0d0f1a;
+  box-shadow: none;
+}
+
+.landing .sg-light-card {
+  transition: background-color 0.3s ease;
+}
+
+.landing .sg-light-card:hover {
+  background: #fafbff;
+}
+
+.landing .sg-window-bar {
+  background: #f6f7f9;
+  border-bottom: 1px solid rgba(14, 16, 26, 0.12);
+}
+
+/* Inner strips and popovers that were dark become quiet grays. */
+.landing .sg-window .bg-black\/40 {
+  background: #f6f7f9;
+}
+
+.landing .sg-window [class*='bg-[#121216]'] {
+  background: #ffffff;
+  border-color: rgba(14, 16, 26, 0.18);
+  box-shadow: none;
+}
+
+/* Code strings: a deeper blue that reads on white. */
+.landing .sg-window .text-\[\#a5d6ff\] {
+  color: #1d5fc4;
+}
+
+/* The race lanes, light: computer use flat and gray, the skill lane blue. */
+.landing .sg-race > :first-child {
+  background: #f7f7f8;
+}
+
+.landing .sg-race > :last-child {
+  background: linear-gradient(180deg, #f3f6ff, #e9efff);
+}
+
+.landing .sg-race > :first-child {
+  border-color: rgba(14, 16, 26, 0.14);
+}
+
+/* The viewfinder corners and window frames lose their glow. */
+.landing .sg-frame {
+  box-shadow: none;
+}

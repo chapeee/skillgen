@@ -1,0 +1,13 @@
+id: nextjs-pages
+kind: folder
+about: "Next.js pages router (pages/**/*.tsx)"
+roots: [pages, src/pages]
+page_files: ["*.tsx", "*.jsx", "*.ts", "*.js", "*.mdx"]
+route_from: file
+index_names: [index]
+skip_segments: []
+skip_files: ["^_", "^api$"]
+params:
+  - "^\\[\\[?\\.\\.\\.(?P<name>\\w+)\\]?\\]$"
+  - "^\\[(?P<name>\\w+)\\]$"
+requires_any: ["next.config.js", "next.config.mjs", "next.config.ts"]

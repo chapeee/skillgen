@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bench application</title>
+  <link rel="stylesheet" href="/static/bench.css">
+</head>
+<body>
+<main id="app">
+  <section id="form-view">
+    <h1>Bench application</h1>
+    <p class="lead">A test page with every kind of form widget. Nothing here is real: every value is synthetic.</p>
+
+    <form id="application" novalidate>
+      <fieldset id="applicant">
+        <legend>Applicant</legend>
+        <div class="field">
+          <label for="full_name">Full name</label>
+          <input id="full_name" name="full_name" type="text" minlength="3" maxlength="80" required
+                 aria-describedby="err-full_name">
+          <p class="error" id="err-full_name"></p>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required aria-describedby="err-email">
+          <p class="error" id="err-email"></p>
+        </div>
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" pattern="[a-z0-9_]{3,20}" required
+                 aria-describedby="help-username err-username">
+          <p class="help" id="help-username">3–20 lowercase letters, digits or underscores. Must be unique.</p>
+          <p class="error" id="err-username"></p>
+        </div>
+        <div class="field">
+          <label for="birth_date">Date of birth</label>
+          <input id="birth_date" name="birth_date" type="date" required aria-describedby="err-birth_date">
+          <p class="error" id="err-birth_date"></p>
+        </div>
+        <div class="field">
+          <label for="bio">Short bio</label>
+          <textarea id="bio" name="bio" maxlength="500" rows="3" aria-describedby="err-bio"></textarea>
+          <p class="error" id="err-bio"></p>
+        </div>
+      </fieldset>
+
+      <fieldset id="organisation">
+        <legend>Organisation</legend>
+        <div class="field" role="radiogroup" aria-labelledby="account_type-label">
+          <span id="account_type-label" class="label">Account type</span>
+          <label><input type="radio" name="account_type" value="Individual"> Individual</label>
+          <label><input type="radio" name="account_type" value="Company"> Company</label>
+          <p class="error" id="err-account_type"></p>
+        </div>
+        <div id="company-fields" hidden>
+          <div class="field">
+            <label for="company_name">Company name</label>
+            <input id="company_name" name="company_name" type="text" aria-describedby="err-company_name">
+            <p class="error" id="err-company_name"></p>
+          </div>
+          <div class="field">
+            <label for="registration_no">Registration number</label>
+            <input id="registration_no" name="registration_no" type="text" pattern="[A-Z]{2}[0-9]{6}"
+                   aria-describedby="help-registration_no err-registration_no">
+            <p class="help" id="help-registration_no">Two capital letters then six digits, for example AB123456.</p>
+            <p class="error" id="err-registration_no"></p>
+          </div>
+          <div class="field">
+            <label for="team_size">Team size</label>
+            <select id="team_size" name="team_size">
+              <option value="">Choose…</option>
+              <option value="xs">1–10</option>
+              <option value="s">11–50</option>
+              <option value="m">51–200</option>
+              <option value="l">201 or more</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset id="location">
+        <legend>Location</legend>
+        <div class="field">
+          <label for="country">Country</label>
+          <select id="country" name="country" required aria-describedby="err-country">
+            <option value="">Choose…</option>
+            <option value="AT">Atlantis</option>
+            <option value="BD">Borduria</option>
+            <option value="FD">Freedonia</option>
+            <option value="GV">Genovia</option>
+          </select>
+          <p class="error" id="err-country"></p>
+        </div>
+        <div class="field">
+          <label for="region">Region</label>
+          <select id="region" name="region" required disabled aria-describedby="err-region">
+            <option value="">Choose a country first</option>
+          </select>
+          <p class="error" id="err-region"></p>
+        </div>
+        <div class="field combobox">
+          <label for="city" id="city-label">City</label>
+          <input id="city" name="city_search" type="text" role="combobox" autocomplete="off"
+                 aria-autocomplete="list" aria-expanded="false" aria-controls="city-options"
+                 aria-describedby="err-city">
+          <ul id="city-options" role="listbox" aria-labelledby="city-label" hidden></ul>
+          <p class="error" id="err-city"></p>
+        </div>
+      </fieldset>
+
+      <fieldset id="preferences">
+        <legend>Preferences</legend>
+        <div class="field" role="group" aria-labelledby="interests-label">
+          <span id="interests-label" class="label">Interests</span>
+          <label><input type="checkbox" name="interests" value="design"> Design</label>
+          <label><input type="checkbox" name="interests" value="engineering"> Engineering</label>
+          <label><input type="checkbox" name="interests" value="research"> Research</label>
+          <label><input type="checkbox" name="interests" value="sales"> Sales</label>
+          <label><input type="checkbox" name="interests" value="support"> Support</label>
+        </div>
+        <div class="field">
+          <span id="department-label" class="label">Department</span>
+          <ul id="department" role="tree" aria-labelledby="department-label" aria-describedby="err-department"></ul>
+          <p class="error" id="err-department"></p>
+        </div>
+        <div class="field">
+          <span id="skills-label" class="label">Skills</span>
+          <div id="skills" role="listbox" aria-multiselectable="true" aria-labelledby="skills-label" class="chips">
+            <div role="option" aria-selected="false" data-value="python">Python</div>
+            <div role="option" aria-selected="false" data-value="javascript">JavaScript</div>
+            <div role="option" aria-selected="false" data-value="sql">SQL</div>
+            <div role="option" aria-selected="false" data-value="go">Go</div>
+            <div role="option" aria-selected="false" data-value="rust">Rust</div>
+          </div>
+        </div>
+        <div class="field">
+          <label><input type="checkbox" id="newsletter" name="newsletter"> Send me the newsletter</label>
+        </div>
+      </fieldset>
+
+      <fieldset id="statement-section">
+        <legend>Statement</legend>
+        <div class="field">
+          <span id="statement-label" class="label">Why are you applying?</span>
+          <div id="statement" class="editor" contenteditable="true" role="textbox" aria-multiline="true"
+               aria-labelledby="statement-label" aria-describedby="err-statement"></div>
+          <p class="error" id="err-statement"></p>
+        </div>
+      </fieldset>
+
+      <fieldset id="references-section">
+        <legend>References</legend>
+        <div id="references"></div>
+        <button type="button" id="add-reference">Add reference</button>
+        <p class="error" id="err-references"></p>
+      </fieldset>
+
+      <fieldset id="documents">
+        <legend>Documents</legend>
+        <div class="field">
+          <label for="id_document">Identity document (PDF or JPG, up to 2 MB)</label>
+          <input id="id_document" name="id_document" type="file" accept=".pdf,.jpg,.jpeg">
+        </div>
+      </fieldset>
+
+      <div class="field declaration">
+        <label><input type="checkbox" id="agree_terms" name="agree_terms"> I confirm the details above are correct</label>
+        <p class="error" id="err-agree_terms"></p>
+      </div>
+
+      <div role="alert" id="form-alert" class="alert" hidden></div>
+      <button type="submit" id="submit" disabled>Submit application</button>
+    </form>
+  </section>
+
+  <section id="done-view" hidden>
+    <h1>Application received</h1>
+    <p>Reference <strong id="done-id"></strong>. This is what the server received:</p>
+    <pre id="done-payload"></pre>
+    <p><a href="/apply" id="again">Start a new application</a></p>
+  </section>
+</main>
+<script src="/static/bench.js"></script>
+</body>
+</html>

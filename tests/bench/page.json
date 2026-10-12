@@ -1,0 +1,696 @@
+{
+  "schema": "skillgendev.page/1",
+  "route": "/apply",
+  "skill": "bench-apply",
+  "title": "Bench application",
+  "app": {
+    "name": "Bench",
+    "url": "http://localhost:8765"
+  },
+  "purpose": "Applies for a Bench account. Submitting sends the application to the server, which checks the username is free.",
+  "version": 1,
+  "sections": [
+    {
+      "id": "applicant",
+      "label": "Applicant",
+      "fields": [
+        "full_name",
+        "email",
+        "username",
+        "birth_date",
+        "bio"
+      ]
+    },
+    {
+      "id": "organisation",
+      "label": "Organisation",
+      "fields": [
+        "account_type",
+        "company_name",
+        "registration_no",
+        "team_size"
+      ]
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "fields": [
+        "country",
+        "region",
+        "city"
+      ]
+    },
+    {
+      "id": "preferences",
+      "label": "Preferences",
+      "fields": [
+        "interests",
+        "department",
+        "skills",
+        "newsletter"
+      ]
+    },
+    {
+      "id": "statement",
+      "label": "Statement",
+      "fields": [
+        "statement"
+      ]
+    },
+    {
+      "id": "references",
+      "label": "References",
+      "fields": [
+        "references[].name",
+        "references[].email"
+      ]
+    },
+    {
+      "id": "documents",
+      "label": "Documents",
+      "fields": [
+        "id_document"
+      ]
+    },
+    {
+      "id": "declaration",
+      "label": "Declaration",
+      "fields": [
+        "agree_terms"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "references",
+      "label": "Reference",
+      "row_selector": ".reference-row",
+      "add_selector": "#add-reference",
+      "min_rows": 1
+    }
+  ],
+  "fields": {
+    "full_name": {
+      "label": "Full name",
+      "means": "The applicant's full name",
+      "type": "text",
+      "required": true,
+      "limits": {
+        "min_length": 3,
+        "max_length": 80
+      },
+      "strategy": "native-input",
+      "selector": "#full_name",
+      "section": "applicant",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.985
+    },
+    "email": {
+      "label": "Email",
+      "means": "Where the applicant receives updates",
+      "type": "email",
+      "required": true,
+      "strategy": "native-input",
+      "selector": "#email",
+      "section": "applicant",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.985
+    },
+    "username": {
+      "label": "Username",
+      "type": "text",
+      "format": "3–20 lowercase letters, digits or underscores",
+      "required": true,
+      "limits": {
+        "pattern": "[a-z0-9_]{3,20}"
+      },
+      "strategy": "native-input",
+      "selector": "#username",
+      "section": "applicant",
+      "notes": "must be unique; the server rejects names already taken",
+      "server_checked": true,
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.985
+    },
+    "birth_date": {
+      "label": "Date of birth",
+      "type": "date",
+      "format": "YYYY-MM-DD",
+      "required": true,
+      "strategy": "native-input",
+      "selector": "#birth_date",
+      "section": "applicant",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.985
+    },
+    "bio": {
+      "label": "Short bio",
+      "type": "long-text",
+      "limits": {
+        "max_length": 500
+      },
+      "strategy": "native-input",
+      "selector": "#bio",
+      "section": "applicant",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "account_type": {
+      "label": "Account type",
+      "type": "enum",
+      "options": [
+        "Individual",
+        "Company"
+      ],
+      "required": true,
+      "strategy": "choice",
+      "selector": "input[name=\"account_type\"]",
+      "section": "organisation",
+      "notes": "Company shows the company fields",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "company_name": {
+      "label": "Company name",
+      "type": "text",
+      "required_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "visible_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "strategy": "native-input",
+      "selector": "#company_name",
+      "section": "organisation",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "registration_no": {
+      "label": "Registration number",
+      "type": "text",
+      "format": "two capital letters then six digits, like AB123456",
+      "required_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "visible_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "limits": {
+        "pattern": "[A-Z]{2}[0-9]{6}"
+      },
+      "strategy": "native-input",
+      "selector": "#registration_no",
+      "section": "organisation",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "team_size": {
+      "label": "Team size",
+      "type": "enum",
+      "options": [
+        "1–10",
+        "11–50",
+        "51–200",
+        "201 or more"
+      ],
+      "visible_if": {
+        "field": "account_type",
+        "op": "in",
+        "values": [
+          "Company"
+        ]
+      },
+      "strategy": "native-select",
+      "selector": "#team_size",
+      "section": "organisation",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "country": {
+      "label": "Country",
+      "type": "enum",
+      "options": [
+        "Atlantis",
+        "Borduria",
+        "Freedonia",
+        "Genovia"
+      ],
+      "required": true,
+      "strategy": "native-select",
+      "selector": "#country",
+      "section": "location",
+      "notes": "controls the Region list",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.985
+    },
+    "region": {
+      "label": "Region",
+      "type": "enum",
+      "required": true,
+      "options_from": {
+        "depends_on": "country",
+        "load": "async",
+        "pick_by": "text"
+      },
+      "strategy": "native-select",
+      "selector": "#region",
+      "section": "location",
+      "notes": "list loads from the server after Country is chosen",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.985
+    },
+    "city": {
+      "label": "City",
+      "type": "enum",
+      "required": true,
+      "options_from": {
+        "depends_on": "",
+        "load": "async",
+        "pick_by": "text"
+      },
+      "strategy": "aria-combobox",
+      "selector": "#city",
+      "section": "location",
+      "notes": "searchable; type the name and pick from the list",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "interests": {
+      "label": "Interests",
+      "type": "multi-enum",
+      "options": [
+        "Design",
+        "Engineering",
+        "Research",
+        "Sales",
+        "Support"
+      ],
+      "strategy": "choice",
+      "selector": "input[name=\"interests\"]",
+      "section": "preferences",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "department": {
+      "label": "Department",
+      "type": "path",
+      "format": "path through the tree, like Engineering / Platform / Reliability",
+      "options": [
+        "Engineering / Platform / Reliability",
+        "Engineering / Platform / Tooling",
+        "Engineering / Product / Web",
+        "Engineering / Product / Mobile",
+        "Operations / Finance",
+        "Operations / People",
+        "Research"
+      ],
+      "required": true,
+      "strategy": "aria-tree",
+      "selector": "#department",
+      "section": "preferences",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "skills": {
+      "label": "Skills",
+      "type": "multi-enum",
+      "options": [
+        "Python",
+        "JavaScript",
+        "SQL",
+        "Go",
+        "Rust"
+      ],
+      "strategy": "aria-listbox",
+      "selector": "#skills",
+      "section": "preferences",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "newsletter": {
+      "label": "Send me the newsletter",
+      "type": "boolean",
+      "strategy": "native-input",
+      "selector": "#newsletter",
+      "section": "preferences",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "statement": {
+      "label": "Why are you applying?",
+      "type": "rich-text",
+      "required": true,
+      "strategy": "rich-text",
+      "selector": "#statement",
+      "section": "statement",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "references[].name": {
+      "label": "Reference name",
+      "type": "text",
+      "strategy": "native-input",
+      "selector": "input[data-field=name]",
+      "section": "references",
+      "group": "references",
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    },
+    "references[].email": {
+      "label": "Reference email",
+      "type": "email",
+      "strategy": "native-input",
+      "selector": "input[data-field=email]",
+      "section": "references",
+      "group": "references",
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    },
+    "id_document": {
+      "label": "Identity document (PDF or JPG, up to 2 MB)",
+      "type": "file",
+      "limits": {
+        "accept": ".pdf,.jpg,.jpeg",
+        "max_size": "2 MB"
+      },
+      "strategy": "file",
+      "selector": "#id_document",
+      "section": "documents",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    },
+    "agree_terms": {
+      "label": "I confirm the details above are correct",
+      "type": "boolean",
+      "required": true,
+      "strategy": "native-input",
+      "selector": "#agree_terms",
+      "section": "declaration",
+      "notes": "Submit stays disabled until this is ticked",
+      "source": [
+        "EXTRACTED",
+        "RUNTIME_PROBED"
+      ],
+      "confidence": 0.85
+    }
+  },
+  "fill_order": [
+    "full_name",
+    "email",
+    "username",
+    "birth_date",
+    "bio",
+    "account_type",
+    "company_name",
+    "registration_no",
+    "team_size",
+    "country",
+    "region",
+    "city",
+    "interests",
+    "department",
+    "skills",
+    "newsletter",
+    "statement",
+    "references[].name",
+    "references[].email",
+    "id_document",
+    "agree_terms"
+  ],
+  "dependencies": [
+    [
+      "account_type",
+      "company_name",
+      "visible_if"
+    ],
+    [
+      "account_type",
+      "company_name",
+      "required_if"
+    ],
+    [
+      "account_type",
+      "registration_no",
+      "visible_if"
+    ],
+    [
+      "account_type",
+      "registration_no",
+      "required_if"
+    ],
+    [
+      "account_type",
+      "team_size",
+      "visible_if"
+    ],
+    [
+      "country",
+      "region",
+      "options_from"
+    ]
+  ],
+  "submit": {
+    "selector": "#submit",
+    "label": "Submit application",
+    "success": {
+      "url_matches": "/apply/done",
+      "text_appears": "Application received"
+    },
+    "field_error": "[aria-invalid=true]"
+  },
+  "rules": [
+    {
+      "text": "Date of birth cannot be in the future.",
+      "field": "birth_date",
+      "check": {
+        "not_future": true
+      },
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "text": "At least one reference with a name and an email.",
+      "field": "references",
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "text": "The username must not be taken; only the server can check this.",
+      "field": "username",
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    }
+  ],
+  "gotchas": [
+    {
+      "text": "Region stays empty until Country is chosen; its list loads from the server.",
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "text": "City is a search box: type the city and pick it from the list, or it is not saved.",
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "text": "Submit stays disabled until the declaration checkbox is ticked.",
+      "source": [
+        "EXTRACTED"
+      ],
+      "confidence": 0.85
+    }
+  ],
+  "layout": {
+    "viewport": [
+      1280,
+      900
+    ],
+    "boxes": {
+      "full_name": [
+        313,
+        180,
+        654,
+        42
+      ],
+      "email": [
+        313,
+        260,
+        654,
+        42
+      ],
+      "username": [
+        313,
+        340,
+        654,
+        42
+      ],
+      "birth_date": [
+        313,
+        445,
+        654,
+        44
+      ],
+      "bio": [
+        313,
+        527,
+        654,
+        90
+      ],
+      "account_type": [
+        318,
+        741,
+        13,
+        13
+      ],
+      "country": [
+        313,
+        901,
+        654,
+        41
+      ],
+      "region": [
+        313,
+        980,
+        654,
+        41
+      ],
+      "city": [
+        313,
+        1059,
+        654,
+        42
+      ],
+      "interests": [
+        333,
+        1209,
+        13,
+        13
+      ],
+      "department": [
+        313,
+        1378,
+        654,
+        84
+      ],
+      "skills": [
+        313,
+        1500,
+        654,
+        32
+      ],
+      "newsletter": [
+        317,
+        1547,
+        13,
+        13
+      ],
+      "statement": [
+        313,
+        1679,
+        654,
+        80
+      ],
+      "id_document": [
+        313,
+        2076,
+        253,
+        21
+      ],
+      "agree_terms": [
+        300,
+        2141,
+        13,
+        13
+      ]
+    },
+    "source": [
+      "RUNTIME_PROBED"
+    ],
+    "confidence": 0.9
+  },
+  "verified": false
+}

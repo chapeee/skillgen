@@ -1,0 +1,11 @@
+node_modules/
+# Ignore artifacts left by the former landing site until local processes stop.
+.next/
+out/
+build/
+.docusaurus/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "prepare --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "prepare"
+    },
+    "error": {
+      "type": "string"
+    },
+    "route": {
+      "type": "string"
+    },
+    "skill": {
+      "type": "string"
+    },
+    "skill_exists": {
+      "description": "True when the skill folder already holds a SKILL.md. Ask the developer before analysing; generate then needs --overwrite.",
+      "type": "boolean"
+    },
+    "skill_folder": {
+      "type": "string"
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "prompt_path": {
+      "type": "string"
+    },
+    "schema_path": {
+      "type": "string"
+    },
+    "analysis_path": {
+      "type": "string"
+    },
+    "slice": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "route",
+      "skill",
+      "prompt_path",
+      "schema_path",
+      "analysis_path"
+    ]
+  }
+}

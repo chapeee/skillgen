@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Routes listed by Claude Code from a map of the code graph",
+  "type": "object",
+  "required": ["routes"],
+  "additionalProperties": false,
+  "properties": {
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["route", "entry_files"],
+        "additionalProperties": false,
+        "properties": {
+          "route": { "type": "string", "pattern": "^/", "description": "Use :name for parameters." },
+          "entry_files": { "type": "array", "items": { "type": "string" } },
+          "title": { "type": "string" }
+        }
+      }
+    }
+  }
+}

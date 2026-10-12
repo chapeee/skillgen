@@ -1,0 +1,44 @@
+{
+  "has_form": true,
+  "title": "Give feedback",
+  "purpose": "Sends feedback to a council department.",
+  "fields": [
+    {
+      "key": "department", "label": "Department", "type": "enum", "options": ["Library", "Parks", "Transport", "Waste"],
+      "required": true, "strategy": "native-select", "selector": "#department",
+      "evidence": [{ "file": "app.py", "line": 9, "quote": "DEPARTMENTS = [\"Library\", \"Parks\", \"Transport\", \"Waste\"]" }]
+    },
+    {
+      "key": "subject", "label": "Subject", "type": "text", "required": true,
+      "limits": { "min_length": 5, "max_length": 120 }, "strategy": "native-input", "selector": "#subject",
+      "evidence": [{ "file": "templates/feedback.html", "line": 10 }, { "file": "forms.py", "line": 8 }]
+    },
+    {
+      "key": "rating", "label": "Rating", "type": "enum", "options": ["1", "2", "3", "4", "5"], "required": true,
+      "strategy": "choice", "selector": "input[name=rating]", "server_checked": true,
+      "evidence": [{ "file": "forms.py", "line": 10 }]
+    },
+    {
+      "key": "details", "label": "Details", "type": "long-text",
+      "strategy": "native-input", "selector": "#details",
+      "evidence": [{ "file": "templates/feedback.html", "line": 16 }]
+    },
+    {
+      "key": "contact_me", "label": "Contact me about this", "type": "boolean",
+      "strategy": "native-input", "selector": "#contact_me",
+      "evidence": [{ "file": "templates/feedback.html", "line": 17 }]
+    },
+    {
+      "key": "email", "label": "Email", "type": "email",
+      "required_if": { "field": "contact_me", "op": "checked" },
+      "strategy": "native-input", "selector": "#email", "server_checked": true,
+      "evidence": [{ "file": "forms.py", "line": 12 }]
+    }
+  ],
+  "submit": { "selector": "button[type=submit]", "label": "Send feedback", "success": { "url_matches": "/feedback/sent" } },
+  "rules": [
+    { "text": "Subject needs at least 5 characters.", "field": "subject", "check": { "min_length": 5 } },
+    { "text": "An email is needed when Contact me about this is ticked.", "field": "email" }
+  ],
+  "gotchas": [{ "text": "Errors come back from the server after submitting; the page reloads with them listed at the top." }]
+}

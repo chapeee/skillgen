@@ -1,0 +1,12 @@
+id: django
+kind: router
+about: "Django path('x/', view) entries in urls.py"
+language: python
+globs: ["**/urls.py"]
+rule:
+  any:
+    - pattern: path($PATH, $VIEW)
+    - pattern: path($PATH, $VIEW, $$$REST)
+captures:
+  path: PATH
+  component: VIEW

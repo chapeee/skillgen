@@ -1,0 +1,6 @@
+{
+  "name": "fixture-react-router-spa",
+  "private": true,
+  "description": "Synthetic test app: React + React Router + TypeScript. Never built; skillgen only reads it.",
+  "dependencies": { "react": "18.3.1", "react-dom": "18.3.1", "react-router-dom": "6.26.2" }
+}

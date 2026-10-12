@@ -1,0 +1,13 @@
+id: react-router-jsx
+kind: router
+about: "React Router JSX routes, <Route path=\"/x\" element={<Page />} />"
+language: tsx
+globs: ["**/*.tsx", "**/*.jsx"]
+rule:
+  pattern: <Route path="$PATH" $$$ATTRIBUTES />
+  has:
+    pattern: <$COMPONENT $$$PROPS />
+    stopBy: end
+captures:
+  path: PATH
+  component: COMPONENT

@@ -1,0 +1,22 @@
+<!doctype html>
+<title>Give feedback</title>
+<h1>Give feedback</h1>
+<form method="post">
+  <label for="department">Department</label>
+  <select id="department" name="department" required>
+    {% for d in departments %}<option>{{ d }}</option>{% endfor %}
+  </select>
+  <label for="subject">Subject</label>
+  <input id="subject" name="subject" minlength="5" maxlength="120" required>
+  <fieldset>
+    <legend>Rating</legend>
+    {% for n in range(1, 6) %}<label><input type="radio" name="rating" value="{{ n }}"> {{ n }}</label>{% endfor %}
+  </fieldset>
+  <label for="details">Details</label>
+  <textarea id="details" name="details" rows="5"></textarea>
+  <label><input type="checkbox" id="contact_me" name="contact_me"> Contact me about this</label>
+  <label for="email">Email</label>
+  <input id="email" name="email" type="email">
+  {% if errors %}<div role="alert">{% for k, v in errors.items() %}<p id="err-{{ k }}">{{ v }}</p>{% endfor %}</div>{% endif %}
+  <button type="submit">Send feedback</button>
+</form>

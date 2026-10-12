@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "add-rule --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "add-rule"
+    },
+    "error": {
+      "type": "string"
+    },
+    "skill": {
+      "type": "string"
+    },
+    "rule": {
+      "type": "string"
+    },
+    "check": {
+      "type": "string"
+    },
+    "global": {
+      "type": "boolean"
+    },
+    "path": {
+      "type": "string"
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "rule",
+      "path"
+    ]
+  }
+}

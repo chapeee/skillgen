@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bench wizard</title>
+<style>
+  body { font-family: sans-serif; max-width: 640px; margin: 40px auto; }
+  label { display: block; margin-top: 12px; }
+  input, select { display: block; width: 100%; height: 32px; }
+  .hidden { display: none; }
+  dialog { width: 400px; }
+</style>
+</head>
+<body>
+<!-- A synthetic multi-step form: tabs, a Next that checks its step, a field shown for
+     one choice, a dialog with its own fields, and a final submit. Nothing is sent. -->
+<h1>Bench wizard</h1>
+<form id="wizard" novalidate>
+  <section id="step1">
+    <div role="tablist">
+      <button type="button" role="tab" id="tab-personal">Personal</button>
+      <button type="button" role="tab" id="tab-address">Address</button>
+    </div>
+    <div id="panel-personal">
+      <label for="first_name">First name</label>
+      <input id="first_name" name="first_name">
+      <label for="last_name">Last name</label>
+      <input id="last_name" name="last_name">
+    </div>
+    <div id="panel-address" class="hidden">
+      <label for="city">City</label>
+      <input id="city" name="city">
+    </div>
+  </section>
+  <section id="step2" class="hidden">
+    <label for="department">Department</label>
+    <select id="department" name="department">
+      <option value="">Choose</option>
+      <option>Engineering</option>
+      <option>Sales</option>
+    </select>
+    <label for="work_location">Work location</label>
+    <select id="work_location" name="work_location">
+      <option>Office</option>
+      <option>Remote</option>
+    </select>
+    <div id="laptop-row" class="hidden">
+      <label for="laptop">Laptop</label>
+      <input id="laptop" name="laptop">
+    </div>
+    <button type="button" id="add-contact">Add contact</button>
+  </section>
+  <section id="step3" class="hidden">
+    <label><input type="checkbox" id="agree" name="agree"> I agree</label>
+  </section>
+  <div id="errors" role="alert"></div>
+  <button type="button" id="back" class="hidden">Back</button>
+  <button type="button" id="next">Next</button>
+  <button type="submit" id="submit" class="hidden">Send</button>
+</form>
+<dialog id="contact">
+  <label for="contact_name">Contact name</label>
+  <input id="contact_name" name="contact_name">
+  <button type="button" id="done">Done</button>
+</dialog>
+<script>
+  var step = 1, submitted = false;
+  function $(id) { return document.getElementById(id); }
+  function show(id, on) { $(id).classList.toggle('hidden', !on); }
+  function render() {
+    show('step1', step === 1); show('step2', step === 2); show('step3', step === 3);
+    show('back', step > 1); show('next', step < 3); show('submit', step === 3);
+  }
+  $('tab-personal').onclick = function () { show('panel-personal', true); show('panel-address', false); };
+  $('tab-address').onclick = function () { show('panel-personal', false); show('panel-address', true); };
+  $('next').onclick = function () {
+    if (step === 1 && !$('first_name').value.trim()) {
+      $('errors').textContent = 'First name is required';
+      $('first_name').setAttribute('aria-invalid', 'true');
+      return;
+    }
+    $('errors').textContent = ''; step++; render();
+  };
+  $('back').onclick = function () { step--; render(); };
+  $('work_location').onchange = function () { show('laptop-row', this.value === 'Remote'); };
+  $('add-contact').onclick = function () { $('contact').showModal(); };
+  $('done').onclick = function () { $('contact').close(); };
+  $('wizard').onsubmit = function (event) { event.preventDefault(); submitted = true; };
+  window.wizardState = function () {
+    return { step: step, submitted: submitted, first_name: $('first_name').value,
+      city: $('city').value, department: $('department').value, laptop: $('laptop').value,
+      contact_name: $('contact_name').value, agree: $('agree').checked };
+  };
+</script>
+</body>
+</html>

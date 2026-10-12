@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.python-version
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node and the docs website (website/)
+node_modules/
+.docusaurus/
+.wrangler/
+.next/
+out/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Graphify output when run by hand
+graphify-out/
+
+# skillgendev workspaces: secrets and caches are never committed
+.skillgendev/secrets/
+.skillgendev/cache/
+**/.skillgendev/secrets/
+**/.skillgendev/cache/
+*.storage-state.json
+.env
+.env.*
+
+# Bench runtime output
+tests/bench/.last-submission.json
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+tests/bench/dist/

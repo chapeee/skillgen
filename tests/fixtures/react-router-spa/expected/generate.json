@@ -1,0 +1,22 @@
+{
+  "/about": {
+    "open_questions": 0,
+    "skill": "fixture-shop-about",
+    "status": "no-form"
+  },
+  "/projects/:projectId/edit": {
+    "open_questions": 0,
+    "skill": "fixture-shop-projects-edit",
+    "status": "written"
+  },
+  "/settings/profile": {
+    "open_questions": 2,
+    "skill": "fixture-shop-settings-profile",
+    "status": "written"
+  },
+  "/signup": {
+    "open_questions": 0,
+    "skill": "fixture-shop-signup",
+    "status": "written"
+  }
+}

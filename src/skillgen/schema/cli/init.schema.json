@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "init --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "init"
+    },
+    "error": {
+      "type": "string"
+    },
+    "root": {
+      "type": "string"
+    },
+    "config": {
+      "type": "string"
+    },
+    "app_name": {
+      "type": "string"
+    },
+    "app_url": {
+      "type": "string"
+    },
+    "is_new": {
+      "type": "boolean"
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "root",
+      "config"
+    ]
+  }
+}

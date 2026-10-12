@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "routes --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "routes"
+    },
+    "error": {
+      "type": "string"
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "route",
+          "skill"
+        ],
+        "properties": {
+          "route": {
+            "type": "string"
+          },
+          "skill": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "entry_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "has_form": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "skip": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "found": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "routes",
+      "count"
+    ]
+  }
+}

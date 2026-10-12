@@ -1,0 +1,13 @@
+id: nuxt-pages
+kind: folder
+about: "Nuxt pages/ directory (pages/**/*.vue)"
+roots: [pages, app/pages, src/pages]
+page_files: ["*.vue"]
+route_from: file
+index_names: [index]
+skip_segments: ["^\\(.*\\)$"]
+skip_files: ["^_"]
+params:
+  - "^\\[\\.\\.\\.(?P<name>\\w+)\\]$"
+  - "^\\[\\[?(?P<name>\\w+)\\]?\\]$"
+requires_any: ["nuxt.config.ts", "nuxt.config.js"]

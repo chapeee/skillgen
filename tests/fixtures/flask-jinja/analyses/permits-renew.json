@@ -1,0 +1,26 @@
+{
+  "has_form": true,
+  "title": "Renew parking permit",
+  "purpose": "Renews an existing parking permit for a new period.",
+  "params": [{ "name": "permit_id", "means": "the permit's number" }],
+  "fields": [
+    {
+      "key": "vehicle_plate", "label": "Vehicle plate", "type": "text", "required": true, "format": "like AB-1234",
+      "limits": { "pattern": "[A-Z]{2}-[0-9]{4}" }, "strategy": "native-input", "selector": "#vehicle_plate",
+      "evidence": [{ "file": "templates/renew.html", "line": 6 }]
+    },
+    {
+      "key": "duration", "label": "Duration", "type": "enum", "options": ["3 months", "6 months", "12 months"],
+      "required": true, "strategy": "native-select", "selector": "#duration",
+      "evidence": [{ "file": "templates/renew.html", "line": 8 }]
+    },
+    {
+      "key": "start_date", "label": "Start date", "type": "date", "format": "YYYY-MM-DD", "required": true,
+      "strategy": "native-input", "selector": "#start_date",
+      "evidence": [{ "file": "templates/renew.html", "line": 12 }]
+    }
+  ],
+  "submit": { "selector": "button[type=submit]", "label": "Renew permit", "success": {}, "inferred": false },
+  "rules": [{ "text": "The start date cannot be in the past.", "field": "start_date", "inferred": true }],
+  "gotchas": []
+}

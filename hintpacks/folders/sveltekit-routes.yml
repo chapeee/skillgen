@@ -1,0 +1,13 @@
+id: sveltekit-routes
+kind: folder
+about: "SvelteKit src/routes/**/+page.svelte"
+roots: [src/routes]
+# Where a SvelteKit project starts, so an app inside a monorepo is found too.
+requires_any: ["svelte.config.js", "svelte.config.ts", "package.json"]
+page_files: ["+page.svelte"]
+route_from: folder
+skip_segments: ["^\\(.*\\)$"]
+skip_files: []
+params:
+  - "^\\[\\[?\\.\\.\\.(?P<name>\\w+)\\]?\\]$"
+  - "^\\[\\[?(?P<name>\\w+)(=\\w+)?\\]?\\]$"
