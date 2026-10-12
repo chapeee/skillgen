@@ -115,9 +115,11 @@ uv tool install --editable ".[probe]"
 - The `probe` extra lets `generate --xy` measure where each field sits (x/y) on a
   running dev copy. Leave it out for code-only use. `skillgendev install` downloads the
   Chromium it needs.
-- `--editable` means `git pull` in the clone updates your `skillgendev` at once.
-- **One-step local install** (like `npm link`): `.\scripts\install-local.ps1` on
-  Windows or `scripts/install-local.sh` on macOS and Linux does all of the above.
+- Upgrade with `uv tool upgrade skillgendev` (or `pip install --upgrade skillgendev`).
+- From a clone, `--editable` means `git pull` updates your `skillgendev` at once.
+- **One-step local install from a clone** (like `npm link`, for contributors):
+  `.\scripts\install-local.ps1` on Windows or `scripts/install-local.sh` on macOS and
+  Linux.
   It removes any old install, clears uv's cache, installs your clone globally in
   editable mode, checks that `skillgendev` points at your clone and downloads Chromium.
   Rerun it after changing dependencies. Options: `-RunTests` / `--run-tests`,

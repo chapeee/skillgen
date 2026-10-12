@@ -18,7 +18,7 @@ running skillgendev is told why.
 
 ## Requirements
 
-- The `probe` extra (`uv tool install --editable ".[probe]"`) and Chromium
+- The `probe` extra (`uv tool install "skillgendev[probe]"`) and Chromium
   (`skillgendev doctor --fix`).
 - A **dev or staging** copy. Never production: the probe refuses an environment marked
   `production`, intercepts and cancels write requests, and never submits anything.

@@ -29,7 +29,14 @@ skillgendev generate --route new-campaign        # or pass the skill's name inst
 
 ## `skillgendev` is not found, or runs an old version
 
-`skillgendev doctor` shows the folder `skillgendev` runs from. Reinstall from your clone with
+`skillgendev doctor` shows the folder `skillgendev` runs from. Upgrade or reinstall from PyPI:
+
+```bash
+uv tool install --force "skillgendev[probe]"
+```
+
+With pip, use `pip install --upgrade "skillgendev[probe]"`. If the command is still not found, run
+`uv tool update-shell` and open a new terminal. Working from a clone instead? Run
 `scripts/install-local.sh` or `.\scripts\install-local.ps1`; it removes old installs, clears uv's
 cache and checks that `skillgendev` points at your clone.
 
@@ -77,7 +84,7 @@ The run still wrote the skill from the code, and its `next` says why:
 | `url` | Give the dev address: `skillgendev init --url http://localhost:3000`, or `--url` |
 | `server` | Start your dev server |
 | `chromium` | `skillgendev doctor --fix` |
-| `probe` | Reinstall with the probe extra: `uv tool install --editable ".[probe]"` |
+| `probe` | Reinstall with the probe extra: `uv tool install --force "skillgendev[probe]"` |
 | `login` | `skillgendev login --url http://localhost:3000/login`, sign in, close the window |
 | `open` | The form is behind a click: `--open "text:Button label"` |
 

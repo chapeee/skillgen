@@ -179,8 +179,8 @@ def _describe_need(need: str, detail: str, root: list[str]) -> tuple[str, str, s
     if need == "probe":
         return (
             f"--xy needs {TOOL_NAME}'s browser part (the probe extra), which is not installed",
-            f"x/y needs {TOOL_NAME}'s browser part. Reinstall {TOOL_NAME} with the probe "
-            "extra as its README shows, then say when it is done.",
+            f"x/y needs {TOOL_NAME}'s browser part. Reinstall it with the probe extra "
+            f'(`uv tool install --force "{TOOL_NAME}[probe]"`), then say when it is done.',
             "",
         )
     if need == "chromium":

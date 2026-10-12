@@ -4,6 +4,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "skillprinter",
   "compatibility_date": "2026-09-01",
+  // build/ is gitignored, so build the site before every `wrangler deploy` (CI and local).
+  "build": {
+    "command": "npm ci && npm run build"
+  },
   "assets": {
     "directory": "./build",
     "html_handling": "auto-trailing-slash",

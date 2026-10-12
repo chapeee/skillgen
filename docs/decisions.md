@@ -70,8 +70,9 @@ some stacks (Laravel, Spring) but not others (Phoenix, ASP.NET MVC, Rails views)
 
 ## 2026-10-08 — fixes from a first real install and a live Claude Code run
 
-- (Superseded 2026-10-12: published on PyPI as `skillgendev`.) skillgendev was installed from a clone (`uv tool install --editable ".[astgrep,probe]"`)
-  until it is published; the README no longer says `uv tool install skillgendev`.
+- skillgendev was installed from a clone (`uv tool install --editable ".[astgrep,probe]"`)
+  until it was published. Superseded on 2026-10-12: it is on PyPI as `skillgendev`, and the
+  README says `uv tool install "skillgendev[probe]"`.
 - `ast-grep` is looked up next to the running Python first: tool installs (uv, pipx)
   keep the extra's binary inside skillgendev's environment, off PATH.
 - `skillgendev doctor --fix` downloads Chromium with `python -m playwright` for the same
