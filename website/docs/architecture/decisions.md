@@ -5,9 +5,9 @@ description: A guided summary of the decision log - the choices that shape skill
 
 # Design decisions
 
-The design is in [`docs/spec.md`](https://github.com/chapeee/skillprinter/blob/main/docs/spec.md)
+The design is in [`docs/spec.md`](https://github.com/chapeee/skillgen/blob/main/docs/spec.md)
 (Code-to-Skill Compiler, Final Spec v2). Decisions that change it are logged, newest first, in
-[`docs/decisions.md`](https://github.com/chapeee/skillprinter/blob/main/docs/decisions.md)
+[`docs/decisions.md`](https://github.com/chapeee/skillgen/blob/main/docs/decisions.md)
 with date, decision, why and the alternatives considered. **If the two disagree, the decision
 log wins.**
 

@@ -25,8 +25,8 @@ The design is in [`docs/spec.md`](docs/spec.md). Decisions that change it are in
 You need Python 3.10 or newer and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/chapeee/skillprinter
-cd skillprinter
+git clone https://github.com/chapeee/skillgen
+cd skillgen
 uv sync --all-extras          # core, probe and ast-grep extras, dev tools
 uv run playwright install chromium   # only for browser tests and the probe
 ```

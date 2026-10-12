@@ -7,7 +7,7 @@
 # from PyPI) and copy this file into the tap.
 class Skillgendev < Formula
   desc "Compile an app's code into one Agent Skill per page so AI can fill its forms"
-  homepage "https://github.com/chapeee/skillprinter"
+  homepage "https://github.com/chapeee/skillgen"
   url "https://files.pythonhosted.org/packages/source/s/skillgendev/skillgendev-0.1.0.tar.gz"
   sha256 "075046edeb6fc4bf975a0a9db08358ed655703263b78599834be0c9fe9944703"
   license "Apache-2.0"

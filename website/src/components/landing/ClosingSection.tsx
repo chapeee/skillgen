@@ -101,7 +101,7 @@ export function LandingFooter(): JSX.Element {
               href={REPOSITORY_URL}
               className="inline-flex items-center gap-2 border border-white/[0.16] bg-white/[0.04] px-3 py-2 text-[0.85rem] text-white/60 backdrop-blur-sm transition-colors hover:border-white/40 hover:text-white/90"
             >
-              <GitHubIcon className="h-4 w-4" /> chapeee/skillprinter
+              <GitHubIcon className="h-4 w-4" /> chapeee/skillgen
               <ArrowBarIcon className="h-3.5 w-3.5" />
             </a>
             <span className="inline-flex items-center gap-2 border border-galaxy-400/30 bg-galaxy-500/10 px-3 py-2 font-mono text-[0.7rem] uppercase tracking-[0.13em] text-galaxy-100">

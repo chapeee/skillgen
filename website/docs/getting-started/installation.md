@@ -43,8 +43,8 @@ skillgendev doctor --fix
 ### From a clone (for contributors)
 
 ```bash
-git clone https://github.com/chapeee/skillprinter.git
-cd skillprinter
+git clone https://github.com/chapeee/skillgen.git
+cd skillgen
 uv tool install --editable ".[probe]"
 ```
 

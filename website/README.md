@@ -1,7 +1,7 @@
 # skillgendev documentation site
 
 This directory contains the Docusaurus documentation site for
-[`chapeee/skillprinter`](https://github.com/chapeee/skillprinter).
+[`chapeee/skillgen`](https://github.com/chapeee/skillgen).
 
 ## Local development
 
@@ -21,11 +21,9 @@ and `_category_.json` files to order pages and sections.
 
 ## Hosting URL
 
-The config targets the repository's GitHub Pages project URL by default:
-`https://chapeee.github.io/skillprinter/`. Set `DOCS_URL` to a full origin or
-`DOCS_DOMAIN` to a hostname when deploying to another host. `DOCS_BASE_URL`
-can override the path (for example, `/skillprinter/` for a GitHub Pages project
-site). A custom origin defaults to `/`. No custom domain is required or assumed.
+The site is built for `https://skillgen.dev/` (canonical links, sitemap and social
+cards use that origin). Set `DOCS_URL` to a full origin and `DOCS_BASE_URL` to a path
+when building for another host or a preview.
 
 For GitHub Pages, choose **GitHub Actions** under the repository's **Settings →
 Pages → Build and deployment → Source**. The docs workflow builds pull requests

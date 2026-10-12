@@ -27,9 +27,9 @@ reversible choice; tell me if you want another.
    `evals/evals.json` and the bench has manual Claude/Cowork cases. Options: run evals
    by hand in Claude/Cowork and record results, or allow an MCP browser for the
    developer's machine only (never in skills).
-5. **Rename.** Spec section 16 recommends "Formcast". The repository is called
-   `skillprinter`, and the spec lists "Skillprint" as a name to avoid because a
-   company uses it. Still `skillgendev` until you decide.
+5. **Rename.** Resolved 2026-10-12: the repository is `chapeee/skillgen`, the PyPI
+   package and command are `skillgendev` , and the site is
+   `skillgen.dev`.
 
 ## 2026-10-08 — headless Claude Code on Windows
 
@@ -173,7 +173,7 @@ start a second Claude. **Alternatives.** Subprocess only.
 - No MCP anywhere; skills target Claude and Cowork with the built-in browser.
 - Code-only generation is the default; the Playwright probe is the `probe` extra and
   runs only when `--url` (or `config.json` `app_url` with `probe: true`) is given.
-- Working name `skillgendev`, held in `skillgen.TOOL_NAME` and the package name.
+- Public name `skillgendev` (PyPI package and command), held in `skillgen.TOOL_NAME`; the import package stays `skillgen`.
 
 ## 2026-10-08 — Graphify confirmed as the code-graph layer
 

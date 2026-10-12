@@ -111,8 +111,8 @@ Code-only use needs no extra: `uv tool install skillgendev` (or `pip install ski
 To work on skillgendev itself, install it from a clone:
 
 ```bash
-git clone https://github.com/chapeee/skillprinter.git
-cd skillprinter
+git clone https://github.com/chapeee/skillgen.git
+cd skillgen
 uv tool install --editable ".[probe]"
 ```
 

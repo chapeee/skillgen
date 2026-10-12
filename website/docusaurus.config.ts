@@ -4,7 +4,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import tailwindcss from 'tailwindcss';
 
 const organizationName = 'chapeee';
-const projectName = 'skillprinter';
+const projectName = 'skillgen';
 const repositoryUrl = `https://github.com/${organizationName}/${projectName}`;
 // The live site. DOCS_URL and DOCS_BASE_URL override it for previews or another host;
 // canonical links, the sitemap and social cards all use this origin.

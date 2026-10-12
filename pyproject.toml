@@ -40,7 +40,7 @@ astgrep = []
 skillgendev = "skillgen.cli:main"
 
 [project.urls]
-Repository = "https://github.com/chapeee/skillprinter"
+Repository = "https://github.com/chapeee/skillgen"
 
 [dependency-groups]
 dev = [

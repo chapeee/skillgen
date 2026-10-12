@@ -2,7 +2,7 @@
   // Cloudflare Workers: serve the Docusaurus build as static files.
   // "name" must match the Worker's name in the Cloudflare dashboard.
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "skillprinter",
+  "name": "skillgendev",
   "compatibility_date": "2026-09-01",
   // build/ is gitignored, so build the site before every `wrangler deploy` (CI and local).
   "build": {

@@ -29,7 +29,7 @@ newer).
 
 ```bash
 npm install -g gitsmith
-cd skillprinter
+cd skillgen
 gitsmith init        # creates .commitconfig.json with a Conventional Commits default
 ```
 
