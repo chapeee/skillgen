@@ -1,0 +1,2 @@
+# Keep the docs website out of GitHub release source archives (git archive).
+website/ export-ignore
