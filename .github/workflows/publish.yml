@@ -38,3 +38,7 @@ jobs:
           name: dist
           path: dist/
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # A release for a version already on PyPI (0.1.0 was uploaded by hand) passes
+          # instead of failing on "File already exists".
+          skip-existing: true
