@@ -1,6 +1,6 @@
 [project]
 name = "skillgendev"
-version = "0.1.0"
+version = "0.1.1"
 description = "Compile an app's code into one Agent Skills folder per page, so Claude or Cowork can fill its forms with few tokens."
 readme = "README.md"
 license = "Apache-2.0"
