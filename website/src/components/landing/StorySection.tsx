@@ -114,8 +114,8 @@ export default function StorySection(): JSX.Element {
           lede="Claude Code does the understanding; deterministic tools do the measuring. Five steps run per route, and only one of them spends model tokens."
         />
 
-        <div className="mt-16 grid gap-10 lg:mt-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
-          <div className="sg-story-stage sticky top-0 z-10 -mx-5 h-[calc(44svh+4.5rem)] self-start px-5 pb-3 pt-[4.5rem] sm:-mx-8 sm:px-8 lg:order-2 lg:top-[12svh] lg:mx-0 lg:h-[76svh] lg:p-0">
+        <div className="mt-16 grid grid-cols-1 gap-10 lg:mt-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+          <div className="sg-story-stage sticky top-0 hidden md:block z-10 -mx-5 h-[calc(44svh+4.5rem)] self-start px-5 pb-3 pt-[4.5rem] sm:-mx-8 sm:px-8 lg:order-2 lg:top-[12svh] lg:mx-0 lg:h-[76svh] lg:p-0">
             <StoryVisual active={active} />
           </div>
 
@@ -130,7 +130,7 @@ export default function StorySection(): JSX.Element {
                     stepRefs.current[index] = node;
                   }}
                   data-index={index}
-                  className="relative flex min-h-[46svh] flex-col justify-center py-10 pl-10 lg:min-h-[62svh]"
+                  className="relative flex flex-col justify-center py-6 pl-10 md:min-h-[46svh] md:py-10 lg:min-h-[62svh]"
                 >
                   <span
                     aria-hidden="true"

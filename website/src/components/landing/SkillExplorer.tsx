@@ -232,12 +232,12 @@ export default function SkillExplorer(): JSX.Element {
         <Reveal className="mt-16">
           <Frame>
             <Window title="skills/acme-campaign-new" isSquare>
-              <div className="grid md:grid-cols-[17rem_minmax(0,1fr)]">
+              <div className="grid grid-cols-1 md:grid-cols-[17rem_minmax(0,1fr)]">
                 <div className="border-b border-white/[0.06] md:border-b-0 md:border-r">
                   <p className="px-4 pb-2 pt-4 font-mono text-[0.74rem] uppercase tracking-[0.18em] text-white/30">
                     acme-campaign-new/
                   </p>
-                  <ul className="flex gap-1 overflow-x-auto px-2 pb-3 md:block md:space-y-0.5 md:overflow-visible" role="tablist" aria-label="Skill files">
+                  <ul className="flex flex-wrap gap-1 px-2 pb-3 md:block md:space-y-0.5 md:overflow-visible" role="tablist" aria-label="Skill files">
                     {FILES.map((item, index) => (
                       <li key={item.path} className="shrink-0">
                         <button
@@ -246,7 +246,7 @@ export default function SkillExplorer(): JSX.Element {
                           aria-selected={index === selected}
                           onClick={() => setSelected(index)}
                           className={clsx(
-                             'flex w-full items-center gap-2.5 px-3 py-2 text-left font-mono text-[0.8rem] transition-colors',
+                             'flex w-full items-center gap-2 px-2.5 py-1.5 text-left font-mono text-[0.74rem] transition-colors md:gap-2.5 md:px-3 md:py-2 md:text-[0.8rem]',
                             index === selected
                                ? 'bg-galaxy-500/[0.12] text-white/90 shadow-[inset_2px_0_0_#8ca6ff]'
                               : 'text-white/50 hover:bg-white/[0.03] hover:text-white/80',
@@ -281,12 +281,12 @@ export default function SkillExplorer(): JSX.Element {
                   </div>
                   <pre
                     key={file.path}
-                     className="m-0 h-[26rem] animate-fade-up overflow-auto bg-transparent px-5 py-5 font-mono text-[0.78rem] leading-[1.65] text-white/50 [animation-duration:0.45s]"
+                     className="m-0 h-[26rem] animate-fade-up overflow-auto bg-transparent px-4 py-5 sm:px-5 font-mono text-[0.78rem] leading-[1.65] text-white/50 [animation-duration:0.45s]"
                   >
                     {file.content.split('\n').map((line, index) => (
-                      <div key={index} className="flex">
-                        <span className="mr-5 w-6 shrink-0 select-none text-right text-white/15">{index + 1}</span>
-                        <span className="whitespace-pre">{highlightLine(line, file.language)}</span>
+                      <div key={index} className="flex min-w-0">
+                        <span className="mr-3 w-6 shrink-0 select-none sm:mr-5 text-right text-white/15">{index + 1}</span>
+                        <span className="min-w-0 whitespace-pre-wrap [overflow-wrap:anywhere] md:whitespace-pre md:[overflow-wrap:normal]">{highlightLine(line, file.language)}</span>
                       </div>
                     ))}
                   </pre>

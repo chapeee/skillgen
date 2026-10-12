@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Frame, SectionIntro, StatusChip, Window, useInView, usePrefersReducedMotion } from './ui';
 
@@ -313,7 +313,7 @@ function FieldControl({ field, state, method }: { field: Field; state: FieldStat
 
   if (field.kind === 'radio') {
     return (
-       <div className="flex h-8 items-center gap-5 text-[0.82rem] text-white/60">
+       <div className="flex min-h-8 flex-wrap items-center gap-x-4 gap-y-1 text-[0.82rem] text-white/60 sm:gap-x-5">
         {field.options?.map((option) => {
           const isChosen = state.write >= 0.6 && option === field.value;
           return (
@@ -433,7 +433,7 @@ function FormStage({
 
   return (
     <div className="relative">
-      <div ref={containerRef} className="relative grid gap-x-4 gap-y-2.5 p-5 sm:grid-cols-2 sm:p-6">
+      <div ref={containerRef} className="relative grid grid-cols-1 gap-x-4 gap-y-2.5 p-5 sm:grid-cols-2 sm:p-6">
          <p className="text-[0.9rem] font-medium text-white/90 sm:col-span-2">New campaign</p>
         {FIELDS.map((field) => {
           const state = states[field.key];
@@ -526,18 +526,34 @@ function StatusBar({
   let line: React.ReactNode = null;
   if (method.id === 'javascript') {
     const done = FIELDS.filter((field) => states[field.key].isDone);
+    const last = done[done.length - 1];
     line = (
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
-         <span className="text-white/40">layout</span>
-        <StatusChip status={elapsed > 350 ? 'match' : '…'} />
-         <span className="ml-2 text-white/40">fill</span>
-        {done.map((field) => (
-          <span key={field.key} className="flex animate-fade-up items-center gap-1 [animation-duration:0.3s]">
-            <span className="text-white/40">{field.key}</span>
-            <StatusChip status="ok" />
-          </span>
-        ))}
-      </div>
+      <>
+        {/* Phones: one line (layout, count, latest key) so the bar never grows. */}
+        <div className="flex min-w-0 items-center gap-2 sm:hidden">
+           <span className="text-white/40">layout</span>
+          <StatusChip status={elapsed > 350 ? 'match' : '…'} />
+           <span className="ml-1 text-white/40">fill</span>
+           <span className="text-white/60">{done.length}/{FIELDS.length}</span>
+          {last && (
+            <span key={last.key} className="flex min-w-0 animate-fade-up items-center gap-1 [animation-duration:0.3s]">
+              <span className="truncate text-white/40">{last.key}</span>
+              <StatusChip status="ok" />
+            </span>
+          )}
+        </div>
+        <div className="hidden flex-wrap items-center gap-x-2 gap-y-1.5 sm:flex">
+           <span className="text-white/40">layout</span>
+          <StatusChip status={elapsed > 350 ? 'match' : '…'} />
+           <span className="ml-2 text-white/40">fill</span>
+          {done.map((field) => (
+            <span key={field.key} className="flex animate-fade-up items-center gap-1 [animation-duration:0.3s]">
+              <span className="text-white/40">{field.key}</span>
+              <StatusChip status="ok" />
+            </span>
+          ))}
+        </div>
+      </>
     );
   } else if (method.id === 'locators') {
     line = activeField ? (
@@ -675,6 +691,31 @@ function SourcePanel({ method, activeField, states }: { method: Method; activeFi
   );
 }
 
+function SourceCard({
+  method,
+  activeField,
+  states,
+  className,
+}: {
+  method: Method;
+  activeField: Field | undefined;
+  states: Record<string, FieldState>;
+  className: string;
+}): JSX.Element {
+  return (
+    <div role="tabpanel" aria-label={method.file} className={clsx('sg-window border border-white/[0.07] bg-[#0b0b0e]', className)}>
+       <div className="flex items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-2.5 font-mono text-[0.68rem]">
+        <span className="truncate text-galaxy-200/80">{method.file}</span>
+        <span className="shrink-0 text-white/30">in the skill</span>
+      </div>
+      {/* Long code lines wrap on phones instead of running past the card. */}
+       <div key={method.id} className="h-[17rem] animate-fade-up overflow-hidden px-4 py-3.5 font-mono text-[0.72rem] leading-[1.6] [animation-duration:0.4s] [overflow-wrap:anywhere] sm:h-[13.5rem]">
+        <SourcePanel method={method} activeField={activeField} states={states} />
+      </div>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------ section */
 
 export default function FillDemo(): JSX.Element {
@@ -774,55 +815,51 @@ export default function FillDemo(): JSX.Element {
 
       <div ref={trackRef} className="relative pb-28 sm:pb-36 lg:h-[400svh] lg:pb-0">
         <div className="lg:sticky lg:top-0 lg:flex lg:h-svh lg:items-center lg:pt-12">
-          <div ref={stageRef} className="sg-fill-stage sg-shell mt-14 grid gap-6 lg:mt-0 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center">
+          <div ref={stageRef} className="sg-fill-stage sg-shell mt-14 grid grid-cols-1 gap-6 lg:mt-0 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center">
             <div className="flex flex-col">
               <div role="tablist" aria-label="Fill methods" className="border-t border-white/[0.07]">
                 {METHODS.map((item, index) => {
                   const isSelected = index === active;
                   return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={isSelected}
-                      onClick={() => choose(index)}
-                      className={clsx(
-                        'group relative flex w-full items-start gap-4 border-b border-white/[0.07] py-4 text-left transition-colors',
-                         isSelected ? 'text-white/90' : 'text-white/40 hover:text-white/70',
-                      )}
-                    >
-                      <span
-                        aria-hidden="true"
+                    <Fragment key={item.id}>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={isSelected}
+                        onClick={() => choose(index)}
                         className={clsx(
-                          'absolute -left-px bottom-0 top-0 w-px transition-colors duration-500',
-                          isSelected ? 'bg-galaxy-300 shadow-[0_0_10px_rgba(140,166,255,0.9)]' : 'bg-transparent',
+                          'group relative flex w-full items-start gap-4 border-b border-white/[0.07] py-4 text-left transition-colors',
+                           isSelected ? 'text-white/90' : 'text-white/40 hover:text-white/70',
                         )}
-                      />
-                      <span className={clsx('mt-1 pl-3 font-mono text-[0.82rem]', isSelected ? 'text-galaxy-300' : 'text-white/25')}>
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <span className="flex-1">
-                         <span className="block text-[1.1rem] font-medium tracking-[-0.02em]">{item.name}</span>
-                        <span className={clsx('grid transition-all duration-500', isSelected ? 'mt-1.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
-                          <span className="overflow-hidden">
-                             <span className="block text-[0.9rem] leading-[1.6] text-white/50">{item.summary}</span>
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={clsx(
+                            'absolute -left-px bottom-0 top-0 w-px transition-colors duration-500',
+                            isSelected ? 'bg-galaxy-300 shadow-[0_0_10px_rgba(140,166,255,0.9)]' : 'bg-transparent',
+                          )}
+                        />
+                        <span className={clsx('mt-1 pl-3 font-mono text-[0.82rem]', isSelected ? 'text-galaxy-300' : 'text-white/25')}>
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="flex-1">
+                           <span className="block text-[1.1rem] font-medium tracking-[-0.02em]">{item.name}</span>
+                          <span className={clsx('grid transition-all duration-500', isSelected ? 'mt-1.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
+                            <span className="overflow-hidden">
+                               <span className="block text-[0.9rem] leading-[1.6] text-white/50">{item.summary}</span>
+                            </span>
                           </span>
                         </span>
-                      </span>
-                    </button>
+                      </button>
+                      {isSelected && (
+                        <SourceCard method={method} activeField={activeField} states={states} className="mb-4 mt-1 lg:hidden" />
+                      )}
+                    </Fragment>
                   );
                 })}
               </div>
 
-              <div className="sg-window mt-5 border border-white/[0.07] bg-[#0b0b0e]">
-                 <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5 font-mono text-[0.68rem]">
-                  <span className="text-galaxy-200/80">{method.file}</span>
-                  <span className="text-white/30">in the skill</span>
-                </div>
-                 <div key={method.id} className="h-[13.5rem] animate-fade-up overflow-hidden px-4 py-3.5 font-mono text-[0.72rem] leading-[1.6] [animation-duration:0.4s]">
-                  <SourcePanel method={method} activeField={activeField} states={states} />
-                </div>
-              </div>
+              <SourceCard method={method} activeField={activeField} states={states} className="mt-5 hidden lg:block" />
 
               <div className="mt-5 hidden items-center gap-3 lg:flex" aria-hidden="true">
                 <div className="flex gap-1">

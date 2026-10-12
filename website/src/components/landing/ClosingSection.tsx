@@ -87,7 +87,7 @@ export function LandingFooter(): JSX.Element {
       {/* A hairline that glows at its centre opens the footer. */}
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-galaxy-300/50 to-transparent" />
 
-      <div className="sg-shell relative grid gap-12 md:grid-cols-[1.2fr_2fr]">
+      <div className="sg-shell relative grid grid-cols-1 gap-12 md:grid-cols-[1.2fr_2fr]">
         <div>
            <Link to="/" className="inline-flex items-center gap-2.5 text-[1.1rem] font-medium uppercase tracking-[0.12em] text-white/95">
             <BrandLogo className="h-9 w-9" />

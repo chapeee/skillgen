@@ -432,6 +432,16 @@ generated output.
 - Record design decisions in `docs/decisions.md`.
 - If something in the spec is unclear, open an issue and ask before building.
 
+## Releasing
+
+1. Raise `version` in `pyproject.toml` and `__version__` in `src/skillgen/__init__.py`.
+2. Publish a GitHub release tagged `vX.Y.Z`. `.github/workflows/publish.yml` builds and
+   uploads to PyPI with trusted publishing.
+3. Update Homebrew: `python scripts/update-homebrew-formula.py` rewrites `url` and `sha256`
+   in `packaging/homebrew/skillgendev.rb` from PyPI. Copy it to
+   [chapeee/homebrew-tap](https://github.com/chapeee/homebrew-tap) as
+   `Formula/skillgendev.rb` and push.
+
 ## Licence
 
 By contributing you agree that your contribution is licensed under the Apache

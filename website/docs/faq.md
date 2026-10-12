@@ -71,7 +71,7 @@ has 14 manual cases.
 
 ## Is it on PyPI?
 
-Yes: `uv tool install "skillgendev[probe]"` or `pip install skillgendev`; see [Installation](./getting-started/installation.md).
+Yes: `uv tool install "skillgendev[probe]"`, `pip install skillgendev`, or with Homebrew `brew install chapeee/tap/skillgendev`; see [Installation](./getting-started/installation.md).
 
 ## Why is it called skillgendev?
 

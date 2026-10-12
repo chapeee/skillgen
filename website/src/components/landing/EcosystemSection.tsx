@@ -39,7 +39,7 @@ export default function EcosystemSection(): JSX.Element {
           </ul>
         </Reveal>
 
-        <div className="mt-20 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
+        <div className="mt-20 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
           <Reveal>
             <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-galaxy-300">From the same maintainer</p>
             <h3 className="mt-4 text-[1.6rem] font-medium leading-[1.15] tracking-[-0.03em] text-white/90 sm:text-[1.9rem]">

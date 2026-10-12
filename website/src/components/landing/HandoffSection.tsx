@@ -101,7 +101,7 @@ export default function HandoffSection(): JSX.Element {
           lede="Every command is run by an AI agent, so none of them prompt. When a run needs something only you can give, it still does all it can from the code, exits with code 3, and hands over a next step. The agent asks you in chat and runs it again."
         />
 
-        <div ref={ref} className="mt-16 grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+        <div ref={ref} className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <Reveal>
             <Frame>
               <Window title="claude — ~/code/my-app" isSquare>
@@ -139,7 +139,7 @@ export default function HandoffSection(): JSX.Element {
                 ['run', '"skillgendev login --url …/login"'],
                 ['then', '"skillgendev generate … --xy --overwrite"'],
               ].map(([key, value]) => (
-                <p key={key} className="truncate pl-4">
+                <p key={key} className="break-words pl-4 sm:truncate">
                   <span className="text-galaxy-300">"{key}"</span>
                   <span className="text-white/40">: </span>
                    <span className={key === 'need' && isHandingOff ? 'text-white/90' : 'text-[#a5d6ff]'}>{value}</span>

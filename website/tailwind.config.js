@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx,md,mdx}', './docs/**/*.{md,mdx}'],
+  // Relative to this file, not the working directory, so builds started from the repo root
+  // (`npm --prefix website ...`) still find every class.
+  content: {
+    relative: true,
+    files: ['./src/**/*.{js,jsx,ts,tsx,md,mdx}', './docs/**/*.{md,mdx}'],
+  },
   // Docusaurus ships Infima as its base layer. Tailwind's reset and `container`
   // would fight it inside the documentation, so both stay off.
   corePlugins: {

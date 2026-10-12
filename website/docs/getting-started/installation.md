@@ -27,6 +27,9 @@ uv tool install "skillgendev[probe]"
 skillgendev doctor --fix
 ```
 
+- On macOS or Linux you can use [Homebrew](https://brew.sh) instead:
+  `brew install chapeee/tap/skillgendev` (includes the probe extra; upgrade with
+  `brew upgrade skillgendev`).
 - `uv tool install` puts `skillgendev` on your `PATH`. `pipx install "skillgendev[probe]"`
   or `pip install "skillgendev[probe]"` work too.
 - Upgrade later with `uv tool upgrade skillgendev`.

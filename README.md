@@ -101,6 +101,12 @@ uv tool install "skillgendev[probe]"   # or: pipx install "skillgendev[probe]"
 skillgendev doctor --fix                # checks tools; downloads Chromium for the probe
 ```
 
+On macOS or Linux with [Homebrew](https://brew.sh) (includes the probe extra):
+
+```bash
+brew install chapeee/tap/skillgendev
+```
+
 Code-only use needs no extra: `uv tool install skillgendev` (or `pip install skillgendev`).
 To work on skillgendev itself, install it from a clone:
 

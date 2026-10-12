@@ -161,7 +161,7 @@ export default function ProblemSection(): JSX.Element {
 
         <div ref={ref} className="mt-16">
           <Frame>
-            <div className="sg-race sg-window grid border border-white/[0.07] bg-[#0b0b0e] md:grid-cols-2">
+            <div className="sg-race sg-window grid grid-cols-1 border border-white/[0.07] bg-[#0b0b0e] md:grid-cols-2">
               <div className="border-b border-white/[0.06] md:border-b-0 md:border-r">
                 <Lane
                   title="Computer use"

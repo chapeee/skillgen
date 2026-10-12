@@ -50,7 +50,7 @@ export default function FaqSection(): JSX.Element {
 
   return (
     <section id="faq" className="sg-section sg-tone-violet relative py-28 sm:py-36" aria-labelledby="faq-title">
-      <div className="sg-shell grid gap-12 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
+      <div className="sg-shell grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
         <Reveal className="lg:sticky lg:top-28 lg:self-start">
           <SectionTag index="06">FAQ</SectionTag>
           <SectionHeading id="faq-title" className="mt-6">
