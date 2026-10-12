@@ -4,4 +4,4 @@
 # else derives from it. The import package stays `skillgen` (src/skillgen/).
 TOOL_NAME = "skillgendev"
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
