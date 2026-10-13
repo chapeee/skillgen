@@ -109,7 +109,7 @@ export function LandingFooter(): JSX.Element {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-galaxy-300 opacity-60" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-galaxy-300" />
               </span>
-              v0.1.0 · pre-alpha
+              v0.1.1 · pre-alpha
             </span>
           </div>
         </div>

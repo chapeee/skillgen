@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import DotMorph from './dots/DotMorph';
+import PipelineVisual from './PipelineVisual';
+import SkillAssembly from './SkillAssembly';
 import { Button, Frame, SectionIntro } from './ui';
 import { ArrowRightIcon } from './icons';
 
@@ -42,7 +43,10 @@ function StoryVisual({ active }: { active: number }): JSX.Element {
   const step = STEPS[active];
   return (
     <Frame className="h-full w-full">
-      <div className="sg-window relative h-full w-full overflow-hidden border border-white/[0.08]">
+      <div
+        className="sg-window sg-skill-assembly-window relative h-full w-full overflow-hidden border border-white/[0.08]"
+        style={{ background: '#090b10', '--sg-ink': '232 237 245', '--sg-galaxy-200': '210 222 239', '--sg-galaxy-300': '205 220 240' } as React.CSSProperties}
+      >
         <div className="sg-grid-bg pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
          <div className="absolute left-4 right-4 top-4 flex items-center justify-between font-mono text-[0.68rem] uppercase tracking-[0.16em] text-white/40">
           <span>
@@ -51,15 +55,23 @@ function StoryVisual({ active }: { active: number }): JSX.Element {
           <span className="hidden sm:inline">skillgendev generate</span>
         </div>
         <BrowserOnly fallback={<div className="absolute inset-0" />}>
-          {() => (
-            <DotMorph
-              shape={active}
-              className="absolute inset-x-0 bottom-14 top-10 h-[calc(100%-6rem)] w-full"
-              label={`Illustration of the ${step.title.toLowerCase()} step`}
-            />
-          )}
+          {() => {
+            const visualClassName = 'absolute inset-x-0 bottom-14 top-10 h-[calc(100%-6rem)] w-full';
+            return active === 4 ? (
+              <SkillAssembly
+                className={visualClassName}
+              />
+            ) : (
+              <PipelineVisual
+                key={active}
+                step={active}
+                className={visualClassName}
+              />
+            );
+          }}
         </BrowserOnly>
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 border-t border-white/[0.06] bg-black/40 px-4 py-3 backdrop-blur-sm">
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 border-t border-white/[0.06] bg-black/40 px-4 py-3 backdrop-blur-sm"
+          style={{ background: '#0d1017' }}>
            <div className="min-w-0 font-mono text-[0.75rem]">
              <span className="text-white/30">writes </span>
             <span className="truncate text-galaxy-200">{step.writes}</span>
