@@ -1473,3 +1473,18 @@ div[class*='codeBlockTitle'] {
 .landing .sg-frame {
   box-shadow: none;
 }
+
+/* Pipeline illustrations share a dark optical field for luminous particles. */
+.landing .sg-window.sg-skill-assembly-window {
+  --sg-ink: 232 237 245;
+  --sg-galaxy-200: 210 222 239;
+  --sg-galaxy-300: 205 220 240;
+  color: #d9dfe8;
+  background: #0b0c10;
+  border-color: rgba(222, 232, 248, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.landing .sg-skill-assembly-window .bg-black\/40 {
+  background: rgba(10, 12, 17, 0.88);
+}
