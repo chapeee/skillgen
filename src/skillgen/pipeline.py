@@ -42,7 +42,14 @@ from skillgen.compile.merge import (
 from skillgen.compile.unopened import describe_missed, find_missed_on_page
 from skillgen.config import Settings
 from skillgen.drift.diff import diff_pages
-from skillgen.errors import ActionNeededError, GraphError, Need, ProbeError, RouteError
+from skillgen.errors import (
+    ActionNeededError,
+    AnalysisError,
+    GraphError,
+    Need,
+    ProbeError,
+    RouteError,
+)
 from skillgen.generate.folder import SKILL_FILE, build_skill_files
 from skillgen.generate.index_page import IndexInput, build_index_data, render_index_html
 from skillgen.generate.user_rules import extract_user_block
@@ -795,9 +802,9 @@ class GenerateOptions:
     """Choices for one generate run.
 
     Attributes:
-        analyzer: Who performs the analysis.
-        probe: A saved probe capture, used only to add x/y; it never changes which
-            fields a skill has or what it says about them.
+        analyzer: Who performs code analysis; absent for URL-only generation.
+        probe: In code mode, a saved capture used only to add x/y. In URL mode,
+            the read-only capture supplying the page's facts and x/y.
         measure_layout: Measures the code-built page on the dev copy (`--xy`); when set,
             its layout is used instead of the capture's.
         description: A developer-chosen description.
@@ -806,9 +813,10 @@ class GenerateOptions:
             same code, instead of analysing again.
         graphify_graph: The richer Graphify graph shared by every route in this run.
         should_load_graphify: Build the richer graph lazily for standalone route calls.
+        is_url_mode: Use observed controls as facts instead of code analysis.
     """
 
-    analyzer: Analyzer
+    analyzer: Analyzer | None = None
     probe: ProbedPage | None = None
     description: str = ""
     should_save_analysis: bool = True
@@ -817,6 +825,7 @@ class GenerateOptions:
     measure_layout: Callable[[PageModel], Layout | None] | None = None
     graphify_graph: GraphifyGraph | None = None
     should_load_graphify: bool = True
+    is_url_mode: bool = False
 
 
 def analyze_route(
@@ -838,6 +847,8 @@ def analyze_route(
     Raises:
         AnalysisError: If the analysis fails.
     """
+    if options.analyzer is None:
+        raise AnalysisError("code generation requires an analyzer")
     # The code says what a page means; the page says what is really on it. A capture is
     # used only when it was taken on this route, which is what `probe_for_route` checks.
     request = prepare_route(
@@ -1023,6 +1034,41 @@ def generate_route(
     return finish_route(workspace, settings, entry, analysis, options)
 
 
+def generate_url(
+    workspace: Workspace,
+    settings: Settings,
+    entry: RouteEntry,
+    probe: ProbedPage,
+    description: str = "",
+) -> RouteOutcome:
+    """Generate from observed page facts, skipping every source-code step.
+
+    Args:
+        workspace: The output workspace, which need not contain source code.
+        settings: Settings with this URL's origin.
+        entry: The concrete page route and chosen skill name.
+        probe: The read-only browser capture.
+        description: Optional skill description.
+
+    Returns:
+        The shared writer's outcome, or no-form when nothing usable was observed.
+    """
+    from skillgen.probe.capture import probed_page_to_dict  # noqa: PLC0415
+
+    if not any(f.is_visible and not f.is_repeated for f in probe.fields):
+        return RouteOutcome(entry.route, entry.skill, "no-form")
+    write_json(
+        workspace.page_folder(entry.skill) / "probe" / "probe.json", probed_page_to_dict(probe)
+    )
+    return write_skill(
+        workspace,
+        settings,
+        entry,
+        {},
+        GenerateOptions(probe=probe, description=description, is_url_mode=True),
+    )
+
+
 def write_skill(
     workspace: Workspace,
     settings: Settings,
@@ -1047,7 +1093,17 @@ def write_skill(
         What happened.
     """
     old_questions = workspace.read_questions()
-    merged = merge_analysis(workspace, settings, entry, analysis, old_questions)
+    merged = merge_analysis(
+        workspace,
+        settings,
+        entry,
+        analysis,
+        old_questions,
+        page_facts=options.probe if options.is_url_mode else None,
+    )
+    if options.is_url_mode:
+        # A read-only pass cannot prove filling, even when no fields are required.
+        merged = replace(merged, page=replace(merged.page, is_verified=False))
     previous = workspace.read_page(entry.skill)
     # The developer's own steps (--open, routes.json) win over the code analysis's.
     opened = replace(merged.page, open_steps=entry.open_steps or merged.page.open_steps)
@@ -1096,6 +1152,8 @@ def merge_analysis(
     entry: RouteEntry,
     analysis: dict[str, object],
     old_questions: Sequence[Question],
+    *,
+    page_facts: ProbedPage | None = None,
 ) -> MergeResult:
     """Build a route's page model from its analysis, with the developer's answers.
 
@@ -1105,6 +1163,7 @@ def merge_analysis(
         entry: The route.
         analysis: The validated page analysis.
         old_questions: Every saved question, for the answers already given.
+        page_facts: Read-only URL observations; absent in code mode.
 
     Returns:
         The merged page, its questions and evidence.
@@ -1117,10 +1176,10 @@ def merge_analysis(
             analysis=analysis,
             app_name=settings.app_name,
             app_url=settings.app_url,
-            # Built from the code exactly as without a probe, so `--xy` can only add.
-            probe=None,
+            # Code mode supplies no page facts, so its `--xy` still only adds layout.
+            probe=page_facts,
             answers=answers,
-            source_commit=read_source_commit(workspace.root),
+            source_commit="" if page_facts is not None else read_source_commit(workspace.root),
         )
     )
 

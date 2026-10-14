@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "generate-url --json",
+  "type": "object",
+  "required": [
+    "ok",
+    "command"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "const": "generate-url"
+    },
+    "error": {
+      "type": "string"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "route",
+          "skill",
+          "status"
+        ],
+        "properties": {
+          "route": {
+            "type": "string"
+          },
+          "skill": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "written",
+              "no-form",
+              "invalid",
+              "failed",
+              "skipped",
+              "exists",
+              "needs"
+            ]
+          },
+          "problems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "open_questions": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "skill_folder": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "measured_fields": {
+            "description": "Fields whose x/y was captured by the read-only URL pass.",
+            "type": "integer",
+            "minimum": 0
+          },
+          "next": {
+            "description": "What whoever runs skillgen does next. action 'analyse': read prompt, write the page analysis to write, then run then. action 'ask': ask the developer ask; on yes run run (when not empty), then run then, with <url> or <label> replaced by their answer.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "action",
+              "need",
+              "reason",
+              "ask",
+              "run",
+              "then",
+              "prompt",
+              "write"
+            ],
+            "properties": {
+              "action": {
+                "enum": [
+                  "analyse",
+                  "ask"
+                ]
+              },
+              "need": {
+                "enum": [
+                  "analysis",
+                  "limit",
+                  "url",
+                  "probe",
+                  "chromium",
+                  "server",
+                  "login",
+                  "open",
+                  "overwrite"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "ask": {
+                "type": "string"
+              },
+              "run": {
+                "type": "string"
+              },
+              "then": {
+                "type": "string"
+              },
+              "prompt": {
+                "type": "string"
+              },
+              "write": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "written": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "invalid": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "no_form": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "exists": {
+      "description": "Skills that already existed and were left as they are; run again with --overwrite to recreate them.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "needs": {
+      "description": "Routes that stopped at something whoever runs skillgen does next (see each result's next); the exit code is 3.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "open_questions": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "if": {
+    "properties": {
+      "ok": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "results"
+    ]
+  }
+}
+

@@ -656,6 +656,30 @@ in [`tests/bench/README.md`](tests/bench/README.md)).
 
 ## Command reference
 
+### Generate from a URL without source code
+
+Use `generate-url` with a page URL and an exact skill name. No repository, route
+discovery, Graphify run, code analysis, or Claude CLI is needed. The output folder
+can be empty; the command creates its workspace automatically.
+
+```sh
+pip install "skillgendev[probe]"
+python -m playwright install chromium
+skillgendev generate-url https://example.com/form --name example-form --root ./url-skills --json
+```
+
+Chromium loads the page and reads its controls and x/y using the existing extraction
+script. This pass never types, clicks, selects, or submits. Write requests are blocked.
+It observes the initially loaded page only: forms behind login, tabs, or dialogs
+need a directly accessible URL. Hidden controls and repeating rows are omitted by
+the existing merge. Observed fields are not marked as fill-verified, and no success
+signal or hidden business rule is inferred. Redirects use the final page URL.
+
+The normal merge, skill writer, fill script, validation, and export are reused.
+Existing skills are left alone unless `--overwrite` is given; user notes survive
+regeneration. `--description` optionally supplies the skill description. The existing
+`generate --url` still means code-based generation with x/y measurements.
+
 ### What each command does
 
 Here is every command in plain words, in the order you would use them. Your AI agent
@@ -750,6 +774,7 @@ project) and `-v` / `-vv` (more output).
 | `skillgendev routes` | Find routes and write `.skillgendev/routes.json`. `--all`, `--route /x` (add by hand, repeatable), `--include "admin/*"`, `--exclude "api/*"`, `--name prefix`, `--no-graph`, `--ask-claude` (also let Claude list routes from the code graph), `--no-claude` (never call Claude) |
 | `skillgendev prepare` | Write the analysis prompt for one route so Claude Code can answer it in your session. `--route /x`, `--name my-skill`, `--no-graph` |
 | `skillgendev generate` | Generate skills. `--route /x` or `--all`; `--name` (exact name with `--route`, prefix with `--all`); `--xy` (also measure x/y on the dev copy; only adds); `--open STEP` (with `--route`: what to click before the form shows, a CSS selector or `text:Label`; repeat for several; saved to `routes.json`); `--url` (the dev copy's address; implies `--xy`); `--code-only` (never open a browser; the default); `--analyzer claude-code\|file\|replay`; `--replay-dir`; `--concurrency 4`; `--description "…"`; `--include` / `--exclude`; `--force` (retry routes marked as having no form); `--overwrite` (recreate skills that already exist; without it they are left as they are and reported); `--no-graph`. Exits 3 when a route waits for a next step (`next` in `--json`) |
+| `skillgendev generate-url URL` | Read a URL without source code. `--name` is required; `--description` overrides the description; `--overwrite` recreates an existing skill. Supports `--root`, `--json`, and `-v`. |
 | `skillgendev questions` | List facts skillgendev needs you to confirm. `--skill name`, `--all` (include answered) |
 | `skillgendev answer <id> <answer>` | Answer a question (`yes`, `no`, `code`, `page` or a value) |
 | `skillgendev add-rule <skill> "<rule>"` | Add a rule to one skill, or to every skill with `--global`. `--check "field ^A"` compiles a machine check into `fill.js` |

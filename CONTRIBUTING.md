@@ -125,6 +125,32 @@ instead of writing the name in strings, so the rename is one commit.
 
 ## Commands: where each one lives
 
+| URL-only command | Implementation | Tests |
+| --- | --- | --- |
+| `generate-url` | `cli.command_generate_url`, `probe/readonly.py`, `pipeline.generate_url`; uses the existing merge, writer, validation and export | `test_url.py`, including a real Chromium test marked `browser` |
+
+`generate-url URL --name NAME [--description TEXT] [--overwrite]` accepts an empty
+`--root` output folder. It skips route discovery, Graphify, source slicing and code
+analysis. `probe.readonly.read_url` runs `extract.js` once without interacting with
+controls; non-read requests and service workers are blocked. Its observations enter
+the existing `MergeInput.probe` through URL mode in the pipeline. Code mode continues
+to use its existing analysis and optional x/y behavior. Runtime-only provenance
+selects the observed-page wording in `SKILL.md`.
+
+`--json` follows `schema/cli/generate-url.schema.json`, with the same result fields
+and counters as `generate`: `results`, `written`, `invalid`, `no_form`, `failed`,
+`exists`, `needs`, and `open_questions`. Each result includes the route, skill,
+status, output folder, measured field count and verification state. Errors use
+`ok: false` and `error`, with exit code 2. No usable controls returns `no-form`.
+
+Run `uv run pytest tests/test_url.py tests/test_readonly.py` for unit coverage and
+`uv run pytest tests/test_url.py -m browser` for the local website test. The browser
+test starts an HTTP server, generates into an empty folder with code entry points
+disabled, and checks that no click, input, change, submit, or POST reaches the server.
+Unit tests also cover validation/export reuse, overwrites, user notes, redirects,
+invalid input, browser failures, and absent/hidden/repeated fields. Public website
+smoke checks are manual, outside the network-free automated suite.
+
 Every command is a `command_<name>` function in `src/skillgen/cli.py`, registered in
 `HANDLERS`. Its `--json` output must match `src/skillgen/schema/cli/<name>.schema.json`.
 

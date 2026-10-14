@@ -57,6 +57,7 @@ def test_every_command_accepts_json_flag():
             "add-rule": ["rule"],
             "prepare": ["--route", "/x"],
             "generate": ["--all"],
+            "generate-url": ["https://example.com/form", "--name", "example-form"],
             "probe": ["--route", "/x"],
         }
         assert parser.parse_args([command, *required.get(command, []), "--json"]).json

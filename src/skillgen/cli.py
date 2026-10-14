@@ -20,6 +20,7 @@ from dataclasses import dataclass, field, replace
 from datetime import date
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from skillgen import TOOL_NAME, __version__
 from skillgen.analyze.runner import (
@@ -30,7 +31,7 @@ from skillgen.analyze.runner import (
     is_limit_reached,
 )
 from skillgen.assets import find_data_folder
-from skillgen.config import AnalyzerKind, Environment, Settings, update_settings
+from skillgen.config import AnalyzerKind, Environment, Settings, check_app_url, update_settings
 from skillgen.drift.check import find_drift, list_changed_files
 from skillgen.errors import (
     ActionNeededError,
@@ -50,7 +51,7 @@ from skillgen.graph.connections import GraphifyGraph
 from skillgen.handoff import OVERWRITE, NextStep, build_next_step
 from skillgen.logs import list_logs, start_logging, stop_logging
 from skillgen.model.page import Layout, PageModel
-from skillgen.model.route import RouteCandidate, RouteEntry
+from skillgen.model.route import RouteCandidate, RouteEntry, RouteTable
 from skillgen.pipeline import (
     GenerateOptions,
     RouteOutcome,
@@ -65,6 +66,7 @@ from skillgen.pipeline import (
     find_route_candidates,
     finish_route,
     generate_route,
+    generate_url,
     generated_paths,
     load_graph,
     load_graphify_graph,
@@ -76,6 +78,7 @@ from skillgen.pipeline import (
     write_index,
 )
 from skillgen.routes.astgrep import find_ast_grep
+from skillgen.routes.naming import is_valid_name
 from skillgen.routes.paths import is_route_wanted, normalize_route
 from skillgen.schema import find_schema_problems
 from skillgen.validate.scan import scan_files
@@ -629,6 +632,44 @@ def read_routes_text(workspace: Workspace) -> str | None:
     """
     path = workspace.routes_path
     return path.read_text(encoding="utf-8") if path.is_file() else None
+
+
+def command_generate_url(arguments: argparse.Namespace) -> Reply:
+    """Generate one skill from a URL alone in the chosen output folder."""
+    from skillgen.probe.readonly import read_url  # noqa: PLC0415 - optional browser
+
+    if not arguments.url:
+        raise ConfigError("a page URL is required")
+    check_app_url(arguments.url)
+    if not is_valid_name(arguments.name):
+        raise ConfigError(
+            "skill name must be lowercase words or digits joined by single "
+            "hyphens, at most 64 characters"
+        )
+    workspace = Workspace(Path(arguments.root or ".").resolve())
+    settings = workspace.read_settings() if workspace.exists() else Settings()
+    parsed = urlsplit(arguments.url)
+    route = parsed._replace(scheme="", netloc="", path=parsed.path or "/").geturl()
+    entry = RouteEntry(route, arguments.name, sources=("url",), is_name_locked=True)
+    entries, held = hold_existing_skills(workspace, settings, [entry], arguments.overwrite)
+    if not entries:
+        return _generate_reply(workspace, held, arguments.command_line)
+    probe = read_url(arguments.url)
+    # Redirects define the page actually observed, including its query and fragment.
+    final = urlsplit(probe.url)
+    origin = f"{final.scheme}://{final.netloc}"
+    route = final._replace(scheme="", netloc="", path=final.path or "/").geturl()
+    entry = replace(entry, route=route, title=probe.title)
+    if not workspace.exists():
+        workspace.create(replace(settings, app_name=final.hostname or "", app_url=origin))
+        settings = workspace.read_settings()
+    outcome = generate_url(
+        workspace, replace(settings, app_url=origin), entry, probe, arguments.description or ""
+    )
+    if outcome.status == "written":
+        others = tuple(e for e in workspace.read_routes().entries if e.skill != entry.skill)
+        workspace.write_routes(RouteTable((*others, replace(entry, has_form=True))))
+    return _generate_reply(workspace, [outcome], arguments.command_line)
 
 
 def command_generate(arguments: argparse.Namespace) -> Reply:
@@ -1495,6 +1536,15 @@ def _add_generate_parser(commands: Any) -> None:
     )
 
 
+def _add_url_parser(commands: Any) -> None:
+    """Add URL generation; Any is the shared argparse subcommand adapter."""
+    command = commands.add_parser("generate-url", help="generate from a URL without source code")
+    command.add_argument("url", help="absolute HTTP(S) URL to read")
+    command.add_argument("--name", required=True, help="exact skill name")
+    command.add_argument("--description", help="use this skill description")
+    command.add_argument("--overwrite", action="store_true", help="recreate an existing skill")
+
+
 def build_parser() -> argparse.ArgumentParser:
     """Build the argument parser.
 
@@ -1523,6 +1573,7 @@ def build_parser() -> argparse.ArgumentParser:
     commands = _Commands()
     _add_setup_parsers(commands)
     _add_generate_parser(commands)
+    _add_url_parser(commands)
     questions = commands.add_parser("questions", help="list questions for the developer")
     questions.add_argument("--skill")
     questions.add_argument("--all", action="store_true", help="include answered questions")
@@ -1558,6 +1609,7 @@ HANDLERS: dict[str, Callable[[argparse.Namespace], Reply]] = {
     "routes": command_routes,
     "prepare": command_prepare,
     "generate": command_generate,
+    "generate-url": command_generate_url,
     "questions": command_questions,
     "answer": command_answer,
     "add-rule": command_add_rule,
